@@ -1,0 +1,486 @@
+@import "tailwindcss";
+
+/*
+ * ── Theming ───────────────────────────────────────────────────────────────
+ *
+ * Every colour in the agent workspace resolves through one of the tokens
+ * below, and every token is re-declared for the light theme in the
+ * `:root[data-theme="light"]` block further down. Nothing under
+ * `components/dashboard/` or `components/admin/` should name a raw hex
+ * again: a literal is a colour that only works in one theme, and the point
+ * of the tokens is that a component does not have to know which theme it is
+ * being rendered in.
+ *
+ * The dark values here are the originals, unchanged — dark is still the
+ * default and still renders identically. `data-theme` is set only inside the
+ * `(workspace)` layout (see `ThemeContext.tsx`), so the marketing pages,
+ * which are designed dark-only, never pick the light palette up.
+ *
+ * Token naming: `<family>[-<role>]`. The families are the five status hues
+ * the workspace uses to mean something — `ok`, `warn`, `danger`, `violet`
+ * (AI / automation) and `info` — plus the neutral surface and ink ramps.
+ * A handful of tokens are deliberately identical in both themes because
+ * whatever sits under them is: `on-accent` (text on a gradient or coral
+ * button), `knob`, `scrim`, `toast`.
+ */
+
+@theme {
+  /* Surfaces */
+  --color-page: #202020;
+  --color-hero: #1a1a1a;
+  --color-card: #1a1a1a;
+  --color-panel: #373737;
+  --color-footer: #2b2b2b;
+  --color-raised: #3d3d3d;
+  --color-raised-hover: #4d4d4d;
+  --color-line: #3d3d3d;
+  --color-line-strong: #8f8f8f;
+  --color-track-off: #4a5750;
+
+  /* Fixed across themes — the surface underneath them does not change */
+  --color-scrim: #0a0a0a;
+  --color-scrim-soft: #313131;
+  --color-toast: #0f1a15;
+  --color-on-accent: #ffffff;
+  --color-on-pill: #2b2b2b;
+  --color-knob: #ffffff;
+
+  /* Text */
+  --color-ink: #ffffff;
+  --color-ink-muted: #d8d8d8;
+  /* Lightened from #a3a3a3 for WCAG 2.2 AA (NFR-11): the old value measured
+     4.38:1 on the #373737 panel, below the 4.5:1 small-text floor. */
+  --color-ink-dim: #ababab;
+  --color-ink-invert: #1a1a1a;
+  --color-ink-invert-muted: #3d3d3d;
+
+  /* Accents */
+  --color-coral: #ff5e5e;
+  /* Coral is a brand accent that clears 3:1 for large text and graphics but
+     not the 4.5:1 small-text floor on our panels. Small coral text uses this
+     lighter tint instead of restating the brand colour at an unreadable size. */
+  --color-coral-text: #ff8f8f;
+  --color-amber: #ffd464;
+  --color-grad-from: #de4559;
+  --color-grad-to: #ff601c;
+
+  /* Status — ok / green */
+  --color-ok-bg: #123529;
+  --color-ok-bg-soft: #0e2617;
+  --color-ok-bg-alt: #1f3a26;
+  --color-ok-border: #296f57;
+  --color-ok-border-soft: #123a22;
+  --color-ok-text: #3fc194;
+  --color-ok-strong: #11c340;
+  --color-ok-bright: #25d366;
+
+  /* Status — warn / amber */
+  --color-warn-bg: #3a2c10;
+  --color-warn-bg-soft: #2a1d0b;
+  --color-warn-bg-alt: #2b230e;
+  --color-warn-border: #765107;
+  --color-warn-border-soft: #5c3a12;
+  --color-warn-border-dim: #5a4a1a;
+  --color-warn-text: #efd79b;
+  --color-warn-strong: #ffab4d;
+
+  /* Status — danger / red */
+  --color-danger-bg: #401c18;
+  --color-danger-bg-soft: #3d2020;
+  --color-danger-bg-strong: #8f1f1f;
+  --color-danger-border: #94241c;
+  --color-danger-border-strong: #b3372c;
+  --color-danger-border-soft: #5a1a1a;
+  --color-danger-text: #f2b9b3;
+  --color-danger-strong: #ff6b6b;
+  --color-required: #f53a1d;
+
+  /* Status — violet / AI and automation */
+  --color-violet-bg: #1e1930;
+  --color-violet-bg-soft: #29233f;
+  --color-violet-bg-alt: #221a3a;
+  --color-violet-bg-deep: #2b2440;
+  --color-violet-border: #3d2f66;
+  --color-violet-border-soft: #332a52;
+  --color-violet-border-strong: #5b3fb0;
+  --color-violet-border-alt: #584593;
+  --color-violet-text: #c7bde2;
+  --color-violet-text-soft: #8f80b8;
+  --color-violet-text-bright: #e6dbff;
+  --color-violet-text-alt: #c9b8ff;
+  --color-violet-text-pale: #ddd6ff;
+  --color-violet-strong: #a684ff;
+
+  /* Status — info / blue */
+  --color-info-bg: #172b36;
+  --color-info-bg-alt: #16233a;
+  --color-info-border: #2f5f7c;
+  --color-info-border-alt: #3d5c8f;
+  --color-info-text: #b9d0dc;
+  --color-info-text-alt: #a8c7f0;
+  --color-info-text-dim: #90a1b9;
+
+  /*
+   * The graphics level, `-fill`.
+   *
+   * A bar, a chart series, a status dot and a run of small text are held to
+   * different contrast floors — 3:1 for a graphic (WCAG 1.4.11), 4.5:1 for
+   * text — so they cannot share one value once the palette has to work on
+   * white. The bars were reading `--color-ok-text` and friends, which forces
+   * the text value to stay vivid enough to chart with; splitting the role
+   * lets `-text` go as dark as legibility needs while `-fill` stays
+   * saturated.
+   *
+   * Dark takes the values the bars already used, so nothing shifts here.
+   */
+  --color-ok-fill: #3fc194;
+  --color-warn-fill: #efd79b;
+  --color-danger-fill: #f2b9b3;
+  --color-violet-fill: #c7bde2;
+  --color-info-fill: #b9d0dc;
+
+  /* NextAdmin's chart indigo, for series that carry no status meaning. */
+  --color-accent: #8b83ff;
+
+  /* Conversation / agent lifecycle dots that are not one of the five status
+     families — "busy" and "resolved" carry their own hue in the mockup. */
+  --color-state-busy: #ffcc00;
+  --color-state-resolved: #6cb2ff;
+
+  /* Channel identity. Brand hues are the one place a token is allowed to
+     stop being the brand hue: WhatsApp green is 1.9:1 on white, well under
+     the 3:1 an icon needs (1.4.11), so light carries a deepened version of
+     each. Instagram and email take the values `AdminShapes` already
+     lightened them to, which is why those two shift slightly in dark too —
+     the mockup's #a34883 / #6f7c75 were below AA as text there as well. */
+  --color-channel-whatsapp: #25d366;
+  --color-channel-web: #2b7fff;
+  --color-channel-instagram: #e879b8;
+  --color-channel-email: #a8b5ae;
+
+  /*
+   * Customer tags and booking-state text, moved out of `DetailsPanel.tsx`
+   * — the last raw hexes the workspace named.
+   *
+   * The dark values below are the originals, so nothing shifts here, and
+   * measured they were never the problem: every chip clears 8.5:1 on the
+   * dark card and the two booking colours 4.9:1 and 9.0:1. The failure was
+   * light-only, which is exactly why it went unnoticed — these hexes were
+   * chosen against #1a1a1a and then inherited by a white one. `#00d492` is
+   * painted as small text in `DetailsPanel`'s booking-state row and
+   * measures 1.94:1 on white, against the 4.5:1 floor NFR-11 sets; the
+   * chips' pale `-text` values on a 25%-tint of a saturated hue came out
+   * near 1.0:1, text and background all but the same colour.
+   *
+   * `nfr11-axe-audit.mjs` reports neither, because it cannot compute
+   * contrast through a `color-mix()` gradient — which is why
+   * `theme-light.mjs` measures these two surfaces directly instead.
+   */
+  --color-tag-vip-from: #fe9a00;
+  --color-tag-vip-to: #ff6900;
+  --color-tag-vip-text: #fee685;
+  --color-tag-repeat-from: #8e51ff;
+  --color-tag-repeat-to: #e12afb;
+  --color-tag-repeat-text: #ddd6ff;
+  --color-tag-route-from: #00a6f4;
+  --color-tag-route-to: #2b7fff;
+  --color-tag-route-text: #b8e6fe;
+  --color-tag-wallet-from: #00bc7d;
+  --color-tag-wallet-to: #00bba7;
+  --color-tag-wallet-text: #a4f4cf;
+  --color-booking-searching: #1f86ff;
+  --color-booking-paid: #00d492;
+
+  /* Decorative glows (marketing only) */
+  --color-glow-rose: #c04664;
+  --color-glow-green: #13733e;
+
+  /*
+   * Elevation, on NextAdmin's ladder: a tight 1-3px contact shadow plus a
+   * wide, very low-alpha lift, tinted #101828 rather than pure black.
+   *
+   * The move it encodes is border-first, shadow-second — a resting card is
+   * held by its hairline and barely lifted, and only something genuinely
+   * floating (a menu, a drawer, a dialog) gets a shadow you can see. What
+   * was here before put a 22%-black 32px blur under every panel, which on
+   * dark reads as grime and on light as a cut-out.
+   *
+   * Dark keeps a heavier hand than light on the floating tiers: the surfaces
+   * beneath are already near-black, so NextAdmin's own light-theme alphas
+   * would simply vanish there.
+   */
+  --shadow-card: 0 1px 3px rgb(16 24 40 / 0.16), 0 1px 2px rgb(16 24 40 / 0.10);
+  --shadow-pop: 0 12px 16px -4px rgb(0 0 0 / 0.40), 0 4px 6px -2px rgb(0 0 0 / 0.24);
+  --shadow-drawer: -12px 0 40px rgb(0 0 0 / 0.40);
+  --shadow-modal: 0 32px 64px -12px rgb(0 0 0 / 0.55);
+
+  --radius-card: 16px;
+  --radius-panel: 24px;
+}
+
+:root {
+  color-scheme: dark;
+  /* Hairline used by `.card-hairline` — a token rather than a literal so the
+     light theme can swap the warm grey wash for a cool ink one. */
+  --hairline: rgb(143 143 143 / 0.25);
+  /* The warm banner behind the details panel's connected-channel row. A
+     multi-stop gradient cannot be expressed as a colour token, so it gets a
+     variable of its own and is swapped wholesale per theme. */
+  --gradient-brief: linear-gradient(120deg, #2b2b2b 0%, #75580d 55%, #85411f 100%);
+}
+
+/*
+ * Light theme, adapted from NextAdmin's: its gray-50 page over white cards,
+ * gray-200 hairlines, zinc ink ramp, and the Tailwind-ramp status system its
+ * badges and alerts are built from — `50` tint, `200` border, `700` text,
+ * `500` graphics fill, per family.
+ *
+ * Same token names, re-tinted — no component knows this block exists. Every
+ * `-text` value clears 4.5:1 on its own tint *and* on the page, on white and
+ * on the well, so the AA floor NFR-11 sets holds in both themes rather than
+ * only in the one that shipped first.
+ *
+ * What is deliberately *not* NextAdmin: the warm brand pair. Coral and the
+ * button gradient are Takeoff's identity and are shared with the marketing
+ * site, so they stay, deepened enough to carry small text. NextAdmin's
+ * indigo is available as `--color-accent`, for chart series — where it does
+ * most of its work and carries no status meaning.
+ */
+:root[data-theme="light"] {
+  color-scheme: light;
+  --hairline: rgb(24 24 27 / 0.10);
+  --gradient-brief: linear-gradient(120deg, #ffffff 0%, #fffbeb 55%, #fff7ed 100%);
+
+  /*
+   * Surfaces. NextAdmin stacks gray-50 page / white card / gray-100 well and
+   * keeps every border a step darker than any surface — gray-200 hairline,
+   * gray-300 where a control has to assert itself. `panel` is the well and
+   * `line` is the hairline; they were one token until this change, which is
+   * why nothing could satisfy both roles at once.
+   */
+  --color-page: #f9fafb;
+  --color-hero: #ffffff;
+  --color-card: #ffffff;
+  --color-panel: #f1f2f5;
+  --color-footer: #ffffff;
+  --color-raised: #f4f5f7;
+  --color-raised-hover: #e8eaee;
+  --color-line: #e5e7eb;
+  --color-line-strong: #d1d5db;
+  --color-track-off: #d1d5db;
+
+  /* Text — NextAdmin's zinc ink ramp, with `ink-dim` pulled back from its
+     #71717a so it clears 4.5:1 on the gray-100 well as well as on the page. */
+  --color-ink: #18181b;
+  --color-ink-muted: #52525b;
+  --color-ink-dim: #646b78;
+  --color-ink-invert: #ffffff;
+  --color-ink-invert-muted: #e5e7eb;
+
+  /* Accents. The warm brand pair stays — it is Takeoff's identity, and what
+     the logo and the button gradient are built from — deepened enough to
+     carry small text. `accent` is NextAdmin's chart indigo. */
+  --color-coral: #af3e06;
+  --color-coral-text: #993404;
+  --color-amber: #b45309;
+  --color-accent: #5750f1;
+
+  /*
+   * Status families, on NextAdmin's badge and alert ramps: a `50` tint for
+   * background, `200` for border, `700` for text, `500` for the graphics
+   * fill, per family.
+   */
+
+  /* ok / green */
+  --color-ok-bg: #f0fdf4;
+  --color-ok-bg-soft: #f6fef9;
+  --color-ok-bg-alt: #ecfdf3;
+  --color-ok-border: #bbf7d0;
+  --color-ok-border-soft: #d7f7e2;
+  --color-ok-text: #147a3a;
+  --color-ok-strong: #147a3a;
+  --color-ok-bright: #147a3a;
+  --color-ok-fill: #22c55e;
+
+  /* warn / amber */
+  --color-warn-bg: #fffbeb;
+  --color-warn-bg-soft: #fffdf2;
+  --color-warn-bg-alt: #fefce8;
+  --color-warn-border: #fef08a;
+  --color-warn-border-soft: #fef3b8;
+  --color-warn-border-dim: #fdf6cc;
+  --color-warn-text: #b45309;
+  --color-warn-strong: #9a5b06;
+  --color-warn-fill: #f59e0b;
+
+  /* danger / red */
+  --color-danger-bg: #fef2f2;
+  --color-danger-bg-soft: #fff7f7;
+  --color-danger-bg-strong: #c81e1e;
+  --color-danger-border: #fecaca;
+  --color-danger-border-strong: #f59e9e;
+  --color-danger-border-soft: #fde2e2;
+  --color-danger-text: #b91c1c;
+  --color-danger-strong: #c81e1e;
+  --color-danger-fill: #ef4444;
+  --color-required: #c81e1e;
+
+  /* violet / AI and automation */
+  --color-violet-bg: #f5f3ff;
+  --color-violet-bg-soft: #faf9ff;
+  --color-violet-bg-alt: #f3f0ff;
+  --color-violet-bg-deep: #ede9fe;
+  --color-violet-border: #ddd6fe;
+  --color-violet-border-soft: #e9e4fe;
+  --color-violet-border-strong: #a78bfa;
+  --color-violet-border-alt: #c4b5fd;
+  --color-violet-text: #6d28d9;
+  --color-violet-text-soft: #7c3aed;
+  --color-violet-text-bright: #5b21b6;
+  --color-violet-text-alt: #6d28d9;
+  --color-violet-text-pale: #5b21b6;
+  --color-violet-strong: #7c3aed;
+  --color-violet-fill: #8b5cf6;
+
+  /* info / blue */
+  --color-info-bg: #f0f9ff;
+  --color-info-bg-alt: #eff6ff;
+  --color-info-border: #bae6fd;
+  --color-info-border-alt: #bfdbfe;
+  --color-info-text: #0369a1;
+  --color-info-text-alt: #1d4ed8;
+  --color-info-text-dim: #4b5563;
+  --color-info-fill: #0ea5e9;
+
+  /* Lifecycle dots */
+  --color-state-busy: #9a5b06;
+  --color-state-resolved: #1d4ed8;
+
+  /* Channels */
+  --color-channel-whatsapp: #147a3a;
+  --color-channel-web: #1d4ed8;
+  --color-channel-instagram: #be185d;
+  --color-channel-email: #4b5563;
+
+  /*
+   * Customer tags and booking-state text.
+   *
+   * These were the holding position the dark block describes: identical in
+   * both themes, which on the white card meant `#00d492` as small text at
+   * roughly 1.9:1 against NFR-11's 4.5:1 floor. `axe` cannot see it because
+   * the chip's background is a `color-mix()` gradient.
+   *
+   * Re-tinted on the same ramp as every family above — `200` where the
+   * value is a border or a gradient stop, `700` where it is text — keeping
+   * each tag's hue pair (amber→orange, violet→fuchsia, sky→blue,
+   * emerald→teal) so a chip stays recognisably the same chip. The chip
+   * fill is a 25% mix of the `from` stop over the card, so a `200` stop
+   * lands at roughly a `50` tint and the border reads at full strength,
+   * which is the arrangement the status families already use.
+   *
+   * The four text values are the ones this block already audited for their
+   * families: warn, violet, info and ok text respectively. The two booking
+   * colours likewise reuse `info-text-alt` and `ok-text` rather than
+   * introducing a fifth and sixth green-on-white.
+   */
+  --color-tag-vip-from: #fde68a;
+  --color-tag-vip-to: #fed7aa;
+  --color-tag-vip-text: #b45309;
+  --color-tag-repeat-from: #ddd6fe;
+  --color-tag-repeat-to: #f5d0fe;
+  --color-tag-repeat-text: #6d28d9;
+  --color-tag-route-from: #bae6fd;
+  --color-tag-route-to: #bfdbfe;
+  --color-tag-route-text: #0369a1;
+  --color-tag-wallet-from: #a7f3d0;
+  --color-tag-wallet-to: #99f6e4;
+  --color-tag-wallet-text: #147a3a;
+  --color-booking-searching: #1d4ed8;
+  --color-booking-paid: #147a3a;
+
+  /* Elevation — NextAdmin's own light values, near enough verbatim */
+  --shadow-card: 0 1px 3px rgb(16 24 40 / 0.10);
+  --shadow-pop: 0 12px 16px -4px rgb(16 24 40 / 0.08), 0 4px 6px -2px rgb(16 24 40 / 0.03);
+  --shadow-drawer: -12px 0 40px rgb(16 24 40 / 0.10);
+  --shadow-modal: 0 32px 64px -12px rgb(16 24 40 / 0.14);
+}
+
+body {
+  background: var(--color-page);
+  color: var(--color-ink);
+  font-family: var(--font-poppins), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  /* `clip`, not `hidden`: `overflow-x: hidden` turns the body into a scroll
+     container, which silently kills `position: sticky` for everything inside
+     it (the case-study stack). `clip` crops the overflowing glows the same
+     way without creating that scrollport. */
+  overflow-x: clip;
+}
+
+/*
+ * Inter inside the agent workspace; Poppins stays on the marketing pages.
+ *
+ * Poppins is a geometric display face — wide, low x-height, near-identical
+ * `l`/`I`/`1` — a fine choice for a landing page and a poor one for a
+ * nine-hour shift reading PNRs, timers and dense tables. It is also why
+ * several components already reach for
+ * `font-[family-name:var(--font-inter)]` by hand on exactly the runs of
+ * digits where the difference bites. This makes Inter the workspace default
+ * (NextAdmin's own typeface) so those one-off escapes stop being necessary.
+ *
+ * Keyed off the same `data-app` attribute `ThemeProvider` sets rather than a
+ * wrapper element, so it reaches anything rendered outside the layout subtree
+ * as well, and unsets itself the moment the workspace unmounts.
+ */
+:root[data-app="workspace"] body {
+  font-family: var(--font-inter), var(--font-poppins), system-ui, sans-serif;
+}
+
+/*
+ * One visible focus indicator for everything focusable (WCAG 2.2 AA, 2.4.7
+ * and 2.4.11 — NFR-11). Several controls set `focus:outline-none` and relied
+ * on a border tint that a keyboard user cannot see on every background, and
+ * the rest inherited whatever the UA drew. `:focus-visible` rather than
+ * `:focus` so a mouse click does not leave a ring behind. `:where()` keeps
+ * specificity at zero, so any component that wants its own treatment can
+ * still override this without `!important`.
+ *
+ * The ring colour is a token, so the light theme's deepened amber keeps the
+ * indicator visible against white rather than washing out.
+ */
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--color-amber);
+  outline-offset: 2px;
+}
+
+/* Hairline card border used across problem / faq / case cards */
+.card-hairline {
+  border: 1px solid var(--hairline);
+}
+
+/* The large blurred colour fields behind several sections */
+.glow {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(220px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/*
+ * The theme toggle shows the theme it would switch *to*, and picks its glyph
+ * from the document attribute rather than from React state. That is not a
+ * style preference: the stored theme is applied by a pre-paint script before
+ * React hydrates, so anything rendered *from* the theme value would hydrate
+ * against the server's "dark" assumption and mismatch. Rendering both glyphs
+ * and letting CSS choose keeps the markup theme-independent.
+ */
+.theme-icon-sun {
+  display: none;
+}
+:root[data-theme="light"] .theme-icon-sun {
+  display: block;
+}
+:root[data-theme="light"] .theme-icon-moon {
+  display: none;
+}

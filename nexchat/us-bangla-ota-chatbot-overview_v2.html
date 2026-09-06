@@ -1,0 +1,3182 @@
+<title>Takeoff Travels — Omnichannel OTA Customer Support Platform PRD</title>
+<style>
+/* ============================================================
+   TOKENS
+   Neutrals biased green so they read as chosen, not inherited.
+   Status hues are the departure board's own semantics:
+   green = confirmed · amber = held/delayed · red = failed/cancelled
+   ============================================================ */
+:root{
+  --paper:#F1F4F0;
+  --panel:#FFFFFF;
+  --panel2:#E8EDE7;
+  --ink:#0F1A15;
+  --ink2:#4A5750;
+  --ink3:#6F7C75;
+  --rule:#D6DFD5;
+  --rule2:#C1CCBF;
+
+  --green:#00694B;   --green-bg:rgba(0,105,75,.09);   --green-line:rgba(0,105,75,.30);
+  --amber:#96690A;   --amber-bg:rgba(150,105,10,.11); --amber-line:rgba(150,105,10,.30);
+  --red:#BC3126;     --red-bg:rgba(188,49,38,.08);    --red-line:rgba(188,49,38,.28);
+  --steel:#2F5F7C;   --steel-bg:rgba(47,95,124,.09);  --steel-line:rgba(47,95,124,.28);
+  --violet:#584593;  --violet-bg:rgba(88,69,147,.09); --violet-line:rgba(88,69,147,.28);
+
+  --shadow:0 1px 2px rgba(15,26,21,.05), 0 10px 26px -16px rgba(15,26,21,.30);
+  --shadow-lift:0 2px 4px rgba(15,26,21,.06), 0 18px 40px -20px rgba(15,26,21,.35);
+
+  --mono:ui-monospace,"Cascadia Mono","Segoe UI Mono","SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+  --sans:"Segoe UI Variable Text",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",system-ui,sans-serif;
+  --bn:"Nirmala UI","Shonar Bangla","Noto Sans Bengali","Kohinoor Bangla","Bangla MN",var(--sans);
+
+  --wrap:1180px;
+  --read:66ch;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --paper:#0A100D; --panel:#111A16; --panel2:#18231E;
+    --ink:#E3EBE6; --ink2:#A2B0A9; --ink3:#7A8880;
+    --rule:#1F2C26; --rule2:#2C3B34;
+    --green:#3FC194; --green-bg:rgba(63,193,148,.12); --green-line:rgba(63,193,148,.32);
+    --amber:#DFA342; --amber-bg:rgba(223,163,66,.12); --amber-line:rgba(223,163,66,.32);
+    --red:#EF6A5C;   --red-bg:rgba(239,106,92,.11);   --red-line:rgba(239,106,92,.30);
+    --steel:#7CB3D2; --steel-bg:rgba(124,179,210,.11);--steel-line:rgba(124,179,210,.30);
+    --violet:#9C8BDB;--violet-bg:rgba(156,139,219,.12);--violet-line:rgba(156,139,219,.30);
+    --shadow:0 1px 2px rgba(0,0,0,.45), 0 12px 30px -18px rgba(0,0,0,.85);
+    --shadow-lift:0 2px 6px rgba(0,0,0,.5), 0 22px 46px -22px rgba(0,0,0,.9);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0A100D; --panel:#111A16; --panel2:#18231E;
+  --ink:#E3EBE6; --ink2:#A2B0A9; --ink3:#7A8880;
+  --rule:#1F2C26; --rule2:#2C3B34;
+  --green:#3FC194; --green-bg:rgba(63,193,148,.12); --green-line:rgba(63,193,148,.32);
+  --amber:#DFA342; --amber-bg:rgba(223,163,66,.12); --amber-line:rgba(223,163,66,.32);
+  --red:#EF6A5C;   --red-bg:rgba(239,106,92,.11);   --red-line:rgba(239,106,92,.30);
+  --steel:#7CB3D2; --steel-bg:rgba(124,179,210,.11);--steel-line:rgba(124,179,210,.30);
+  --violet:#9C8BDB;--violet-bg:rgba(156,139,219,.12);--violet-line:rgba(156,139,219,.30);
+  --shadow:0 1px 2px rgba(0,0,0,.45), 0 12px 30px -18px rgba(0,0,0,.85);
+  --shadow-lift:0 2px 6px rgba(0,0,0,.5), 0 22px 46px -22px rgba(0,0,0,.9);
+}
+:root[data-theme="light"]{
+  --paper:#F1F4F0; --panel:#FFFFFF; --panel2:#E8EDE7;
+  --ink:#0F1A15; --ink2:#4A5750; --ink3:#6F7C75;
+  --rule:#D6DFD5; --rule2:#C1CCBF;
+  --green:#00694B; --green-bg:rgba(0,105,75,.09);   --green-line:rgba(0,105,75,.30);
+  --amber:#96690A; --amber-bg:rgba(150,105,10,.11); --amber-line:rgba(150,105,10,.30);
+  --red:#BC3126;   --red-bg:rgba(188,49,38,.08);    --red-line:rgba(188,49,38,.28);
+  --steel:#2F5F7C; --steel-bg:rgba(47,95,124,.09);  --steel-line:rgba(47,95,124,.28);
+  --violet:#584593;--violet-bg:rgba(88,69,147,.09); --violet-line:rgba(88,69,147,.28);
+  --shadow:0 1px 2px rgba(15,26,21,.05), 0 10px 26px -16px rgba(15,26,21,.30);
+  --shadow-lift:0 2px 4px rgba(15,26,21,.06), 0 18px 40px -20px rgba(15,26,21,.35);
+}
+
+/* ============================================================ BASE */
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-size:.935rem;
+  line-height:1.62;
+  -webkit-font-smoothing:antialiased;
+}
+p{margin:0}
+h1,h2,h3,h4{margin:0;text-wrap:balance;font-weight:650}
+a{color:var(--green);text-underline-offset:3px}
+:focus-visible{outline:2px solid var(--green);outline-offset:3px;border-radius:3px}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+}
+html{scroll-behavior:smooth;scroll-padding-top:74px}
+
+.wrap{max-width:var(--wrap);margin-inline:auto;padding-inline:24px}
+.read{max-width:var(--read)}
+
+/* mono utility */
+.m{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.bn{font-family:var(--bn);line-height:1.75}
+.eyebrow{
+  font-family:var(--mono);font-size:.66rem;font-weight:600;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--ink3);
+}
+
+/* ============================================================ HERO */
+.hero{
+  border-bottom:1px solid var(--rule);
+  background:
+    linear-gradient(180deg,var(--green-bg),transparent 62%),
+    var(--paper);
+}
+.hero-inner{display:flex;flex-direction:column;gap:26px;padding:52px 24px 40px}
+.hero-top{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap}
+.mark{display:flex;align-items:center;gap:10px}
+.mark .glyph{
+  width:26px;height:26px;border-radius:50%;
+  border:1.5px solid var(--green);
+  display:grid;place-items:center;
+  font-family:var(--mono);font-size:.62rem;font-weight:700;color:var(--green);
+  letter-spacing:-.02em;
+}
+.mark .who{font-family:var(--mono);font-size:.7rem;letter-spacing:.13em;text-transform:uppercase;color:var(--ink2)}
+
+/* split-flap board line */
+.board{
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+  font-family:var(--mono);font-size:.78rem;font-weight:700;letter-spacing:.09em;
+  perspective:600px;
+}
+.board .cell{
+  display:inline-block;padding:5px 9px;border-radius:3px;
+  background:var(--panel2);border:1px solid var(--rule);color:var(--ink);
+  transform-origin:top center;
+  animation:flip .42s cubic-bezier(.2,.8,.3,1) both;
+  animation-delay:calc(var(--i,0) * 85ms);
+}
+.board .cell.ok{color:var(--green);border-color:var(--green-line);background:var(--green-bg)}
+.board .arrow{color:var(--ink3);font-size:.85rem}
+@keyframes flip{
+  from{transform:rotateX(-88deg);opacity:0}
+  to{transform:rotateX(0);opacity:1}
+}
+
+.hero h1{
+  font-size:clamp(1.95rem,4.4vw,3.05rem);
+  line-height:1.08;letter-spacing:-.02em;font-weight:680;
+  max-width:19ch;
+}
+.hero h1 em{font-style:normal;color:var(--green)}
+.hero .lede{max-width:60ch;color:var(--ink2);font-size:1.02rem}
+
+.facts{
+  display:grid;gap:1px;background:var(--rule);
+  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  border:1px solid var(--rule);border-radius:6px;overflow:hidden;
+}
+.fact{background:var(--panel);padding:14px 16px;display:flex;flex-direction:column;gap:3px}
+.fact .v{font-family:var(--mono);font-size:1.22rem;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.fact .k{font-size:.74rem;color:var(--ink3);line-height:1.4}
+
+/* ============================================================ NAV */
+.nav{
+  position:sticky;top:0;z-index:50;
+  background:color-mix(in srgb,var(--paper) 88%,transparent);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--rule);
+}
+.nav-inner{
+  display:flex;gap:2px;flex-wrap:nowrap;align-items:center;overflow-x:auto;scrollbar-width:thin;
+  max-width:var(--wrap);margin-inline:auto;padding:8px 20px;
+}
+.nav a{
+  font-family:var(--mono);font-size:.66rem;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--ink3);text-decoration:none;padding:6px 9px;border-radius:4px;
+  transition:color .15s,background .15s;white-space:nowrap;flex:0 0 auto;
+}
+.nav a:hover{color:var(--ink);background:var(--panel2)}
+.nav a[aria-current="true"]{color:var(--green);background:var(--green-bg)}
+.nav .grp{
+  font-family:var(--mono);font-size:.6rem;font-weight:700;letter-spacing:.14em;
+  color:var(--green);padding:6px 7px 6px 11px;margin-left:5px;
+  border-left:1px solid var(--rule2);flex:0 0 auto;
+}
+.nav .grp:first-child{border-left:none;margin-left:0;padding-left:0}
+.theme-btn{
+  margin-left:auto;font-family:var(--mono);font-size:.64rem;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink3);background:transparent;
+  border:1px solid var(--rule);border-radius:4px;padding:6px 10px;cursor:pointer;flex:0 0 auto;
+}
+.theme-btn:hover{color:var(--ink);border-color:var(--rule2)}
+
+/* ============================================================ PART DIVIDERS */
+.part-rule{
+  margin-top:66px;padding-top:22px;border-top:2px solid var(--ink);
+  display:grid;grid-template-columns:auto minmax(0,1fr);gap:20px;align-items:start;
+}
+.part-rule:first-of-type{margin-top:46px}
+.part-rule .pl{
+  font-family:var(--mono);font-size:2.5rem;font-weight:700;line-height:.85;
+  letter-spacing:-.05em;color:var(--green);
+}
+.part-rule .pb{display:flex;flex-direction:column;gap:5px;padding-top:2px}
+.part-rule h2{font-size:clamp(1.18rem,2.3vw,1.55rem);letter-spacing:-.015em;line-height:1.15}
+.part-rule .pd{font-size:.87rem;color:var(--ink2);max-width:62ch}
+.part-rule .pw{
+  font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink3);
+}
+.part-rule + section{padding-top:34px}
+
+/* ============================================================ SECTIONS */
+section{padding:56px 0 8px;scroll-margin-top:70px}
+section:last-of-type{padding-bottom:40px}
+.sec-head{
+  display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+  padding-bottom:12px;margin-bottom:26px;border-bottom:1px solid var(--rule);
+}
+.sec-head .code{
+  font-family:var(--mono);font-size:.68rem;font-weight:700;letter-spacing:.12em;
+  color:var(--green);border:1px solid var(--green-line);background:var(--green-bg);
+  padding:3px 8px;border-radius:3px;white-space:nowrap;
+}
+.sec-head h2{font-size:clamp(1.3rem,2.5vw,1.72rem);letter-spacing:-.015em;line-height:1.2}
+.sec-head .status{
+  margin-left:auto;font-family:var(--mono);font-size:.64rem;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--ink3);
+}
+.sec-intro{color:var(--ink2);max-width:var(--read);margin-bottom:26px}
+
+.stack{display:flex;flex-direction:column;gap:26px}
+.stack-sm{display:flex;flex-direction:column;gap:14px}
+h3.blk{
+  font-family:var(--mono);font-size:.72rem;font-weight:700;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--ink2);
+}
+
+/* ============================================================ CARDS / GRIDS */
+.grid{display:grid;gap:16px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+
+.card{
+  background:var(--panel);border:1px solid var(--rule);border-radius:6px;
+  padding:20px;display:flex;flex-direction:column;gap:9px;box-shadow:var(--shadow);
+}
+.card h4{font-size:.98rem;letter-spacing:-.005em}
+.card p{color:var(--ink2);font-size:.87rem}
+.card .uc{font-family:var(--mono);font-size:.64rem;letter-spacing:.12em;color:var(--ink3);text-transform:uppercase}
+.card ul{margin:2px 0 0;padding-left:0;list-style:none;display:flex;flex-direction:column;gap:6px}
+.card ul li{font-size:.84rem;color:var(--ink2);padding-left:15px;position:relative;line-height:1.5}
+.card ul li::before{content:"";position:absolute;left:0;top:.62em;width:6px;height:1px;background:var(--rule2)}
+
+/* boarding-pass persona card */
+.pass{
+  background:var(--panel);border:1px solid var(--rule);border-radius:6px;
+  display:grid;grid-template-columns:1fr 104px;overflow:hidden;box-shadow:var(--shadow);
+}
+.pass-main{padding:20px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.pass-stub{
+  border-left:1px dashed var(--rule2);background:var(--panel2);
+  padding:18px 14px;display:flex;flex-direction:column;gap:12px;justify-content:flex-start;
+}
+.pass-stub .row{display:flex;flex-direction:column;gap:1px}
+.pass-stub .lbl{font-family:var(--mono);font-size:.55rem;letter-spacing:.13em;text-transform:uppercase;color:var(--ink3)}
+.pass-stub .val{font-family:var(--mono);font-size:.82rem;font-weight:700;color:var(--ink);letter-spacing:.01em}
+.pass .name{font-size:1.02rem;font-weight:650}
+.pass .role{font-family:var(--mono);font-size:.63rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3)}
+.pass .quote{
+  font-size:.88rem;color:var(--ink2);border-left:2px solid var(--green-line);
+  padding-left:12px;line-height:1.6;
+}
+.pass .need{font-size:.84rem;color:var(--ink2)}
+.pass .need b{color:var(--ink);font-weight:600}
+
+/* ============================================================ FLIGHT STRIP (journey) */
+.strip-scroll{overflow-x:auto;padding-bottom:6px}
+.strip{display:flex;min-width:min-content;border:1px solid var(--rule);border-radius:6px;background:var(--panel);overflow:hidden}
+.leg{
+  min-width:158px;flex:1;padding:16px 16px 18px;border-right:1px solid var(--rule);
+  display:flex;flex-direction:column;gap:6px;
+}
+.leg:last-child{border-right:none}
+.leg .t{font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3)}
+.leg h4{font-size:.87rem}
+.leg p{font-size:.78rem;color:var(--ink2);line-height:1.45}
+.leg .budget{
+  margin-top:auto;font-family:var(--mono);font-size:.66rem;font-weight:700;
+  color:var(--green);font-variant-numeric:tabular-nums;
+}
+.leg.warn .budget{color:var(--amber)}
+
+/* ============================================================ TRANSCRIPT */
+.thread-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0;
+  border:1px solid var(--rule);border-radius:6px;overflow:hidden;background:var(--panel)}
+.thread-col{padding:20px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.thread-col.chat{background:var(--panel2);border-right:1px solid var(--rule)}
+.thread-col .colhead{
+  font-family:var(--mono);font-size:.62rem;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--ink3);padding-bottom:8px;border-bottom:1px solid var(--rule);margin-bottom:4px;
+}
+.bub{
+  max-width:88%;padding:9px 13px;border-radius:12px;font-size:.87rem;line-height:1.55;
+  border:1px solid var(--rule);background:var(--panel);
+}
+.bub.user{align-self:flex-end;background:var(--green-bg);border-color:var(--green-line);border-bottom-right-radius:3px}
+.bub.bot{align-self:flex-start;border-bottom-left-radius:3px}
+.bub .tr{display:block;margin-top:5px;font-size:.74rem;color:var(--ink3);font-style:italic}
+.bub .attach{
+  display:inline-flex;align-items:center;gap:7px;margin-top:8px;padding:7px 10px;
+  border:1px solid var(--rule2);border-radius:5px;background:var(--panel2);
+  font-family:var(--mono);font-size:.7rem;color:var(--ink);
+}
+.ann{display:flex;flex-direction:column;gap:3px;padding:9px 0;border-bottom:1px dashed var(--rule)}
+.ann:last-child{border-bottom:none}
+.ann .k{font-family:var(--mono);font-size:.6rem;letter-spacing:.11em;text-transform:uppercase;color:var(--ink3)}
+.ann .v{font-size:.83rem;color:var(--ink2);line-height:1.5}
+.ann .v code{font-family:var(--mono);font-size:.8em;color:var(--ink);background:var(--panel2);padding:1px 5px;border-radius:3px}
+
+/* ============================================================ ARCHITECTURE */
+.layer{
+  border:1px solid var(--rule);border-radius:6px;background:var(--panel);
+  padding:22px 16px 16px;position:relative;
+}
+.layer + .layer{margin-top:22px}
+.layer .lname{
+  position:absolute;top:-9px;left:16px;background:var(--paper);padding:0 8px;
+  font-family:var(--mono);font-size:.61rem;font-weight:700;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink3);
+}
+.boxes{display:flex;flex-wrap:wrap;gap:9px}
+.box{
+  flex:1 1 150px;padding:10px 12px;border-radius:5px;border:1px solid var(--rule);
+  background:var(--panel2);display:flex;flex-direction:column;gap:2px;
+}
+.box .bt{font-family:var(--mono);font-size:.72rem;font-weight:700;letter-spacing:.02em}
+.box .bs{font-size:.7rem;color:var(--ink3);line-height:1.4}
+.box.green{border-color:var(--green-line);background:var(--green-bg)} .box.green .bt{color:var(--green)}
+.box.steel{border-color:var(--steel-line);background:var(--steel-bg)} .box.steel .bt{color:var(--steel)}
+.box.violet{border-color:var(--violet-line);background:var(--violet-bg)} .box.violet .bt{color:var(--violet)}
+.box.amber{border-color:var(--amber-line);background:var(--amber-bg)} .box.amber .bt{color:var(--amber)}
+.flowdown{text-align:center;color:var(--ink3);font-family:var(--mono);font-size:.8rem;padding:6px 0 0}
+
+.legend{display:flex;gap:18px;flex-wrap:wrap;padding:12px 16px;border:1px solid var(--rule);
+  border-radius:6px;background:var(--panel)}
+.legend .li{display:flex;align-items:center;gap:7px;font-size:.78rem;color:var(--ink2)}
+.legend .sw{width:9px;height:9px;border-radius:2px;flex:none}
+
+/* ============================================================ STATE RAIL */
+.rail{position:relative;padding-left:26px;display:flex;flex-direction:column;gap:0}
+.rail::before{content:"";position:absolute;left:6px;top:8px;bottom:8px;width:2px;background:var(--rule2)}
+.node{position:relative;padding:0 0 20px}
+.node::before{
+  content:"";position:absolute;left:-26px;top:6px;width:14px;height:14px;border-radius:50%;
+  background:var(--paper);border:2px solid var(--green);
+}
+.node.term::before{background:var(--green);border-color:var(--green)}
+.node .st{
+  font-family:var(--mono);font-size:.76rem;font-weight:700;letter-spacing:.06em;color:var(--ink);
+}
+.node .desc{font-size:.85rem;color:var(--ink2);margin-top:2px;max-width:62ch}
+.branch{
+  margin-top:9px;display:flex;flex-direction:column;gap:7px;
+  padding:11px 14px;border-radius:5px;border:1px solid var(--red-line);background:var(--red-bg);
+}
+.branch.hold{border-color:var(--amber-line);background:var(--amber-bg)}
+.branch .bh{font-family:var(--mono);font-size:.63rem;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--red)}
+.branch.hold .bh{color:var(--amber)}
+.branch p{font-size:.83rem;color:var(--ink2);line-height:1.55}
+.branch p b{color:var(--ink);font-weight:600}
+
+/* ============================================================ TABLES */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--rule);border-radius:6px;background:var(--panel)}
+table{border-collapse:collapse;width:100%;min-width:620px;font-size:.845rem}
+thead th{
+  text-align:left;padding:11px 14px;font-family:var(--mono);font-size:.62rem;font-weight:700;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);
+  border-bottom:1px solid var(--rule);background:var(--panel2);white-space:nowrap;
+}
+tbody td{padding:11px 14px;border-bottom:1px solid var(--rule);color:var(--ink2);vertical-align:top;line-height:1.5}
+tbody tr:last-child td{border-bottom:none}
+tbody td b{color:var(--ink);font-weight:600}
+tbody td code,code.i{
+  font-family:var(--mono);font-size:.82em;color:var(--ink);
+  background:var(--panel2);padding:1px 5px;border-radius:3px;white-space:nowrap;
+}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+
+/* status pills */
+.pill{
+  display:inline-block;font-family:var(--mono);font-size:.6rem;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;padding:2px 7px;border-radius:3px;border:1px solid;
+}
+.pill.ok{color:var(--green);border-color:var(--green-line);background:var(--green-bg)}
+.pill.hold{color:var(--amber);border-color:var(--amber-line);background:var(--amber-bg)}
+.pill.fail{color:var(--red);border-color:var(--red-line);background:var(--red-bg)}
+.pill.ext{color:var(--steel);border-color:var(--steel-line);background:var(--steel-bg)}
+.pill.ai{color:var(--violet);border-color:var(--violet-line);background:var(--violet-bg)}
+
+/* ============================================================ TARGET TILES */
+.tiles{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:6px;
+  overflow:hidden;grid-template-columns:repeat(auto-fit,minmax(190px,1fr))}
+.tile{background:var(--panel);padding:16px 18px;display:flex;flex-direction:column;gap:5px}
+.tile .v{font-family:var(--mono);font-size:1.45rem;font-weight:700;letter-spacing:-.02em;
+  font-variant-numeric:tabular-nums;line-height:1.1}
+.tile .k{font-size:.79rem;color:var(--ink);font-weight:600}
+.tile .n{font-size:.75rem;color:var(--ink3);line-height:1.45}
+.tile .v.g{color:var(--green)} .tile .v.a{color:var(--amber)} .tile .v.s{color:var(--steel)}
+
+/* ============================================================ AGENT CONSOLE MOCK */
+.console{border:1px solid var(--rule);border-radius:6px;background:var(--panel);overflow:hidden;box-shadow:var(--shadow)}
+.console-bar{
+  display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:10px 16px;
+  background:var(--panel2);border-bottom:1px solid var(--rule);
+  font-family:var(--mono);font-size:.64rem;letter-spacing:.11em;text-transform:uppercase;color:var(--ink3);
+}
+.console-bar .urgent{color:var(--red);font-weight:700}
+.console-body{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:1px;background:var(--rule)}
+.cfield{background:var(--panel);padding:12px 16px;display:flex;flex-direction:column;gap:3px}
+.cfield .cl{font-family:var(--mono);font-size:.57rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3)}
+.cfield .cv{font-size:.87rem;font-weight:600;color:var(--ink);line-height:1.35}
+.cfield .cv.m{font-family:var(--mono);font-variant-numeric:tabular-nums;letter-spacing:.01em}
+.cfield .cn{font-size:.72rem;color:var(--ink3);line-height:1.4}
+.console-foot{padding:13px 16px;border-top:1px solid var(--rule);background:var(--panel2);font-size:.85rem;color:var(--ink2);line-height:1.55}
+.console-foot b{color:var(--ink);font-weight:600}
+
+/* ============================================================ QUESTIONS */
+.q{
+  border:1px solid var(--rule);border-left:3px solid var(--amber);border-radius:6px;
+  background:var(--panel);padding:16px 18px;display:flex;flex-direction:column;gap:6px;
+}
+.q.block{border-left-color:var(--red)}
+.q .qh{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.q h4{font-size:.93rem;line-height:1.35}
+.q p{font-size:.845rem;color:var(--ink2);line-height:1.55}
+.q p b{color:var(--ink);font-weight:600}
+
+/* ============================================================ PHASES */
+.phase{display:grid;grid-template-columns:132px minmax(0,1fr);gap:18px;align-items:start}
+.phase + .phase{margin-top:16px;padding-top:16px;border-top:1px solid var(--rule)}
+.phase .badge{display:flex;flex-direction:column;gap:2px}
+.phase .badge .pn{font-family:var(--mono);font-size:.72rem;font-weight:700;letter-spacing:.1em;color:var(--green)}
+.phase .badge .wk{font-family:var(--mono);font-size:.68rem;color:var(--ink3);font-variant-numeric:tabular-nums}
+.phase .body h4{font-size:.98rem;margin-bottom:5px}
+.phase .body p{font-size:.86rem;color:var(--ink2)}
+.phase .exit{
+  margin-top:9px;font-size:.8rem;color:var(--ink2);padding:9px 12px;border-radius:5px;
+  background:var(--green-bg);border:1px solid var(--green-line);
+}
+.phase .exit b{font-family:var(--mono);font-size:.62rem;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--green);display:block;margin-bottom:3px}
+.phase .ops{
+  margin-top:9px;font-size:.8rem;color:var(--ink2);padding:9px 12px;border-radius:5px;line-height:1.5;
+  background:var(--steel-bg);border:1px solid var(--steel-line);
+}
+.phase .ops b{font-family:var(--mono);font-size:.62rem;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--steel);display:block;margin-bottom:3px}
+.phase .watch{
+  margin-top:9px;font-size:.8rem;color:var(--ink2);padding:9px 12px;border-radius:5px;line-height:1.5;
+  background:var(--amber-bg);border:1px solid var(--amber-line);
+}
+.phase .watch b{font-family:var(--mono);font-size:.62rem;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--amber);display:block;margin-bottom:3px}
+.phase.p0 .badge .pn{color:var(--steel)}
+
+/* ============================================================ CALLOUT / FOOTER */
+.callout{
+  border:1px solid var(--steel-line);background:var(--steel-bg);border-radius:6px;
+  padding:16px 18px;display:flex;flex-direction:column;gap:6px;
+}
+.callout .ch{font-family:var(--mono);font-size:.63rem;font-weight:700;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--steel)}
+.callout p{font-size:.86rem;color:var(--ink2);max-width:var(--read)}
+
+footer{
+  border-top:1px solid var(--rule);margin-top:48px;padding:30px 0 44px;
+}
+footer .fnote{font-size:.78rem;color:var(--ink3);max-width:78ch;line-height:1.65}
+footer .fmeta{
+  font-family:var(--mono);font-size:.64rem;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--ink3);margin-top:14px;
+}
+
+/* ============================================================ RESPONSIVE */
+@media (max-width:860px){
+  .thread-grid{grid-template-columns:1fr}
+  .thread-col.chat{border-right:none;border-bottom:1px solid var(--rule)}
+  .phase{grid-template-columns:1fr;gap:8px}
+}
+@media (max-width:560px){
+  .wrap{padding-inline:16px}
+  .hero-inner{padding:36px 16px 30px}
+  .nav-inner{padding:6px 12px}
+  .pass{grid-template-columns:1fr}
+  .pass-stub{border-left:none;border-top:1px dashed var(--rule2);flex-direction:row;flex-wrap:wrap;gap:16px}
+  section{padding-top:42px}
+}
+</style>
+
+<!-- ============================== HERO ============================== -->
+<header class="hero">
+  <div class="hero-inner wrap">
+
+    <div class="hero-top">
+      <div class="mark">
+        <span class="glyph">TT</span>
+        <span class="who">Takeoff Travels · Omnichannel OTA support platform · PRD v2.0</span>
+      </div>
+      <span class="eyebrow">Draft for approval · 31 Aug 2026 · Product, operations &amp; engineering</span>
+    </div>
+
+    <div class="board" aria-label="Example booking: Dhaka to Cox's Bazar, sold on WhatsApp, paid with bKash, confirmed">
+      <span class="cell" style="--i:0">DAC</span>
+      <span class="arrow" aria-hidden="true">→</span>
+      <span class="cell" style="--i:1">CXB</span>
+      <span class="cell" style="--i:2">WHATSAPP</span>
+      <span class="cell" style="--i:3">BKASH</span>
+      <span class="cell" style="--i:4">BANGLA</span>
+      <span class="cell ok" style="--i:5">TICKETED · 3M 40S</span>
+    </div>
+
+    <h1>One inbox. One service history. <em>AI first, human when it matters.</em></h1>
+
+    <p class="lede">
+      A multi-tenant omnichannel customer-support and conversational-commerce platform for OTAs.
+      It unifies web, WhatsApp, Messenger and Instagram conversations; lets a governed AI agent
+      answer, search, book and support; and moves risky or uncertain cases to the right human agent
+      with complete context. Takeoff Travels is the first tenant and US-Bangla is the first airline
+      inventory integration.
+    </p>
+
+    <div class="facts">
+      <div class="fact"><span class="v">1</span><span class="k">Unified inbox across every supported channel</span></div>
+      <div class="fact"><span class="v">24/7</span><span class="k">Governed AI service with deterministic money paths</span></div>
+      <div class="fact"><span class="v">2+1</span><span class="k">Bangla, English, and Banglish transliteration</span></div>
+      <div class="fact"><span class="v">5,000</span><span class="k">Concurrent customer sessions at the initial sizing target</span></div>
+      <div class="fact"><span class="v">&lt;3s</span><span class="k">Eligible-agent assignment target, p95</span></div>
+      <div class="fact"><span class="v">100%</span><span class="k">Conversation, assignment and money-path auditability</span></div>
+    </div>
+
+  </div>
+</header>
+
+<!-- ============================== NAV ============================== -->
+<nav class="nav" aria-label="Section navigation">
+  <div class="nav-inner">
+    <span class="grp" aria-hidden="true">A</span>
+    <a href="#control">Control</a>
+    <a href="#overview">Overview</a>
+    <a href="#travellers">Who</a>
+    <a href="#journeys">Journeys</a>
+    <a href="#channels">Channels</a>
+    <span class="grp" aria-hidden="true">B</span>
+    <a href="#architecture">Arch</a>
+    <a href="#booking">Booking</a>
+    <a href="#language">Language</a>
+    <a href="#payments">Payments</a>
+    <a href="#handoff">Handoff</a>
+    <a href="#apis">APIs</a>
+    <span class="grp" aria-hidden="true">C</span>
+    <a href="#targets">Targets</a>
+    <a href="#questions">Open</a>
+    <a href="#delivery">Delivery</a>
+    <span class="grp" aria-hidden="true">D</span>
+    <a href="#cost">Cost</a>
+    <a href="#observability">Signals</a>
+    <a href="#dataprotection">Data</a>
+    <a href="#testing">Testing</a>
+    <span class="grp" aria-hidden="true">E</span>
+    <a href="#inbox">Inbox</a>
+    <a href="#aiagent">AI</a>
+    <a href="#routing">Routing</a>
+    <a href="#contentops">Content</a>
+    <a href="#workspace">Agents</a>
+    <a href="#supervisor">KPI</a>
+    <a href="#governance">Admin</a>
+    <a href="#dataevents">Events</a>
+    <a href="#nfr">NFR</a>
+    <a href="#requirements">Accept</a>
+    <button class="theme-btn" id="themeBtn" type="button" aria-label="Switch colour theme">Theme</button>
+  </div>
+</nav>
+
+<main class="wrap">
+
+<!-- ============================== PART A ============================== -->
+<div class="part-rule">
+  <span class="pl" aria-hidden="true">A</span>
+  <div class="pb">
+    <span class="pw">Part A</span>
+    <h2>The product</h2>
+    <p class="pd">Who it serves, what it sells them, and which channels it lives on. Read this part
+      if you are deciding whether to fund the thing.</p>
+  </div>
+</div>
+
+<!-- ============================== DOCUMENT CONTROL ============================== -->
+<section id="control">
+  <div class="sec-head">
+    <span class="code">A0</span>
+    <h2>PRD control, purpose and scope</h2>
+    <span class="status">Authoritative product baseline</span>
+  </div>
+
+  <div class="tbl-wrap">
+    <table>
+      <tbody>
+        <tr><th>Document</th><td>Omnichannel OTA Customer Support Platform — Product Requirements Document</td><th>Version</th><td class="num">2.0</td></tr>
+        <tr><th>Status</th><td>Draft for stakeholder approval</td><th>Date</th><td class="num">31 Aug 2026</td></tr>
+        <tr><th>Product owner</th><td>Takeoff Travels — to be named</td><th>Reviewers</th><td>Customer support, operations, finance, security, engineering, airline integration owner</td></tr>
+        <tr><th>Initial tenant</th><td>Takeoff Travels</td><th>Initial airline</th><td>US-Bangla inventory through the contracted source</td></tr>
+        <tr><th>Decision rule</th><td colspan="3">Where this document says <b>proposed</b>, the value becomes binding only after owner approval. Safety, payment and privacy controls are release gates.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="grid g2" style="margin-top:22px">
+    <div class="card">
+      <span class="uc">Problem</span>
+      <h4>Customers experience channels; the support team experiences fragments</h4>
+      <p>Messages arrive in separate tools, agents repeat questions, booking context is copied by hand, and routine queries consume the same queue as payment failures and imminent departures. Automation without a governed handoff makes that fragmentation faster rather than fixing it.</p>
+    </div>
+    <div class="card">
+      <span class="uc">Product thesis</span>
+      <h4>One conversation core, channel-specific edges</h4>
+      <p>Every supported message enters one tenant-isolated conversation record. AI resolves safe, well-grounded work; deterministic services own booking and money; and a workload-aware router assigns every warranted handoff to an eligible human with the full operational state attached.</p>
+    </div>
+  </div>
+
+  <h3 class="blk" style="margin-top:30px">Goals and success measures</h3>
+  <div class="tbl-wrap" style="margin-top:12px">
+    <table>
+      <thead><tr><th>ID</th><th>Goal</th><th>Proposed launch measure</th><th>Guardrail</th></tr></thead>
+      <tbody>
+        <tr><td class="m">G-01</td><td>Give agents one operational view of the customer</td><td>100% of supported-channel messages visible, deduplicated and searchable in the unified inbox</td><td>No unverified cross-customer identity merge</td></tr>
+        <tr><td class="m">G-02</td><td>Resolve routine service automatically</td><td>First-contact resolution &gt;70% for approved, in-scope intents after the observation window</td><td>Grounded-answer correctness and safety gates may not be traded for containment</td></tr>
+        <tr><td class="m">G-03</td><td>Escalate early when AI should not act</td><td>Handover &lt;25% for in-scope traffic; 100% explicit human requests honoured</td><td>No warranted escalation suppressed to protect the rate</td></tr>
+        <tr><td class="m">G-04</td><td>Distribute work fairly and quickly</td><td>Eligible-agent assignment p95 &lt;3s; priority queue SLA measured separately from standard</td><td>Skill, language, tenant, capacity and risk eligibility are hard filters</td></tr>
+        <tr><td class="m">G-05</td><td>Protect customers when money or travel is at risk</td><td>100% of paid-not-ticketed cases reconciled to ticket or refund within the approved SLA</td><td>Every money-path state change is idempotent and auditable</td></tr>
+        <tr><td class="m">G-06</td><td>Make agent performance coachable</td><td>KPI definitions produce reproducible team and agent views with minimum-sample rules</td><td>No ranking on speed alone; complexity, language and queue cohort remain visible</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="blk" style="margin-top:30px">Scope by release commitment</h3>
+  <div class="grid g3" style="margin-top:12px">
+    <div class="card">
+      <span class="uc">Must · initial production</span>
+      <ul>
+        <li>Web widget and WhatsApp in one inbox</li>
+        <li>Bangla, English and Banglish AI replies</li>
+        <li>Knowledge-grounded FAQ and PNR support</li>
+        <li>Domestic one-way and return search, booking, hosted payment and ticket delivery</li>
+        <li>Risk-aware escalation and workload-adjusted weighted round robin</li>
+        <li>Agent workspace, supervisor queues, KPI dashboard, RBAC and audit log</li>
+        <li>Tenant configuration, knowledge and credentials isolated from every other tenant</li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="uc">Should · next release</span>
+      <ul>
+        <li>Messenger and Instagram messaging</li>
+        <li>Inbound support email adapter</li>
+        <li>Cross-channel continuation after verified customer linking</li>
+        <li>Self-service date changes within approved fare rules</li>
+        <li>International routes and controlled passport handling</li>
+        <li>Proactive disruption broadcasts and surge queues</li>
+        <li>QA sampling, scorecards and conversation coaching</li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="uc">Not committed · future</span>
+      <ul>
+        <li>Voice or call-centre telephony</li>
+        <li>Autonomous refunds above a configured financial ceiling</li>
+        <li>Corporate fares, groups above 9, multi-city and complex involuntary rebooking</li>
+        <li>Workforce forecasting, payroll or shift scheduling</li>
+        <li>Open-ended social listening outside connected brand accounts</li>
+        <li>Airline operations control or airport departure-control functions</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout" style="margin-top:22px">
+    <span class="ch">Multi-tenant assumption</span>
+    <p>
+      The product is designed as a reusable OTA platform. Each tenant owns its brand, channels,
+      agents, queues, SLAs, knowledge, templates, integration credentials and retention policy.
+      No tenant can search, route to, report on or retrieve another tenant's data. Takeoff Travels is
+      the first deployment; airline-specific rules live behind tenant and supplier adapters rather
+      than being hard-coded into the conversation core.
+    </p>
+  </div>
+</section>
+
+<!-- ============================== OVERVIEW ============================== -->
+<section id="overview">
+  <div class="sec-head">
+    <span class="code">A1</span>
+    <h2>What we are building</h2>
+    <span class="status">PRD §2.2 · UC-01–04</span>
+  </div>
+
+  <p class="sec-intro">
+    One assistant, four jobs, wearing the Takeoff Travels name on every channel. Everything
+    below traces back to a use case in the PRD; anything
+    marked <span class="pill ai">proposed</span> is a design decision the PRD leaves open, and is
+    listed again under <a href="#questions">Open questions</a>.
+  </p>
+
+  <div class="grid g4">
+    <div class="card">
+      <span class="uc">UC-01 · Search</span>
+      <h4>Find the flight</h4>
+      <p>Origin, destination, dates and passenger count collected conversationally, then priced against live US-Bangla inventory.</p>
+      <ul>
+        <li>Filter by fare family in-conversation — Economy Saver, Flexible, Business</li>
+        <li>One-way and return, up to 9 passengers</li>
+        <li>Results as pickable cards, not a wall of text</li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="uc">UC-02 · Book &amp; pay</span>
+      <h4>Take the money</h4>
+      <p>Passenger details captured in-thread, a hold PNR created, then a hosted checkout for bKash, Nagad, or card.</p>
+      <ul>
+        <li>Name, NID or passport, date of birth</li>
+        <li>Adult, child and infant-on-lap fares — each priced differently</li>
+        <li>Sky Star loyalty ID captured if offered</li>
+        <li>PDF ticket delivered into the same thread</li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="uc">UC-03 · Manage</span>
+      <h4>After the booking</h4>
+      <p>A PNR lookup that answers the three things people actually ask after they have paid.</p>
+      <ul>
+        <li>Is my flight on time</li>
+        <li>How much baggage can I take</li>
+        <li>Resend my ticket</li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="uc">UC-04 · Support</span>
+      <h4>Answer the question</h4>
+      <p>Grounded answers on fares, refunds, changes and Sky Star tiers — sourced from a maintained policy set, not the model's memory.</p>
+      <ul>
+        <li>Retrieval over approved policy documents</li>
+        <li>Every answer cites the policy it came from</li>
+        <li>No answer, no guess — route to an agent</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="grid g2" style="margin-top:22px">
+    <div class="callout">
+      <span class="ch">Deliberately out of scope for v1</span>
+      <p>
+        Multi-city itineraries, group bookings above 9 passengers, corporate contract fares,
+        seat-map selection, and involuntary-cancellation rebooking. Each of these routes straight to a
+        human agent with full context attached. Narrowing v1 this way is what makes the
+        &lt;25% handover target reachable rather than aspirational — with one exception:
+        involuntary cancellation arrives as a <em>surge</em>, not a trickle, and needs the dedicated
+        path in <a href="#handoff">B5</a> rather than the ordinary queue.
+      </p>
+    </div>
+    <div class="callout">
+      <span class="ch">The one thing that must not break</span>
+      <p>
+        Money leaves the customer's bKash wallet before the airline issues the ticket. Every design
+        decision in <a href="#booking">Booking flow</a> exists to make that gap survivable: bounded holds,
+        idempotent ticketing, automatic reconciliation, and a named owner when reconciliation fails.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== TRAVELLERS ============================== -->
+<section id="travellers">
+  <div class="sec-head">
+    <span class="code">A2</span>
+    <h2>Who is on the other end</h2>
+    <span class="status">PRD §2.1</span>
+  </div>
+
+  <p class="sec-intro">
+    Three people with genuinely different constraints. The middle one is why the language work is
+    not a nice-to-have, and the third one is a user of this product even though they never open a chat window.
+  </p>
+
+  <div class="grid g2">
+
+    <div class="pass">
+      <div class="pass-main">
+        <div>
+          <div class="name">Tanvir</div>
+          <div class="role">Domestic leisure · Dhaka</div>
+        </div>
+        <p class="quote">Thursday night, phone in hand, wants to be at the beach Friday morning. Will abandon anything that asks him to install something.</p>
+        <p class="need"><b>Needs:</b> a Friday morning seat to Cox's Bazar, paid from the bKash balance he already has, with a ticket he can show at the counter.</p>
+        <p class="need"><b>The bot must:</b> price four flights in one message, hold the fare while he pays, and never lose the thread when he switches apps mid-payment.</p>
+      </div>
+      <div class="pass-stub">
+        <div class="row"><span class="lbl">Route</span><span class="val">DAC→CXB</span></div>
+        <div class="row"><span class="lbl">Channel</span><span class="val">WA</span></div>
+        <div class="row"><span class="lbl">Pays</span><span class="val">bKash</span></div>
+        <div class="row"><span class="lbl">Writes</span><span class="val">Banglish</span></div>
+      </div>
+    </div>
+
+    <div class="pass">
+      <div class="pass-main">
+        <div>
+          <div class="name">Rahat</div>
+          <div class="role">Expat worker · Kuala Lumpur</div>
+        </div>
+        <p class="quote">Types Bangla script on a Malaysian phone, at 11pm his time, and switches to English the moment he needs to spell a passport number.</p>
+        <p class="need"><b>Needs:</b> to move his return date to Dhaka and confirm what baggage his fare includes before he buys a second suitcase.</p>
+        <p class="need"><b>The bot must:</b> hold context across a mid-sentence language switch, quote the change fee accurately, and know when the answer is above its pay grade.</p>
+      </div>
+      <div class="pass-stub">
+        <div class="row"><span class="lbl">Route</span><span class="val">KUL→DAC</span></div>
+        <div class="row"><span class="lbl">Channel</span><span class="val">FB</span></div>
+        <div class="row"><span class="lbl">Pays</span><span class="val">Card</span></div>
+        <div class="row"><span class="lbl">Writes</span><span class="val bn">বাংলা</span></div>
+      </div>
+    </div>
+
+    <div class="pass" style="grid-column:1/-1">
+      <div class="pass-main">
+        <div>
+          <div class="name">Shirin</div>
+          <div class="role">Takeoff Travels support agent · Human in the loop</div>
+        </div>
+        <p class="quote">Picks up conversations the bot could not finish, usually at the worst possible moment in the booking.</p>
+        <p class="need"><b>Needs:</b> to open a handed-over chat and know within five seconds what the customer wanted, what the bot already did, whether money has moved, and what state the PNR is in.</p>
+        <p class="need"><b>The bot must:</b> hand over a transcript plus a structured state summary — not just a transcript — and stay out of the thread until she hands it back.</p>
+      </div>
+      <div class="pass-stub">
+        <div class="row"><span class="lbl">Console</span><span class="val">Unified inbox</span></div>
+        <div class="row"><span class="lbl">Target</span><span class="val">&lt;25%</span></div>
+        <div class="row"><span class="lbl">Sees</span><span class="val">Full state</span></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================== JOURNEYS ============================== -->
+<section id="journeys">
+  <div class="sec-head">
+    <span class="code">A3</span>
+    <h2>The booking journey, end to end</h2>
+    <span class="status">UC-01, UC-02 · FR-2.3, FR-3.2</span>
+  </div>
+
+  <p class="sec-intro">
+    Seven steps between "is there a flight" and a PDF in the thread. The time under each step is the
+    budget it gets; the full path has to land inside four minutes or people go back to calling an agent.
+  </p>
+
+  <div class="strip-scroll">
+    <div class="strip">
+      <div class="leg">
+        <span class="t">Step 1</span>
+        <h4>Intent + slots</h4>
+        <p>Origin, destination, date, passengers — extracted from one message where possible, asked for one at a time where not.</p>
+        <span class="budget">&lt;1.5s</span>
+      </div>
+      <div class="leg">
+        <span class="t">Step 2</span>
+        <h4>Live search</h4>
+        <p>Aggregator query for the date, plus the day either side. Cached for 90 seconds per route-date.</p>
+        <span class="budget">&lt;4.0s</span>
+      </div>
+      <div class="leg">
+        <span class="t">Step 3</span>
+        <h4>Fare choice</h4>
+        <p>Up to four options with fare family, time, and total price including taxes. Selection by tap, not by typing.</p>
+        <span class="budget">User-paced</span>
+      </div>
+      <div class="leg">
+        <span class="t">Step 4</span>
+        <h4>Passenger details</h4>
+        <p>Name as on ID, date of birth, NID or passport, contact. Validated as typed, not at submit.</p>
+        <span class="budget">User-paced</span>
+      </div>
+      <div class="leg warn">
+        <span class="t">Step 5</span>
+        <h4>Hold PNR</h4>
+        <p>Booking call returns a held PNR with a fare-lock deadline. The countdown becomes visible to the customer.</p>
+        <span class="budget">TTL starts</span>
+      </div>
+      <div class="leg warn">
+        <span class="t">Step 6</span>
+        <h4>Hosted checkout</h4>
+        <p>A single-use payment link. PIN and card details are entered on the gateway, never in the chat.</p>
+        <span class="budget">&lt;TTL</span>
+      </div>
+      <div class="leg">
+        <span class="t">Step 7</span>
+        <h4>Ticket + delivery</h4>
+        <p>Settlement webhook triggers ticketing, PDF is generated and pushed into the thread and to email.</p>
+        <span class="budget">&lt;30s</span>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="blk" style="margin-top:32px">A real thread, annotated</h3>
+  <p class="sec-intro">Left is what Tanvir sees. Right is what the platform is doing at that moment.</p>
+
+  <div class="thread-grid">
+    <div class="thread-col chat">
+      <div class="colhead">WhatsApp · Takeoff Travels business account · Illustrative</div>
+
+      <div class="bub user">Dhaka theke Cox's Bazar kal shokale flight ache?
+        <span class="tr">"Is there a flight from Dhaka to Cox's Bazar tomorrow morning?"</span>
+      </div>
+
+      <div class="bub bot">জি আছে। ২৩ আগস্ট সকালে ঢাকা → কক্সবাজার ৩টি ফ্লাইট খালি আছে। কতজন যাত্রী?
+        <span class="tr">"Yes. Three morning flights available Dhaka → Cox's Bazar on 23 Aug. How many passengers?"</span>
+      </div>
+
+      <div class="bub user">২ জন</div>
+
+      <div class="bub bot">
+        <b>07:10 → 08:20</b> · Economy Saver · BDT 5,800 /person<br>
+        <b>09:45 → 10:55</b> · Economy Saver · BDT 6,300 /person<br>
+        <b>11:30 → 12:40</b> · Economy Flexible · BDT 8,100 /person
+        <span class="tr">Prices illustrative. Tap to select.</span>
+      </div>
+
+      <div class="bub user">First ta nibo</div>
+
+      <div class="bub bot">ঠিক আছে। যাত্রী ১-এর নাম NID অনুযায়ী লিখুন।
+        <span class="tr">"Fine. Please type passenger 1's name exactly as on the NID."</span>
+      </div>
+
+      <div class="bub bot">সিট ধরে রাখা হয়েছে — <b>১২ মিনিট</b>-এর মধ্যে পেমেন্ট করুন। মোট BDT 11,600।
+        <span class="tr">"Seats held — please pay within 12 minutes. Total BDT 11,600."</span>
+        <span class="attach">🔒 secure checkout · bKash · Nagad · Card</span>
+      </div>
+
+      <div class="bub bot">পেমেন্ট সফল। টিকিট পাঠিয়ে দিলাম।
+        <span class="tr">"Payment successful. Ticket sent."</span>
+        <span class="attach">📄 TakeoffTravels-eTicket-XKD4RP.pdf</span>
+      </div>
+    </div>
+
+    <div class="thread-col">
+      <div class="colhead">Platform trace</div>
+
+      <div class="ann">
+        <span class="k">Language + intent</span>
+        <span class="v">Banglish detected via transliteration model. Intent <code>flight.search</code> at 0.94 confidence. Slots filled: <code>origin=DAC</code>, <code>dest=CXB</code>, <code>date=relative:tomorrow→2026-08-23</code>. Missing: <code>pax</code>.</span>
+      </div>
+      <div class="ann">
+        <span class="k">Reply language</span>
+        <span class="v">Banglish input maps to <b>Bangla script output</b> — the readable default. Locale pinned to the session, overridable by the next user turn.</span>
+      </div>
+      <div class="ann">
+        <span class="k">Search</span>
+        <span class="v"><code>POST /api/v1/flight/search</code> to the aggregator. Bangla numeral <code>২</code> normalised to <code>2</code> before the call.</span>
+      </div>
+      <div class="ann">
+        <span class="k">Rendering</span>
+        <span class="v">Results capped at four and sorted by departure. Fare family and all-in price shown; WhatsApp interactive list rows used where the template allows, plain text as fallback.</span>
+      </div>
+      <div class="ann">
+        <span class="k">Selection</span>
+        <span class="v">"First ta nibo" resolved against the offer set in session state — ordinal reference, not a fresh search. Offer ID pinned; a re-price runs before the hold.</span>
+      </div>
+      <div class="ann">
+        <span class="k">PII capture</span>
+        <span class="v">Name and NID written to the booking record encrypted at rest, and <b>redacted from the chat transcript</b> before it reaches logs or the agent console.</span>
+      </div>
+      <div class="ann">
+        <span class="k">Hold</span>
+        <span class="v"><code>POST /api/v1/flight/book</code> returns a held PNR with a fare-lock deadline. Countdown surfaced to the customer; a timer job releases and notifies on expiry.</span>
+      </div>
+      <div class="ann">
+        <span class="k">Payment</span>
+        <span class="v">Hosted gateway session, single-use, amount-locked, tied to the PNR. Nothing sensitive traverses WhatsApp. Settlement arrives by webhook; a poll reconciles if the webhook is late.</span>
+      </div>
+      <div class="ann">
+        <span class="k">Ticketing</span>
+        <span class="v"><code>POST /api/v1/flight/ticketing</code> with an idempotency key derived from the payment reference. PDF stored, delivered as a WhatsApp document and by email.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== CHANNELS ============================== -->
+<section id="channels">
+  <div class="sec-head">
+    <span class="code">A4</span>
+    <h2>Channels, and what each one will not let you do</h2>
+    <span class="status">PRD §3</span>
+  </div>
+
+  <p class="sec-intro">
+    Omnichannel is easy to promise and hard to ship, because each platform enforces its own messaging
+    rules. These constraints shape the product, so they belong in the spec rather than in a surprise during integration.
+  </p>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr><th>Channel</th><th>Its job</th><th>Platform constraint</th><th>How we work with it</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>Takeoff Travels site</b><br><span class="pill ok">Full control</span></td>
+          <td>Discovery and long-form search. Highest tolerance for rich UI.</td>
+          <td>None imposed. Session ends when the tab closes.</td>
+          <td>Native rich cards, date pickers, inline forms. Offer to continue on WhatsApp with a deep link carrying a signed session token.</td>
+        </tr>
+        <tr>
+          <td><b>WhatsApp Business</b><br><span class="pill ok">Primary</span></td>
+          <td>Booking, payment, ticket delivery, recovery nudges.</td>
+          <td><b>24-hour customer service window.</b> Outside it, only pre-approved template messages, and marketing templates require opt-in.</td>
+          <td>Abandoned-cart and disruption messages go out as approved utility templates. Opt-in is captured explicitly at first contact and stored with a timestamp. <b>One template exists purely to re-open the window</b> — a customer messaging at hour 25 about their own booking must get a real reply, not silence that reads as being ignored.</td>
+        </tr>
+        <tr>
+          <td><b>Messenger / Instagram</b><br><span class="pill ext">Service</span></td>
+          <td>Social inbound, FAQs, post-booking questions.</td>
+          <td>24-hour standard messaging window with limited tags outside it. Instagram threads are lower-intent and higher-volume.</td>
+          <td>Service-first: answer, resolve, and only offer booking when intent is clear. Overflow to human queue is normal here.</td>
+        </tr>
+        <tr>
+          <td><b>Agent console</b><br><span class="pill ext">Internal</span></td>
+          <td>Everything the bot hands over.</td>
+          <td>Transcript alone is not enough context to act on.</td>
+          <td>Structured state payload alongside the transcript: PNR, hold deadline, payment status, last three intents, confidence trail.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="blk" style="margin-top:30px">Carrying context between channels</h3>
+  <div class="grid g3" style="margin-top:12px">
+    <div class="card">
+      <h4>One identity, many handles</h4>
+      <p>An identity graph keyed on verified phone number, with Messenger PSID, Instagram IGSID, and web session ID hanging off it. The phone number is the spine because payment and ticketing both need it anyway.</p>
+    </div>
+    <div class="card">
+      <h4>Session state lives outside the channel</h4>
+      <p>Conversation state is a server-side record — search parameters, offer set, passenger drafts, booking state — referenced by session ID. The channel is only a transport, so a thread can move without losing the booking.</p>
+    </div>
+    <div class="card">
+      <h4>Continuity is a deliberate act</h4>
+      <p>Handover from web to WhatsApp happens through a signed, short-lived, single-use token in the deep link. No silent cross-channel merge on a guessed match — a wrong merge exposes one traveller's booking to another.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== PART B ============================== -->
+<div class="part-rule">
+  <span class="pl" aria-hidden="true">B</span>
+  <div class="pb">
+    <span class="pw">Part B</span>
+    <h2>How it is built</h2>
+    <p class="pd">Architecture, the money path and its failure modes, the language layer, and the
+      integrations. Read this part if you are building it or reviewing what was built.</p>
+  </div>
+</div>
+
+<!-- ============================== ARCHITECTURE ============================== -->
+<section id="architecture">
+  <div class="sec-head">
+    <span class="code">B1</span>
+    <h2>System architecture</h2>
+    <span class="status">Derived · PRD §3, §4</span>
+  </div>
+
+  <p class="sec-intro">
+    Six layers. The rule that shapes it: the conversation layer decides <em>what</em> to do, and the
+    domain services decide <em>whether it is allowed</em> — the model never calls a booking or payment
+    API directly, only a tool that validates first.
+  </p>
+
+  <div class="legend" style="margin-bottom:22px">
+    <span class="li"><span class="sw" style="background:var(--green)"></span>Our services</span>
+    <span class="li"><span class="sw" style="background:var(--violet)"></span>AI layer</span>
+    <span class="li"><span class="sw" style="background:var(--steel)"></span>Third-party systems</span>
+    <span class="li"><span class="sw" style="background:var(--amber)"></span>Stateful stores</span>
+  </div>
+
+  <div class="layer">
+    <span class="lname">Edge · customer touchpoints</span>
+    <div class="boxes">
+      <div class="box steel"><span class="bt">Web widget</span><span class="bs">Embedded JS, own domain</span></div>
+      <div class="box steel"><span class="bt">WhatsApp Cloud API</span><span class="bs">Webhooks in, messages out</span></div>
+      <div class="box steel"><span class="bt">Messenger / IG</span><span class="bs">Meta webhooks</span></div>
+      <div class="box steel"><span class="bt">Unified agent inbox</span><span class="bs">Native reference UI; optional console adapter</span></div>
+    </div>
+  </div>
+  <div class="flowdown">↓</div>
+
+  <div class="layer">
+    <span class="lname">Channel gateway</span>
+    <div class="boxes">
+      <div class="box green"><span class="bt">Webhook receiver</span><span class="bs">Signature verify, dedupe, ack fast</span></div>
+      <div class="box green"><span class="bt">Normaliser</span><span class="bs">Any payload → one message envelope</span></div>
+      <div class="box green"><span class="bt">Renderer</span><span class="bs">One reply → per-channel format</span></div>
+      <div class="box green"><span class="bt">Rate + template guard</span><span class="bs">24h windows, approved templates</span></div>
+      <div class="box green"><span class="bt">Conversation ingress</span><span class="bs">Tenant, identity, ordering, delivery state</span></div>
+    </div>
+  </div>
+  <div class="flowdown">↓</div>
+
+  <div class="layer">
+    <span class="lname">Conversation core</span>
+    <div class="boxes">
+      <div class="box violet"><span class="bt">Language ID</span><span class="bs">BN · EN · Banglish</span></div>
+      <div class="box violet"><span class="bt">Intent + slots</span><span class="bs">Classifier, confidence-scored</span></div>
+      <div class="box violet"><span class="bt">Dialogue policy</span><span class="bs">Deterministic for money paths</span></div>
+      <div class="box violet"><span class="bt">Grounded answers</span><span class="bs">Retrieval over approved policy</span></div>
+      <div class="box violet"><span class="bt">Tool router</span><span class="bs">Validated calls only</span></div>
+      <div class="box violet"><span class="bt">Risk + confidence gate</span><span class="bs">Reply · clarify · escalate · stop</span></div>
+    </div>
+  </div>
+  <div class="flowdown">↓</div>
+
+  <div class="layer">
+    <span class="lname">Domain services</span>
+    <div class="boxes">
+      <div class="box green"><span class="bt">Search</span><span class="bs">Query, cache, normalise fares</span></div>
+      <div class="box green"><span class="bt">Booking orchestrator</span><span class="bs">Owns the saga and its timers</span></div>
+      <div class="box green"><span class="bt">Payments</span><span class="bs">Sessions, webhooks, reconciliation</span></div>
+      <div class="box green"><span class="bt">Ticketing</span><span class="bs">Idempotent issue, PDF, delivery</span></div>
+      <div class="box green"><span class="bt">PNR + disruption</span><span class="bs">Status, baggage, schedule change</span></div>
+      <div class="box green"><span class="bt">Inbox + handoff</span><span class="bs">Lifecycle, ownership, context, return</span></div>
+      <div class="box green"><span class="bt">Routing</span><span class="bs">Priority, skills, load, weighted RR</span></div>
+      <div class="box green"><span class="bt">SLA + notification</span><span class="bs">Clocks, breach risk, customer/staff alerts</span></div>
+    </div>
+  </div>
+  <div class="flowdown">↓</div>
+
+  <div class="layer">
+    <span class="lname">Integrations</span>
+    <div class="boxes">
+      <div class="box steel"><span class="bt">US-Bangla inventory</span><span class="bs">Aggregator or direct B2B API</span></div>
+      <div class="box steel"><span class="bt">bKash / Nagad</span><span class="bs">Direct merchant or via gateway</span></div>
+      <div class="box steel"><span class="bt">SSLCOMMERZ</span><span class="bs">Cards and wallet aggregation</span></div>
+      <div class="box steel"><span class="bt">Email / SMS</span><span class="bs">Ticket delivery fallback</span></div>
+    </div>
+  </div>
+  <div class="flowdown">↓</div>
+
+  <div class="layer">
+    <span class="lname">Data</span>
+    <div class="boxes">
+      <div class="box amber"><span class="bt">Postgres</span><span class="bs">Bookings, identities, audit log</span></div>
+      <div class="box amber"><span class="bt">Redis</span><span class="bs">Session state, search cache, locks</span></div>
+      <div class="box amber"><span class="bt">Object store</span><span class="bs">Ticket PDFs, signed URLs only</span></div>
+      <div class="box amber"><span class="bt">Vector index</span><span class="bs">Policy and FAQ retrieval</span></div>
+      <div class="box amber"><span class="bt">Event stream</span><span class="bs">Saga events, analytics, replay</span></div>
+      <div class="box amber"><span class="bt">Analytics store</span><span class="bs">KPI facts, QA, cost, cohort reporting</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== BOOKING ============================== -->
+<section id="booking">
+  <div class="sec-head">
+    <span class="code">B2</span>
+    <h2>Booking flow — the failure paths are the design</h2>
+    <span class="status">FR-2.1, FR-3.1, FR-3.2</span>
+  </div>
+
+  <p class="sec-intro">
+    A booking crosses three systems that can each fail independently: the airline's inventory, a
+    payment rail, and the ticketing call. The happy path is four API calls. What follows is the
+    happy path with every branch that actually happens in production attached to it.
+  </p>
+
+  <div class="rail">
+
+    <div class="node">
+      <div class="st">SEARCHING</div>
+      <p class="desc">Slots complete, aggregator queried, offers cached against the session with a 90-second freshness window.</p>
+      <div class="branch">
+        <span class="bh">No availability</span>
+        <p>Offer the adjacent days automatically before asking anything. A dead end here is a lost sale that a single extra query could have saved.</p>
+      </div>
+    </div>
+
+    <div class="node">
+      <div class="st">OFFER_SELECTED</div>
+      <p class="desc">Customer picks an offer. The offer ID, fare family, and quoted total are pinned to the session.</p>
+      <div class="branch hold">
+        <span class="bh">Price moved before the hold</span>
+        <p>Airline fares change under you. <b>Re-price before creating the hold</b>, and if the total differs, show the new number and require explicit re-confirmation. Never book a price the customer did not see.</p>
+      </div>
+    </div>
+
+    <div class="node">
+      <div class="st">PAX_CAPTURED</div>
+      <p class="desc">Names, dates of birth, and ID numbers collected and validated. Name must match the travel document — this is the most common cause of a ticket a passenger cannot fly on.</p>
+      <div class="branch">
+        <span class="bh">Bangla name, Latin ticket</span>
+        <p>Tickets carry Latin characters. If the customer types a Bangla-script name, the bot must transliterate, <b>show the Latin form back, and get it confirmed</b> against the document. Unconfirmed transliteration does not proceed.</p>
+      </div>
+      <div class="branch hold">
+        <span class="bh">Passenger type is not optional</span>
+        <p>Every passenger carries a type — <b>adult, child, or infant on lap</b> — and each is priced, ticketed, and allowanced differently. Infant-on-lap is common on domestic routes and does not occupy a seat. Date of birth is already captured, so type is derived and then <b>confirmed with the customer</b> rather than silently assumed: an infant who turns two before the return leg is a different fare, and finding that out at the airport is a refund.</p>
+      </div>
+    </div>
+
+    <div class="node">
+      <div class="st">HOLD_CREATED <span class="pill hold">TTL running</span></div>
+      <p class="desc"><code class="i">/flight/book</code> returns a held PNR with a fare-lock deadline. A timer job is scheduled at the deadline, and the countdown is shown to the customer in their own language.</p>
+      <div class="branch hold">
+        <span class="bh">Hold expires unpaid</span>
+        <p>Release the hold, tell the customer plainly, and keep the search context alive so re-booking is one tap. Inside the 24-hour window this is a normal message; outside it, an approved template.</p>
+      </div>
+    </div>
+
+    <div class="node">
+      <div class="st">AWAITING_PAYMENT</div>
+      <p class="desc">A single-use hosted checkout session, amount-locked and bound to the PNR. The chat holds no card number, no bKash PIN, no OTP.</p>
+      <div class="branch">
+        <span class="bh">Customer pays after the hold expired</span>
+        <p>The rail can settle a payment on a session the airline has already released. Treat this as <b>money held without inventory</b>: attempt an immediate rebook at the same fare, and if that fails, auto-refund and notify. It must never sit silently.</p>
+      </div>
+    </div>
+
+    <div class="node">
+      <div class="st">PAID</div>
+      <p class="desc">Settlement confirmed by webhook, or by the reconciliation poller if the webhook never lands. Webhooks are treated as a fast path, never as the source of truth.</p>
+      <div class="branch">
+        <span class="bh">Webhook lost or duplicated</span>
+        <p>Every payment event is deduplicated on the gateway reference. A poller sweeps sessions stuck in <code>AWAITING_PAYMENT</code> past their TTL and asks the gateway directly.</p>
+      </div>
+      <div class="branch hold">
+        <span class="bh">One booking, two debits on the customer's phone</span>
+        <p>Idempotency protects the ledger, not the customer's perception. Someone who taps pay twice, or retries after the app hangs, may see two bKash notifications even though only one charge stands. <b>Detect the second authorisation and say so unprompted</b> — name the amount, say which one was reversed and when it returns. Left unexplained this arrives at the desk as "you charged me twice", which is the most expensive kind of contact to receive.</p>
+      </div>
+    </div>
+
+    <div class="node">
+      <div class="st">TICKETING</div>
+      <p class="desc"><code class="i">/flight/ticketing</code> called with an idempotency key derived from the payment reference, so a retry can never double-issue.</p>
+      <div class="branch">
+        <span class="bh">Paid, but ticketing fails — the worst case</span>
+        <p>Retry with backoff for a bounded window. If it still fails: raise the highest-severity agent task, message the customer proactively before they have to ask, and start the refund clock. <b>The PRD does not say who owns this or what the refund SLA is — that decision is required before launch.</b></p>
+      </div>
+    </div>
+
+    <div class="node term">
+      <div class="st">TICKETED → DELIVERED <span class="pill ok">Terminal</span></div>
+      <p class="desc">PDF generated, stored, and pushed into the thread plus email. Delivery is confirmed separately from issuance: a ticket that exists but never arrived is still a support call.</p>
+    </div>
+
+  </div>
+
+  <div class="callout" style="margin-top:26px">
+    <span class="ch">Invariant</span>
+    <p>
+      At any moment, every session is in exactly one state, that state is persisted before the
+      external call that would change it, and every state that can hold money has a timer attached.
+      No booking state may be inferred from the chat transcript.
+    </p>
+  </div>
+
+  <div class="callout" style="margin-top:16px;border-color:var(--red-line);background:var(--red-bg)">
+    <span class="ch" style="color:var(--red)">Kill switch — a requirement, not an operational nicety</span>
+    <p>
+      Everything above describes one booking failing. Something also has to describe the aggregator
+      being down for an hour. <b>Automated booking must be disableable independently of the rest of
+      the assistant</b>, by channel and by route, from a runtime flag that needs no deploy. With it
+      thrown, the bot keeps answering questions and checking PNRs, stops taking money, and says so
+      plainly. Sessions already holding a PNR run to completion or refund — the switch stops new
+      entries into the money path, it does not abandon customers mid-payment.
+    </p>
+  </div>
+</section>
+
+<!-- ============================== LANGUAGE ============================== -->
+<section id="language">
+  <div class="sec-head">
+    <span class="code">B3</span>
+    <h2>Bangla, English, and the Banglish in between</h2>
+    <span class="status">FR-1.1, FR-1.2</span>
+  </div>
+
+  <p class="sec-intro">
+    Most Bangladeshi customers do not type in one language. They type Bangla words in Latin letters,
+    switch to English for numbers and proper nouns, and expect to be understood anyway. Handling that
+    is the difference between a bot people use and a bot people abandon.
+  </p>
+
+  <div class="grid g3">
+    <div class="card">
+      <h4>Detect, don't ask</h4>
+      <p>Script detection runs first: Bengali Unicode, Latin, or mixed. Latin text is scored for Banglish before it is treated as English — "kal" is a date, not a typo.</p>
+    </div>
+    <div class="card">
+      <h4>Reply in the readable form</h4>
+      <p>Banglish input gets Bangla-script output, which is easier to read than romanised Bangla. Locale is pinned per session and any user turn can flip it, mid-booking included.</p>
+    </div>
+    <div class="card">
+      <h4>Normalise before the API</h4>
+      <p>Bangla numerals, Bengali month names, relative dates, and colloquial city names are all resolved to <code class="i">DAC</code>, <code class="i">CXB</code>, and ISO dates before any external call.</p>
+    </div>
+  </div>
+
+  <h3 class="blk" style="margin-top:30px">What the parser has to survive</h3>
+  <div class="tbl-wrap" style="margin-top:12px">
+    <table>
+      <thead>
+        <tr><th>What the customer types</th><th>Form</th><th>Intent</th><th>Slots after normalisation</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Dhaka theke Coxs Bazar kal shokale flight ache?</td>
+          <td>Banglish</td>
+          <td><code>flight.search</code></td>
+          <td><code>DAC</code> → <code>CXB</code>, <code>2026-08-23</code>, window <code>AM</code></td>
+        </tr>
+        <tr>
+          <td class="bn">৩ তারিখে ২ জন, সিলেট যাব</td>
+          <td>Bangla + Bangla numerals</td>
+          <td><code>flight.search</code></td>
+          <td><code>dest=ZYL</code>, <code>date=03</code> of current month, <code>pax=2</code></td>
+        </tr>
+        <tr>
+          <td>baggage koto kg allowed on saver fare?</td>
+          <td>Banglish + English</td>
+          <td><code>policy.baggage</code></td>
+          <td><code>fare_family=Economy Saver</code> — answered from policy, cited</td>
+        </tr>
+        <tr>
+          <td>sob theke shosta ta dekhan</td>
+          <td>Banglish</td>
+          <td><code>flight.filter</code></td>
+          <td><code>sort=price_asc</code> against the offer set already in session — no new search</td>
+        </tr>
+        <tr>
+          <td class="bn">তারিখ বদলানো যায় এমন টিকিট আছে?</td>
+          <td>Bangla</td>
+          <td><code>flight.filter</code></td>
+          <td><code>fare_family=Economy Flexible</code> — FR-2.2 class filtering, expressed as a need rather than a fare name</td>
+        </tr>
+        <tr>
+          <td>My PNR XKD4RP, flight on time?</td>
+          <td>English</td>
+          <td><code>pnr.status</code></td>
+          <td><code>pnr=XKD4RP</code> → live schedule lookup</td>
+        </tr>
+        <tr>
+          <td class="bn">টিকিটের তারিখ পরিবর্তন করতে চাই</td>
+          <td>Bangla</td>
+          <td><code>booking.change</code></td>
+          <td>Quote fee from policy, then <span class="pill hold">route to agent</span> in v1</td>
+        </tr>
+        <tr>
+          <td>refund er taka kobe pabo?</td>
+          <td>Banglish</td>
+          <td><code>refund.status</code></td>
+          <td>Self-service even though refunds are agent-executed — otherwise every pending refund generates four handovers</td>
+        </tr>
+        <tr>
+          <td>amar naam bhul ache ticket e</td>
+          <td>Banglish</td>
+          <td><code>booking.name_correction</code></td>
+          <td>The highest-volume airline contact there is. Quote the correction rule and fee, then <span class="pill hold">route to agent</span></td>
+        </tr>
+        <tr>
+          <td class="bn">ফ্লাইট বাতিল হয়েছে, এখন কী করব?</td>
+          <td>Bangla</td>
+          <td><code>disruption.status</code></td>
+          <td>Answers from the disruption record without queueing — see the surge path in <a href="#handoff">B5</a></td>
+        </tr>
+        <tr>
+          <td class="bn">কথা বলতে চাই</td>
+          <td>Bangla</td>
+          <td><code>handoff.request</code></td>
+          <td>Immediate handover, no confirmation step</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout" style="margin-top:22px">
+    <span class="ch">Where the model is allowed to improvise</span>
+    <p>
+      Free-form generation is used for support answers and for phrasing, both grounded in retrieved
+      policy. Everything that touches inventory, money, or passenger identity runs through a
+      deterministic dialogue policy with explicit confirmation steps. A model that invents a baggage
+      allowance is embarrassing; a model that invents a fare is a refund.
+    </p>
+  </div>
+</section>
+
+<!-- ============================== PAYMENTS ============================== -->
+<section id="payments">
+  <div class="sec-head">
+    <span class="code">B4</span>
+    <h2>Payments and the compliance boundary</h2>
+    <span class="status">FR-3.1 · NFR-5.3</span>
+  </div>
+
+  <p class="sec-intro">
+    The PRD's rule is the right one and worth restating as an architectural boundary: no card number,
+    no bKash PIN, no OTP ever enters the chat transport, the application logs, or the transcript store.
+  </p>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr><th>Rail</th><th>Flow</th><th>Confirmation</th><th>Refund behaviour</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>bKash</b></td>
+          <td>Hosted checkout; customer authorises in the bKash flow with their own PIN.</td>
+          <td>Webhook, with a status poll as the fallback path.</td>
+          <td>Full and partial refunds via the merchant API. Settlement timing must be confirmed with the merchant agreement.</td>
+        </tr>
+        <tr>
+          <td><b>Nagad</b></td>
+          <td>Hosted checkout, same pattern.</td>
+          <td>Webhook plus poll.</td>
+          <td>Refund path and timing to be confirmed — treat as unverified until tested in the sandbox.</td>
+        </tr>
+        <tr>
+          <td><b>Cards / wallets via SSLCOMMERZ</b></td>
+          <td>Gateway-hosted page carries 3-D Secure. We hold a token, never a PAN.</td>
+          <td>IPN callback, verified by signature.</td>
+          <td>Standard gateway refund API; reversal lands on the original instrument.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="grid g3" style="margin-top:20px">
+    <div class="card">
+      <h4>The chat is not in PCI scope</h4>
+      <p>Because payment happens entirely inside a hosted page, the chat platform stays out of cardholder-data scope. That boundary only holds if no fallback flow ever asks for a card number in-thread — including agent-assisted ones.</p>
+    </div>
+    <div class="card">
+      <h4>Idempotency everywhere money moves</h4>
+      <p>Checkout creation, ticketing, and refunds all carry idempotency keys. A retry, a duplicate webhook, and an impatient customer tapping twice all resolve to one charge and one ticket.</p>
+    </div>
+    <div class="card">
+      <h4>Reconciliation is a scheduled job</h4>
+      <p>A sweep compares gateway settlements against issued tickets on a fixed cadence. Anything unmatched becomes an operational task with an owner, not a dashboard number nobody reads.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== HANDOFF ============================== -->
+<section id="handoff">
+  <div class="sec-head">
+    <span class="code">B5</span>
+    <h2>Handing over to a human</h2>
+    <span class="status">FR-4.1, FR-4.2</span>
+  </div>
+
+  <p class="sec-intro">
+    Handover is a feature, not a failure — but only if it is fast and carries context. The target is
+    under 25% of eligible, in-scope volume after the observation window. The way to hit it is to
+    improve approved automation, not to let the bot flounder through three more turns. Formal queue,
+    priority and assignment rules are defined in <a href="#routing">E3</a>.
+  </p>
+
+  <div class="grid g2">
+    <div class="card">
+      <h4>Triggers</h4>
+      <ul>
+        <li>Risk-aware AI policy in <a href="#aiagent">E2</a>: direct handoff below <b>0.45</b>; one focused clarification at 0.45–0.699; hard-risk triggers override every band</li>
+        <li>Explicit ask: "agent", "human", <span class="bn">"কথা বলতে চাই"</span> — no confirmation prompt, hand over immediately</li>
+        <li>Same slot failing three times in a row</li>
+        <li>Any refund, cancellation, or involuntary schedule change</li>
+        <li>Multi-city, group above 9, or corporate fare intent</li>
+        <li><b>Any session where money moved but no ticket issued</b> — automatic, highest priority</li>
+        <li>Detected frustration or a repeated complaint in either language</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>What travels with the customer</h4>
+      <ul>
+        <li>Full transcript, with PII redacted to the level the agent's role permits</li>
+        <li>Structured state: session ID, booking state, PNR, hold deadline, payment reference and status</li>
+        <li>Last three intents with confidence scores, so the agent sees where it went wrong</li>
+        <li>The offer set the customer was shown, with the prices they were quoted</li>
+        <li>Language preference, so the agent opens in the right one</li>
+        <li>A one-line machine summary of what the customer is trying to do</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="grid g2" style="margin-top:20px">
+    <div class="callout" style="border-color:var(--amber-line);background:var(--amber-bg)">
+      <span class="ch" style="color:var(--amber)">Handover during a payment countdown</span>
+      <p>
+        A customer can ask for a human at any moment, including while a fare hold is ticking down in
+        <a href="#booking">B2</a>. Queueing them without addressing the timer means they lose the fare
+        while waiting for help, then come back angrier. The rule: <b>a handover raised while a hold is
+        live jumps the queue</b>, the remaining time is shown to the agent as a live countdown in the
+        console, and if the hold lapses before pickup the customer is told immediately and offered a
+        one-tap rebook at the re-priced fare rather than being left to discover it.
+      </p>
+    </div>
+    <div class="callout" style="border-color:var(--green-line);background:var(--green-bg)">
+      <span class="ch" style="color:var(--green)">When the targets conflict, service wins</span>
+      <p>
+        This section says hand over decisively; <a href="#targets">C1</a> says keep handover under 25%.
+        Under load those pull against each other, so the priority is stated rather than left to whoever
+        is on shift: <b>never suppress a warranted handover to protect the rate.</b> The way to hit 25%
+        is narrower scope and better answers, not a bot that argues with people. A breached handover
+        target is a planning problem; a customer trapped with a bot that cannot help them is a refund
+        and a review.
+      </p>
+    </div>
+  </div>
+
+  <h3 class="blk" style="margin-top:32px">What Shirin actually opens</h3>
+  <p class="sec-intro">
+    The worst case from <a href="#booking">B2</a>, as it arrives in the agent console. A transcript
+    alone would not tell her that money has moved.
+  </p>
+
+  <div class="console">
+    <div class="console-bar">
+      <span>Unified Inbox · Handover · sesn_4K2P</span>
+      <span class="urgent">● Paid, not ticketed</span>
+      <span style="margin-left:auto">Illustrative</span>
+    </div>
+    <div class="console-body">
+      <div class="cfield"><span class="cl">Customer</span><span class="cv m">+880 1X•••• 42</span><span class="cn">WhatsApp · returning</span></div>
+      <div class="cfield"><span class="cl">Language</span><span class="cv">Bangla</span><span class="cn">Types Banglish, reads Bangla script</span></div>
+      <div class="cfield"><span class="cl">Booking state</span><span class="cv" style="color:var(--red)">TICKETING_FAILED</span><span class="cn">3 attempts, backoff exhausted</span></div>
+      <div class="cfield"><span class="cl">PNR</span><span class="cv m">XKD4RP</span><span class="cn">Hold expired 14:31</span></div>
+      <div class="cfield"><span class="cl">Payment</span><span class="cv m">BDT 11,600</span><span class="cn">bKash · settled 14:22 · ref BK7729X</span></div>
+      <div class="cfield"><span class="cl">Route</span><span class="cv m">DAC → CXB</span><span class="cn">23 Aug · 07:10 · Economy Saver</span></div>
+      <div class="cfield"><span class="cl">Passengers</span><span class="cv">2 adults</span><span class="cn">Names and NIDs held in the booking record, not shown here</span></div>
+      <div class="cfield"><span class="cl">Last intents</span><span class="cv m">0.94 / 0.88 / 1.00</span><span class="cn">flight.book · payment.status · handoff.request</span></div>
+    </div>
+    <div class="console-foot">
+      <b>Summary —</b> Customer paid BDT 11,600 by bKash at 14:22. Ticketing failed three times against
+      the aggregator and the fare hold lapsed at 14:31. <b>Money captured, no ticket issued.</b> The
+      customer was notified proactively at 14:33 and is waiting. Refund clock started 14:31.
+      Same-fare rebook attempted and unavailable.
+    </div>
+  </div>
+
+  <div class="callout" style="margin-top:20px">
+    <span class="ch">Coming back</span>
+    <p>
+      Once an agent takes a thread, the bot stays silent on it until the agent explicitly releases it —
+      no auto-replies, no nudges, no "are you still there". On release, the bot resumes with the state
+      the agent left behind, including any booking they completed manually.
+    </p>
+  </div>
+
+  <h3 class="blk" style="margin-top:32px">Disruption is a surge, not a queue</h3>
+  <p class="sec-intro">
+    Every trigger above assumes handovers arrive one at a time. One cancelled Cox's Bazar rotation in
+    fog season does not — it sends every affected passenger into the console within minutes, all
+    asking the same question. The ordinary queue does not degrade under that, it collapses.
+  </p>
+
+  <div class="grid g3">
+    <div class="card">
+      <h4>Detect before they ask</h4>
+      <p>A schedule-change or cancellation on any route with live PNRs opens a <b>disruption record</b> and notifies every affected passenger proactively, in their own language, before they message us. The first contact should be ours.</p>
+    </div>
+    <div class="card">
+      <h4>Answer from the record, not the queue</h4>
+      <p>While a disruption is open, <code class="i">disruption.status</code> answers from it directly — what happened, what the airline is offering, what happens next, when we will know more. Most passengers need information, not an agent. Only those who need a decision made are queued.</p>
+    </div>
+    <div class="card">
+      <h4>Queue by consequence</h4>
+      <p>Those queued are ordered by how soon they travel and whether they are already at the airport, not by who messaged first. A passenger standing at the counter outranks one flying next week.</p>
+    </div>
+  </div>
+
+  <div class="callout" style="margin-top:20px">
+    <span class="ch">This is a staffing requirement as much as a software one</span>
+    <p>
+      No routing design survives a disruption without people to route to. The team in
+      <a href="#delivery">C3</a> builds the console; it does not staff it. Agreeing normal-day agent
+      cover and a surge roster for fog and monsoon season is a prerequisite for the &lt;25% handover
+      target meaning anything — and the two seasons are predictable, so the roster can be planned
+      rather than improvised.
+    </p>
+  </div>
+</section>
+
+<!-- ============================== APIS ============================== -->
+<section id="apis">
+  <div class="sec-head">
+    <span class="code">B6</span>
+    <h2>API and data mapping</h2>
+    <span class="status">PRD §6, extended</span>
+  </div>
+
+  <p class="sec-intro">
+    The PRD's mapping table, extended with the operational columns integration work actually needs:
+    what happens on timeout, and what the customer sees when it fails.
+  </p>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr><th>Endpoint</th><th>Called when</th><th>Key fields</th><th>Timeout / retry</th><th>On failure</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>POST /api/v1/flight/search</code></td>
+          <td>Slots complete, and again on adjacent-day fallback</td>
+          <td><code>origin</code>, <code>dest</code>, <code>date</code>, <code>pax</code>, <code>cabin</code></td>
+          <td class="num">4.0s · 1 retry · safe to repeat</td>
+          <td>Offer a narrower search or a callback; never show a spinner past the budget</td>
+        </tr>
+        <tr>
+          <td><code>POST /api/v1/flight/book</code></td>
+          <td>Offer confirmed and re-priced</td>
+          <td>Offer ID, passenger list, contact, Sky Star ID</td>
+          <td class="num">10s · no blind retry · idempotency key</td>
+          <td>Query by reference before retrying — a timeout may still have created a PNR</td>
+        </tr>
+        <tr>
+          <td><code>POST /api/v1/flight/ticketing</code></td>
+          <td>Payment settlement confirmed</td>
+          <td>PNR, payment reference, idempotency key</td>
+          <td class="num">15s · backoff to a bounded window</td>
+          <td>Escalate at highest severity, notify the customer first, start the refund clock</td>
+        </tr>
+        <tr>
+          <td><code>GET /api/v1/flight/status</code></td>
+          <td>PNR lookup, and on the disruption poll</td>
+          <td><code>pnr</code>, optionally <code>last_name</code> to authenticate</td>
+          <td class="num">3s · 1 retry · cache 60s</td>
+          <td>Fall back to the published schedule, clearly labelled as not live</td>
+        </tr>
+        <tr>
+          <td><code>POST /payment/session</code></td>
+          <td>Hold created, before the checkout link is sent</td>
+          <td>Amount, currency, PNR, single-use, expiry aligned to the hold TTL</td>
+          <td class="num">5s · idempotent on PNR</td>
+          <td>Hold survives; offer to resend the link once, then release cleanly</td>
+        </tr>
+        <tr>
+          <td><code>POST /webhook/payment</code></td>
+          <td>Inbound from the gateway</td>
+          <td>Signature, gateway reference, status, amount</td>
+          <td class="num">Ack in &lt;2s, process async</td>
+          <td>Poller reconciles anything the webhook missed</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="blk" style="margin-top:30px">Support-platform contracts</h3>
+  <div class="tbl-wrap" style="margin-top:12px">
+    <table>
+      <thead><tr><th>Contract</th><th>Purpose</th><th>Mandatory controls</th></tr></thead>
+      <tbody>
+        <tr><td><code>POST /channels/{channel}/webhook</code></td><td>Verify and accept inbound channel events</td><td>Tenant/channel lookup, signature, external ID dedupe, fast acknowledgement, async processing</td></tr>
+        <tr><td><code>GET /conversations</code></td><td>Inbox views and search</td><td>Tenant/role filters, cursor pagination, stable sort, redaction, point-in-time filter metadata</td></tr>
+        <tr><td><code>GET /conversations/{id}</code></td><td>Load thread and structured context</td><td>Permission, masked fields, message cursor, owner lease, SLA and version/ETag</td></tr>
+        <tr><td><code>POST /conversations/{id}/messages</code></td><td>Send an agent/system message</td><td>Ownership lease, idempotency key, channel window, template validation, delivery event</td></tr>
+        <tr><td><code>POST /conversations/{id}/escalations</code></td><td>Create a handoff package and queue item</td><td>Reason, risk, required skills, state summary, atomic queue insertion</td></tr>
+        <tr><td><code>POST /assignments/{id}/accept</code></td><td>Acquire human ownership</td><td>Offer deadline, compare-and-set lease, capacity recheck, AI silence before success</td></tr>
+        <tr><td><code>POST /conversations/{id}/transfer</code></td><td>Move a case to a queue or agent</td><td>Reason, destination eligibility, original SLA age, audit, idempotency</td></tr>
+        <tr><td><code>POST /conversations/{id}/resolve</code></td><td>Record outcome and enter reopen window</td><td>Resolution code, required domain reference, pending-task check, event</td></tr>
+        <tr><td><code>POST /admin/config/publish</code></td><td>Activate a validated tenant configuration version</td><td>RBAC, maker-checker where required, effective time, audit and rollback version</td></tr>
+        <tr><td><code>GET /analytics/kpis</code></td><td>Serve versioned KPI facts</td><td>Tenant/team scope, definition version, sample suppression, time zone and export policy</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout" style="margin-top:20px">
+    <span class="ch">Contract conventions</span>
+    <p>Every write accepts a client idempotency key and returns a stable resource/event reference. Every event carries schema version, tenant, occurrence time, producer time and trace ID. APIs use UTC timestamps, explicit currency minor units, cursor pagination and machine-readable error codes; customer wording is produced separately by the conversation layer.</p>
+  </div>
+
+  <p style="margin-top:14px;font-size:.82rem;color:var(--ink3);max-width:var(--read)">
+    Endpoint names follow the PRD. Exact contracts depend on which inventory source is contracted —
+    see <a href="#questions">Open questions</a>, item 1.
+  </p>
+</section>
+
+<!-- ============================== PART C ============================== -->
+<div class="part-rule">
+  <span class="pl" aria-hidden="true">C</span>
+  <div class="pb">
+    <span class="pw">Part C</span>
+    <h2>Commitments and decisions</h2>
+    <p class="pd">The numbers we are signing up to, the questions that have to be answered before
+      anyone writes code, and the plan. Read this part if you are approving it.</p>
+  </div>
+</div>
+
+<!-- ============================== TARGETS ============================== -->
+<section id="targets">
+  <div class="sec-head">
+    <span class="code">C1</span>
+    <h2>Targets, and how each one is actually met</h2>
+    <span class="status">PRD §5 · §7</span>
+  </div>
+
+  <p class="sec-intro">
+    A number without a mechanism is a wish. Each target below carries the engineering decision that makes it reachable.
+  </p>
+
+  <div class="tiles">
+    <div class="tile">
+      <span class="v g">&lt;1.5s</span>
+      <span class="k">Bot response</span>
+      <span class="n">Deterministic intents answer from cache; generated replies stream so first token lands well inside the budget. Needs to be stated as p95, not mean.</span>
+    </div>
+    <div class="tile">
+      <span class="v g">&lt;4.0s</span>
+      <span class="k">Flight search</span>
+      <span class="n">90-second route-date cache, parallel adjacent-day queries, hard timeout with a graceful fallback message.</span>
+    </div>
+    <div class="tile">
+      <span class="v s">5,000</span>
+      <span class="k">Concurrent sessions</span>
+      <span class="n">Stateless workers behind a queue, session state in Redis. Eid peak is the sizing case, not the average day.</span>
+    </div>
+    <div class="tile">
+      <span class="v g">100%</span>
+      <span class="k">Supported messages in one inbox</span>
+      <span class="n">Signed ingestion, deduplication and canonical message events make every supported-channel message visible and auditable.</span>
+    </div>
+    <div class="tile">
+      <span class="v g">&lt;3s</span>
+      <span class="k">Eligible-agent assignment, p95</span>
+      <span class="n">Atomic queueing plus workload-adjusted weighted round robin, measured only when at least one eligible agent has capacity.</span>
+    </div>
+    <div class="tile">
+      <span class="v g">&gt;70%</span>
+      <span class="k">First contact resolution</span>
+      <span class="n">Grounded retrieval over a policy set with a named owner who keeps it current. FCR degrades the moment the source of truth goes stale.</span>
+    </div>
+    <div class="tile">
+      <span class="v g">&gt;8%</span>
+      <span class="k">WhatsApp conversion</span>
+      <span class="n">Fewest turns to payment, visible hold countdown, and one recovery template on abandonment.</span>
+    </div>
+    <div class="tile">
+      <span class="v a">&lt;25%</span>
+      <span class="k">Handover rate</span>
+      <span class="n">Measured only on approved, eligible automation scope and achieved through better answers plus decisive early handover — never by trapping customers with the bot.</span>
+    </div>
+    <div class="tile">
+      <span class="v a">0</span>
+      <span class="k">Credentials in logs</span>
+      <span class="n">No PAN, PIN, or OTP in transcripts or logs. Enforced by a redaction layer and verified by an automated log scan in CI.</span>
+    </div>
+    <div class="tile">
+      <span class="v a">100%</span>
+      <span class="k">Paid-not-ticketed, resolved</span>
+      <span class="n">Every such session reconciled to a ticket or a refund within an agreed SLA. This is the metric the business is judged on when it goes wrong.</span>
+    </div>
+    <div class="tile">
+      <span class="v g">99.9%</span>
+      <span class="k">Availability, booking path</span>
+      <span class="n">Measured on the ability to complete a booking, not on whether a server answers. Deploys are zero-downtime — sessions hold live PNRs and running payment timers, so a restart mid-hold is a stranded customer.</span>
+    </div>
+    <div class="tile">
+      <span class="v s">≤ budget</span>
+      <span class="k">Variable cost per ticket</span>
+      <span class="n">Measured from channel, inference, infrastructure, payment, supplier and human-work events against the approved tenant budget — see <a href="#cost">D1</a>.</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== QUESTIONS ============================== -->
+<section id="questions">
+  <div class="sec-head">
+    <span class="code">C2</span>
+    <h2>Open questions before build starts</h2>
+    <span class="status">Decision register · owners required</span>
+  </div>
+
+  <p class="sec-intro">
+    Unresolved decisions in this baseline, ordered by how much they change the build.
+    <span class="pill fail">Blocking</span> items cannot be designed around; the rest can start with a
+    stated assumption and be corrected cheaply later.
+  </p>
+
+  <div class="stack-sm">
+
+    <div class="q block">
+      <div class="qh"><span class="pill fail">Blocking</span><h4>1 · Which inventory source is contracted?</h4></div>
+      <p>The PRD names Take Trip and Implevista as examples. The choice determines fare families, hold TTL, whether re-pricing is available, ticketing semantics, and the entire retry strategy. <b>Nothing downstream of search can be finalised until this is fixed.</b></p>
+      <p><b>Ask every candidate the same five questions</b>, because the answers — not the commercial terms — are what decide the build: what is the fare-hold TTL and can it be extended; is there a re-price call before booking; is ticketing idempotent on a caller-supplied key; what is the sandbox coverage for failure cases; and what is the contractual response-time commitment on search. A provider that cannot answer question three should be disqualified — see <a href="#booking">B2</a>.</p>
+    </div>
+
+    <div class="q block">
+      <div class="qh"><span class="pill fail">Blocking</span><h4>2 · Paid but not ticketed — who owns it, and what is the SLA?</h4></div>
+      <p>Named owner, refund authority, customer communication window, and whether automatic refund is permitted without human approval. This is the highest-consequence path in the system and the PRD is currently silent on it.</p>
+      <p><b>Proposed default, for approval rather than drafting:</b> the duty operations manager owns every occurrence. The customer is messaged automatically within five minutes — before they notice. A same-fare rebook is attempted first. Failing that, refund is issued automatically without human approval up to a stated ceiling, with anything above it escalating to finance the same day. Full settlement within three business days, tracked to the 100% target in <a href="#targets">C1</a>. Approve, amend the ceiling, or replace — but it cannot ship undefined.</p>
+    </div>
+
+    <div class="q block">
+      <div class="qh"><span class="pill fail">Blocking</span><h4>3 · Merchant of record for bKash and Nagad</h4></div>
+      <p>Whether Takeoff Travels holds direct merchant accounts or transacts through SSLCOMMERZ changes settlement timing, refund capability, per-transaction cost, and the reconciliation model. It also determines whether partial refunds are possible at all on those rails.</p>
+      <p><b>Required comparison:</b> obtain contracted MDR, fixed fee, refund/dispute fee, settlement timing, partial-refund capability, sandbox coverage and support SLA from each candidate. Public list prices are not budget inputs.</p>
+      <p><b>Proposed default:</b> choose the provider that can launch every required rail safely, while designing a provider adapter so higher-volume rails can move to direct merchant arrangements later without rebuilding booking or reconciliation.</p>
+    </div>
+
+    <div class="q">
+      <div class="qh"><span class="pill hold">Needed soon</span><h4>4 · Hold TTL, and whether it can be extended</h4></div>
+      <p>The countdown drives the whole payment UX. If the TTL is short, the passenger-details step has to be trimmed and possibly moved ahead of the hold.</p>
+    </div>
+
+    <div class="q">
+      <div class="qh"><span class="pill hold">Needed soon</span><h4>5 · WhatsApp opt-in and template approval</h4></div>
+      <p>Booking-recovery pushes outside the 24-hour window need pre-approved templates and recorded opt-in. Where is opt-in captured, who owns template submission, and what is the approval lead time?</p>
+    </div>
+
+    <div class="q">
+      <div class="qh"><span class="pill hold">Needed soon</span><h4>6 · PII retention for passport and NID</h4></div>
+      <p>NFR-5.3 covers payment credentials but not identity documents, which the booking flow necessarily collects. Retention window, encryption, redaction in transcripts, and what an agent is permitted to see all need a policy.</p>
+    </div>
+
+    <div class="q">
+      <div class="qh"><span class="pill hold">Needed soon</span><h4>7 · Is 1.5s a mean or a p95?</h4></div>
+      <p>Version 2.0 uses p95 throughout. Approve the exact start/stop event per metric as defined in <a href="#nfr">E9</a>; averages remain diagnostic only.</p>
+    </div>
+
+    <div class="q">
+      <div class="qh"><span class="pill ok">Assumption stated</span><h4>8 · Date changes and refunds in v1</h4></div>
+      <p>Assumed: the bot quotes the fee from policy and hands over for execution. Self-service changes move to phase 3 once the fee engine is proven. Confirm this is acceptable, since it directly affects the handover rate.</p>
+    </div>
+
+    <div class="q">
+      <div class="qh"><span class="pill ok">Assumption stated</span><h4>9 · Name transliteration responsibility</h4></div>
+      <p>Assumed: the bot transliterates Bangla names to Latin, shows the result, and requires the customer to confirm it matches their document. The customer confirms; we do not validate against the document itself.</p>
+    </div>
+
+    <div class="q">
+      <div class="qh"><span class="pill fail">Blocking</span><h4>10 · Native inbox or external console at launch?</h4></div>
+      <p><a href="#workspace">E5</a> defines the native reference experience. An external console is acceptable only if it supports every P0 context field, ownership lock, routing event, bot-silence rule, KPI event and permission. Decide build versus adapter before frontend and licensing scope are committed.</p>
+    </div>
+
+    <div class="q">
+      <div class="qh"><span class="pill hold">Needed soon</span><h4>11 · Model provider and processing jurisdiction</h4></div>
+      <p>No model provider is selected by this PRD. Approve quality on the bilingual production evaluation, processing/storage jurisdiction, data-use terms, retention, availability, latency and contracted cost. Keep the model and tool interfaces provider-agnostic so the decision remains reversible.</p>
+    </div>
+
+    <div class="q">
+      <div class="qh"><span class="pill hold">Needed soon</span><h4>12 · Where does 5,000 concurrent sessions come from?</h4></div>
+      <p>The figure carries straight from NFR-5.2 into the sizing case for the one cost line still unpriced, and nobody has tied it to expected booking volume. <b>"Session" is also undefined</b> — someone actively typing, or anyone with an open 24-hour window? That is an order of magnitude in infrastructure spend. Derive it from projected Eid-window bookings and an observed browse-to-book ratio, then re-baseline after phase 1 against real traffic. Overbuilding here is invisible until the invoice arrives.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================== DELIVERY ============================== -->
+<section id="delivery">
+  <div class="sec-head">
+    <span class="code">C3</span>
+    <h2>Delivery plan</h2>
+    <span class="status">PRD v2.0 · indicative sequencing</span>
+  </div>
+
+  <p class="sec-intro">
+    The sequence protects the operating model before adding commercial complexity: first receive and
+    route every message safely, then move money, then expand channels and autonomy. Week ranges assume
+    the indicative team below and timely supplier access; they are planning ranges, not a commercial
+    commitment, until the decision register has owners and dates.
+  </p>
+
+  <div>
+    <div class="phase p0">
+      <div class="badge"><span class="pn">PHASE 0</span><span class="wk">Before week 1</span></div>
+      <div class="body">
+        <h4>Approve the baseline and operating model</h4>
+        <p>Resolve the blocking items in <a href="#questions">C2</a>: inventory source, merchant of record, native versus external agent console, paid-not-ticketed ownership, model jurisdiction, retention, SLA, staffing, routing weight/capacity and the 5,000-session definition. Submit channel templates and secure sandbox access.</p>
+        <div class="exit"><b>Gate — demonstrable</b>Named owners and approval dates · contracts/sandboxes available · tenant and role matrix approved · queue/SLA/routing configuration signed off · initial knowledge owner and policy corpus named · threat model and data-flow review complete</div>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="badge"><span class="pn">PHASE 1</span><span class="wk">Weeks 1–8</span></div>
+      <div class="body">
+        <h4>Unify the inbox and put humans in control</h4>
+        <p>Tenant foundation, RBAC, web widget and WhatsApp adapters, canonical message/event model, customer identity, conversation lifecycle, native agent workspace, queue priority, workload-adjusted weighted round robin, supervisor real-time view, audit trail and governed AI FAQ for a narrow approved corpus.</p>
+        <div class="ops"><b>Required evidence</b>Duplicate and out-of-order webhook tests · ownership collision test · explicit-human and low-confidence handoff · routing distribution/capacity simulation · bot-silence test · tenant-isolation suite · keyboard/screen-reader P0 workflow</div>
+        <div class="exit"><b>Gate — demonstrable</b><a href="#requirements">AC-01–05, AC-07–10, AC-16–18 and AC-21</a> green · no lost message during channel failover drill · supervisor can see and reassign SLA-risk work · all privileged actions audited</div>
+        <div class="watch"><b>Under observation — reviewed week 10</b>Queue wait and human first-response distributions · routing fairness by skill cohort · AI unanswered-question and false-containment sample</div>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="badge"><span class="pn">PHASE 2</span><span class="wk">Weeks 9–16</span></div>
+      <div class="body">
+        <h4>Sell and support a domestic seat safely</h4>
+        <p>US-Bangla domestic one-way/return search, passenger capture, fare hold, hosted bKash/Nagad/card checkout, idempotent ticketing, PDF delivery, reconciliation, PNR status, baggage answers and the highest-priority paid-not-ticketed path. Booking and payment remain deterministic even when AI drives the conversation.</p>
+        <div class="ops"><b>Required evidence</b>Full payment sandbox matrix · re-price/hold-expiry paths · duplicate webhook/tap · ticketing retry · reconciliation replay · P0 paging and customer notice · policy citation accuracy · zero credential/identity leaks in automated scan</div>
+        <div class="exit"><b>Gate — demonstrable</b>Every enabled payment rail completes end to end · <a href="#requirements">AC-06</a> proven in a staged failure · p95 search and booking-path targets met · kill switches and rollback exercised · financial ledger matches gateway and ticketing records</div>
+        <div class="watch"><b>Under observation — reviewed after 100 bookings</b>Zero unreconciled payments beyond SLA · booking conversion funnel · hold expiry · variable cost per ticket · support volume per booking</div>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="badge"><span class="pn">PHASE 3</span><span class="wk">Weeks 17–22</span></div>
+      <div class="body">
+        <h4>Expand channels, language and measurable operations</h4>
+        <p>Messenger, Instagram and approved inbound email; verified cross-channel continuation; full Banglish coverage; KPI scorecards, QA sampling/appeal, historical analytics, AI-assisted agent drafts and controlled proactive disruption notices.</p>
+        <div class="ops"><b>Required evidence</b>Channel-window/template compliance · identity link/split tests · KPI recomputation from source events · minimum-sample suppression · bilingual and multi-intent evaluation · QA rubric calibration · disruption cohort deduplication</div>
+        <div class="exit"><b>Gate — demonstrable</b><a href="#requirements">AC-02–04 and AC-11–15</a> green · all enabled channels visible in one inbox · scorecards trace to immutable events · cross-channel link requires approved verification · disruption drill completes without queue collapse</div>
+        <div class="watch"><b>Under observation — reviewed four weeks later</b>FCR, AI containment with correctness, transfer/reopen, CSAT response and score, SLA compliance by cohort, escalation reason distribution</div>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="badge"><span class="pn">PHASE 4</span><span class="wk">Weeks 23–28</span></div>
+      <div class="body">
+        <h4>Scale and introduce higher-risk self-service selectively</h4>
+        <p>Prove the Eid/disruption load profile and disaster recovery; then enable self-service date changes, international routes and passport handling only behind approved fare, authority, retention and jurisdiction controls. Expand one tenant or supplier at a time through feature flags.</p>
+        <div class="ops"><b>Required evidence</b>Load, soak and recovery drills · provider degradation and replay · international data-flow review · refund/change authority tests · cost reconciliation · model drift and rollback exercise</div>
+        <div class="exit"><b>Gate — demonstrable</b><a href="#requirements">AC-19–20</a> green · NFR-01–15 evidenced · no open launch-blocking security/privacy issue · one-tenant rollback proven · staffing and surge roster validated against measured traffic</div>
+        <div class="watch"><b>Under observation — reviewed after four production weeks</b>FCR &gt;70% and handover &lt;25% for eligible scope · SLA and CSAT targets approved and tracked · no paid-not-ticketed case beyond SLA · cost stays within the approved tenant budget</div>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="blk" style="margin-top:32px">Indicative delivery team</h3>
+  <div class="tbl-wrap" style="margin-top:12px">
+    <table>
+      <thead><tr><th>Role</th><th>Indicative capacity</th><th>Owns</th></tr></thead>
+      <tbody>
+        <tr><td><b>Product owner / delivery lead</b></td><td class="num">1</td><td>Scope, decisions, airline/gateway relationships, acceptance and rollout</td></tr>
+        <tr><td><b>Engineering lead / architect</b></td><td class="num">1</td><td>Service boundaries, security architecture, technical quality and cross-workstream delivery</td></tr>
+        <tr><td><b>Backend engineers</b></td><td class="num">3</td><td>Conversation, routing, booking saga, payment, ticketing, audit and administration</td></tr>
+        <tr><td><b>Integration engineers</b></td><td class="num">2</td><td>Channels, inventory, payments, email/SMS and optional console adapters</td></tr>
+        <tr><td><b>Frontend engineers</b></td><td class="num">2</td><td>Web widget, unified agent inbox, supervisor and admin experiences</td></tr>
+        <tr><td><b>AI / NLP engineers</b></td><td class="num">2</td><td>Language/intent, retrieval, tool policy, evaluation, calibration and agent assist</td></tr>
+        <tr><td><b>QA / test automation</b></td><td class="num">2</td><td>Channel, routing, bilingual, payment, failure, accessibility and end-to-end suites</td></tr>
+        <tr><td><b>Platform / SRE</b></td><td class="num">1</td><td>Environments, delivery, observability, capacity, recovery and incident readiness</td></tr>
+        <tr><td><b>Product designer</b></td><td class="num">1</td><td>Customer conversation patterns, agent workflow, accessibility and design system</td></tr>
+        <tr><td><b>Data / analytics engineer</b></td><td class="num">1</td><td>Metric events, KPI semantic layer, dashboards, reconciliation and cost attribution</td></tr>
+        <tr><td><b>Security / privacy</b></td><td class="num">0.5</td><td>Threat model, data flow, RBAC, supplier review, testing and launch sign-off</td></tr>
+        <tr><td><b>Content / policy owner</b></td><td class="num">1</td><td>Approved knowledge, translations, templates and freshness SLA</td></tr>
+        <tr><td><b>Support operations owner</b></td><td class="num">1</td><td>Queues, skills, routing policy, staffing, QA rubric, KPI review and surge roster</td></tr>
+        <tr><td><b>Support agents</b></td><td class="num">TBD</td><td>Production service capacity derived from volume, handover, AHT, concurrency, shift coverage and shrinkage</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout" style="margin-top:20px">
+    <span class="ch">Staffing is an input, not an output of the router</span>
+    <p>
+      Weighted round robin can distribute available capacity fairly; it cannot create capacity. Before
+      production, workforce planning must use forecast arrival intervals, handover by intent, AHT by
+      queue, concurrency, business hours, shrinkage and disruption surge. Queue targets are not credible
+      until that staffing model and an after-hours escalation owner are approved.
+    </p>
+  </div>
+</section>
+<!-- ============================== PART D ============================== -->
+<div class="part-rule">
+  <span class="pl" aria-hidden="true">D</span>
+  <div class="pb">
+    <span class="pw">Part D</span>
+    <h2>Running it</h2>
+    <p class="pd">What it costs, how we know it is working, how the data is protected, and how it is
+      tested. Read this part if you have to operate the underlying service after launch.</p>
+  </div>
+</div>
+
+<!-- ============================== COST ============================== -->
+<section id="cost">
+  <div class="sec-head">
+    <span class="code">D1</span>
+    <h2>Cost model and commercial controls</h2>
+    <span class="status">Vendor-neutral · finance inputs required</span>
+  </div>
+
+  <p class="sec-intro">
+    This PRD defines the units that must be measured; it does not freeze public rate-card prices.
+    Finance and procurement replace the variables below with contracted rates before budget approval.
+    Product reporting then uses measured traffic, token, payment, storage and agent-time events rather
+    than an assumed “cost per chat”.
+  </p>
+
+  <div class="tiles" style="margin-bottom:26px">
+    <div class="tile">
+      <span class="v s">C ÷ B</span>
+      <span class="k">Cost per booking</span>
+      <span class="n">Total attributable support and commerce cost divided by successfully ticketed bookings.</span>
+    </div>
+    <div class="tile">
+      <span class="v a">AHT</span>
+      <span class="k">Agent labour driver</span>
+      <span class="n">Handed-over volume × active handling time × approved loaded labour rate.</span>
+    </div>
+    <div class="tile">
+      <span class="v g">MDR</span>
+      <span class="k">Payment driver</span>
+      <span class="n">Captured ticket value × contracted payment rate, plus fixed transaction and refund fees.</span>
+    </div>
+  </div>
+
+  <h3 class="blk">Required cost lines</h3>
+  <div class="tbl-wrap" style="margin-top:12px">
+    <table>
+      <thead><tr><th>Line</th><th>Measured driver</th><th>Commercial input</th><th>Owner</th></tr></thead>
+      <tbody>
+        <tr><td><b>Channel messaging</b></td><td>Inbound/outbound messages by channel, category, country and messaging window</td><td>Contracted per-message/conversation/template rates and included allowance</td><td>Channel owner + finance</td></tr>
+        <tr><td><b>AI inference</b></td><td>Uncached input, cached input, output, embeddings, reranking and offline evaluation by model/version</td><td>Contracted model and batch rates, minimum commits and overage</td><td>AI platform owner</td></tr>
+        <tr><td><b>Cloud infrastructure</b></td><td>Compute time, database/storage, cache, event traffic, object egress, observability and backups</td><td>Cloud contract, reserved capacity and support plan</td><td>Platform owner</td></tr>
+        <tr><td><b>Payments</b></td><td>Captured/refunded value and transaction count by rail</td><td>MDR, fixed fee, refund fee, settlement and dispute costs</td><td>Finance / payments</td></tr>
+        <tr><td><b>Inventory and ticketing</b></td><td>Search, hold, issue, void, change and refund calls/bookings</td><td>Aggregator or airline transaction fee and minimum commitment</td><td>Commercial owner</td></tr>
+        <tr><td><b>Agent tooling</b></td><td>Named/concurrent seats, QA seats, storage and add-ons</td><td>Native platform allocation or external-console contract</td><td>Support operations</td></tr>
+        <tr><td><b>Agent labour</b></td><td>Active handling and approved wrap-up time by queue and shift</td><td>Loaded hourly rate, shift differential and outsourced rate</td><td>Support operations + finance</td></tr>
+        <tr><td><b>Shared operations</b></td><td>On-call, content operations, security review, licences and support</td><td>Monthly allocation policy</td><td>Product owner + finance</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="blk" style="margin-top:30px">Canonical calculations</h3>
+  <div class="grid g2" style="margin-top:12px">
+    <div class="card">
+      <h4>Automated conversation cost</h4>
+      <p class="m">channel charges + AI tokens/tools + allocated infrastructure + supplier calls</p>
+      <p>Report by tenant, channel, language, intent and resolution outcome. Averages must retain p50/p90 and volume because disruption traffic has a different shape from booking traffic.</p>
+    </div>
+    <div class="card">
+      <h4>Human-assisted conversation cost</h4>
+      <p class="m">automated prefix cost + agent handling cost + console allocation + downstream transaction cost</p>
+      <p>Waiting-customer time is excluded from labour but retained in customer resolution time. Supervisor intervention and specialist transfer are attributed explicitly.</p>
+    </div>
+    <div class="card">
+      <h4>Cost per ticket sold</h4>
+      <p class="m">(all attributable conversation costs + payment + inventory fees) ÷ ticketed bookings</p>
+      <p>Show direct commerce cost separately from support overhead so a gateway-rate change is not mistaken for an AI-efficiency change.</p>
+    </div>
+    <div class="card">
+      <h4>Cost per resolved support case</h4>
+      <p class="m">support conversation + labour + tooling allocation ÷ eligible resolved cases</p>
+      <p>Segment automation-only, human-assisted, payment exception, disruption and complaint cohorts; do not compare them as if they have equal complexity.</p>
+    </div>
+  </div>
+
+  <h3 class="blk" style="margin-top:30px">Cost controls</h3>
+  <div class="grid g3" style="margin-top:12px">
+    <div class="card">
+      <h4>Keep exact answers deterministic</h4>
+      <p>PNR status, hold countdown, payment state and ticket resend come from domain services. Generative inference is reserved for language and judgement.</p>
+    </div>
+    <div class="card">
+      <h4>Cache stable prefixes and retrieval</h4>
+      <p>Versioned system instructions and approved policy fragments are reused where the selected provider supports safe caching; volatile customer data stays outside the shared prefix.</p>
+    </div>
+    <div class="card">
+      <h4>Reduce unnecessary turns</h4>
+      <p>Extract multiple slots from one message, preserve multi-intent state and never ask for data already verified. Fewer turns improve conversion and reduce both channel and inference cost.</p>
+    </div>
+    <div class="card">
+      <h4>Budget by tenant</h4>
+      <p>Alert on daily/monthly channel, inference and export budgets. A budget breach may downgrade optional features, never disable safety escalation or payment reconciliation.</p>
+    </div>
+    <div class="card">
+      <h4>Route offline work deliberately</h4>
+      <p>Evaluation, summarisation and analytics use approved batch/low-priority capacity where available, with the same privacy and jurisdiction controls.</p>
+    </div>
+    <div class="card">
+      <h4>Measure before committing</h4>
+      <p>Use at least four weeks of production traffic, including a peak or disruption simulation, before a model, channel, console or infrastructure volume commitment.</p>
+    </div>
+  </div>
+
+  <div class="callout" style="margin-top:22px;border-color:var(--amber-line);background:var(--amber-bg)">
+    <span class="ch" style="color:var(--amber)">Budget approval inputs</span>
+    <p>
+      Finance must approve projected monthly conversations by channel, conversion, average ticket
+      value, payment mix, handover, handling time, concurrent agents, peak multiplier, token profile,
+      retention/storage and supplier fees. The dashboard must reconcile invoice quantities to product
+      events within the agreed tolerance. Public prices, model names and illustrative rates from the
+      earlier overview are intentionally not treated as current or contractual.
+    </p>
+  </div>
+</section>
+<!-- ============================== OBSERVABILITY ============================== -->
+<section id="observability">
+  <div class="sec-head">
+    <span class="code">D2</span>
+    <h2>How we know it is working</h2>
+    <span class="status">PRD v2.0 requirement</span>
+  </div>
+
+  <p class="sec-intro">
+    <a href="#targets">C1</a> states the targets. This is how each one is measured, and — more
+    importantly — what wakes a person up when it breaks. The distinction matters: a dashboard tile is
+    something you look at, an alarm is something that finds you.
+  </p>
+
+  <h3 class="blk">Four layers of signal</h3>
+  <div class="grid g3" style="margin-top:12px">
+    <div class="card">
+      <h4>The money ledger</h4>
+      <p>Every booking state transition emits an event with the session ID, PNR, payment reference, and timestamp. The ledger is the source of truth for reconciliation, disputes, and every "what actually happened" question.</p>
+      <ul>
+        <li>Immutable, append-only, replayable</li>
+        <li>Reconciled against gateway settlements on a fixed cadence</li>
+        <li>Retained beyond the transcript window</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>The conversion funnel</h4>
+      <p>Nine events from first message to delivered ticket, with drop-off measured between each. This is what tells you <em>where</em> the 8% target is leaking, rather than just that it is.</p>
+      <ul>
+        <li>Segmented by channel and by language</li>
+        <li>Hold expiry and payment abandonment tracked separately</li>
+        <li>Recovery-template performance attributed back to the funnel</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Model quality</h4>
+      <p>Not accuracy in the abstract — the specific signals that predict a bad customer experience before the complaint arrives.</p>
+      <ul>
+        <li>Intent confidence distribution, watched for drift</li>
+        <li>Handover reasons as a histogram, not a single rate</li>
+        <li>Every unanswered question logged — this becomes the <a href="#contentops">E4</a> backlog</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Support operations</h4>
+      <p>Queue and ownership events explain whether customers can reach a capable human before an SLA or travel deadline.</p>
+      <ul>
+        <li>Queue depth, oldest wait and breach forecast by priority</li>
+        <li>Eligible-agent count, assignment latency, load and timeout</li>
+        <li>Response, resolution, transfer, reopen, CSAT and QA by cohort</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 class="blk" style="margin-top:30px">What actually pages someone</h3>
+  <div class="tbl-wrap" style="margin-top:12px">
+    <table>
+      <thead>
+        <tr><th>Signal</th><th>Threshold</th><th>Response</th><th>Severity</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>Paid, not ticketed</b></td>
+          <td class="num">Any session &gt; 5 min</td>
+          <td>Page on-call engineer and duty ops manager together. Customer is messaged before they ask.</td>
+          <td><span class="pill fail">Critical</span></td>
+        </tr>
+        <tr>
+          <td><b>Ticketing failure rate</b></td>
+          <td class="num">&gt; 2% over 15 min</td>
+          <td>Page. Consider pausing sales on the affected route rather than accumulating stranded payments.</td>
+          <td><span class="pill fail">Critical</span></td>
+        </tr>
+        <tr>
+          <td><b>Payment webhook silence</b></td>
+          <td class="num">&gt; 10 min, any rail</td>
+          <td>Page. The rail may be down, or our endpoint may be unreachable — the poller masks it until it doesn't.</td>
+          <td><span class="pill fail">Critical</span></td>
+        </tr>
+        <tr>
+          <td><b>Inbound message backlog</b></td>
+          <td class="num">Oldest accepted event &gt; 30s</td>
+          <td>Page platform on-call. Stop optional background work and preserve channel acknowledgements while consumers recover.</td>
+          <td><span class="pill fail">Critical</span></td>
+        </tr>
+        <tr>
+          <td><b>No eligible agent</b></td>
+          <td class="num">Any P0/P1 &gt; 30s</td>
+          <td>Alert duty supervisor and activate the approved overflow/escalation roster; keep customer position and timer visible.</td>
+          <td><span class="pill fail">Critical</span></td>
+        </tr>
+        <tr>
+          <td><b>Search p95</b></td>
+          <td class="num">&gt; 4.0s for 10 min</td>
+          <td>Page platform on-call. Aggregator degradation is the usual cause and it silently kills conversion.</td>
+          <td><span class="pill hold">High</span></td>
+        </tr>
+        <tr>
+          <td><b>Handover rate</b></td>
+          <td class="num">&gt; 40% over an hour</td>
+          <td>Notify the conversation designer. Something regressed — a broken intent, a stale policy, or a channel outage upstream.</td>
+          <td><span class="pill hold">High</span></td>
+        </tr>
+        <tr>
+          <td><b>Eligible assignment p95</b></td>
+          <td class="num">&gt; 3s for 10 min</td>
+          <td>Notify routing owner; inspect locks, candidate lookup, state events and retry backlog.</td>
+          <td><span class="pill hold">High</span></td>
+        </tr>
+        <tr>
+          <td><b>Standard SLA breaches</b></td>
+          <td class="num">&gt; approved rate over 15 min</td>
+          <td>Alert supervisor with queues, cohorts and staffing forecast; do not change historical SLA configuration.</td>
+          <td><span class="pill hold">High</span></td>
+        </tr>
+        <tr>
+          <td><b>Hold expiry rate</b></td>
+          <td class="num">&gt; 30% of holds</td>
+          <td>Notify product. Checkout friction, a TTL that is too short, or a payment rail failing quietly.</td>
+          <td><span class="pill hold">High</span></td>
+        </tr>
+        <tr>
+          <td><b>WhatsApp quality rating</b></td>
+          <td class="num">Any drop, or a template rejection</td>
+          <td>Notify the template owner. A sustained drop restricts messaging volume, which caps the whole channel.</td>
+          <td><span class="pill ext">Watch</span></td>
+        </tr>
+        <tr>
+          <td><b>Channel delivery failure</b></td>
+          <td class="num">&gt; 5% over 10 min</td>
+          <td>Notify channel owner, surface degraded state in inbox and activate approved fallback where possible.</td>
+          <td><span class="pill hold">High</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout" style="margin-top:22px">
+    <span class="ch">The rule behind the table</span>
+    <p>
+      Anything that can leave a customer out of pocket pages a human immediately. Everything else
+      notifies an owner during working hours. A metric with no owner and no threshold is decoration —
+      if nothing happens when it moves, don't build the chart.
+    </p>
+  </div>
+</section>
+
+<!-- ============================== DATA PROTECTION ============================== -->
+<section id="dataprotection">
+  <div class="sec-head">
+    <span class="code">D3</span>
+    <h2>Data protection beyond payments</h2>
+    <span class="status">Extends NFR-5.3</span>
+  </div>
+
+  <p class="sec-intro">
+    The booking flow necessarily handles passport or national-ID numbers, dates of birth and full
+    itineraries in addition to payment state. The controls below are the minimum baseline; exact
+    retention periods, processing jurisdictions and legal holds remain approval items in C2 and E7.
+  </p>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr><th>Data</th><th>Where it lives</th><th>Who can see it</th><th>Retention</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>Card number, CVV, bKash PIN, OTP</b></td>
+          <td><span class="pill ok">Never collected</span> — entered only on the gateway's own page</td>
+          <td>Nobody, including us</td>
+          <td>n/a</td>
+        </tr>
+        <tr>
+          <td><b>Passport / NID number</b></td>
+          <td>Booking record, encrypted at rest. Redacted from the transcript before it is persisted.</td>
+          <td>Ticketing service; an agent only on the specific booking they are handling</td>
+          <td><span class="pill hold">Undecided — C2-6</span></td>
+        </tr>
+        <tr>
+          <td><b>Passenger name, date of birth</b></td>
+          <td>Booking record</td>
+          <td>Ticketing service, assigned agent</td>
+          <td>Life of booking plus the statutory retention period</td>
+        </tr>
+        <tr>
+          <td><b>Phone number</b></td>
+          <td>Identity graph — the spine that links channels</td>
+          <td>Identity service and authorised unified-inbox views</td>
+          <td>Tenant retention schedule, consent/account status and legal obligation</td>
+        </tr>
+        <tr>
+          <td><b>Chat transcript</b></td>
+          <td>Transcript store, PII already redacted at write time</td>
+          <td>Agents on handover, QA sampling, the evaluation set</td>
+          <td><span class="pill hold">Undecided — C2-6</span></td>
+        </tr>
+        <tr>
+          <td><b>Ticket PDF</b></td>
+          <td>Object store, reachable only through short-lived signed URLs</td>
+          <td>The customer, via the link in their thread</td>
+          <td>Life of booking</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="grid g3" style="margin-top:20px">
+    <div class="card">
+      <h4>Redact before writing, not after</h4>
+      <p>A cleanup job that redacts later has already written the passport number to disk, to the replica, and to the log aggregator. Redaction sits in the write path, ahead of every store, and is verified by an automated log scan in CI.</p>
+    </div>
+    <div class="card">
+      <h4>Access is scoped to the booking</h4>
+      <p>An agent sees identity documents for the booking assigned to them, not for the customer's history and not in bulk. Break-glass access exists for genuine incidents, is time-boxed, and writes an audit entry naming the actor and the reason.</p>
+    </div>
+    <div class="card">
+      <h4>Know what leaves the country</h4>
+      <p>Message content passes through Meta, model inference through the model provider, payment data through the gateway, itinerary data through the aggregator. A privacy review will ask for this list — it should exist before the review, not because of it.</p>
+      <p><b>Provider jurisdiction is part of that list.</b> Record the actual processing and storage regions, subprocessors, retention and training terms for the selected provider. Passenger identity data must not transit an unapproved provider or region; the redaction boundary above minimises what needs to leave the platform.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== TESTING ============================== -->
+<section id="testing">
+  <div class="sec-head">
+    <span class="code">D4</span>
+    <h2>How it gets tested</h2>
+    <span class="status">PRD v2.0 requirement</span>
+  </div>
+
+  <p class="sec-intro">
+    This product combines natural language, concurrent queue ownership, third-party channels and a
+    payment saga. Tests therefore cover semantic quality, deterministic state transitions, routing
+    fairness, tenant isolation, metric reproducibility and supplier failure — not only screens and
+    happy-path API responses.
+  </p>
+
+  <div class="grid g2">
+    <div class="card">
+      <h4>Bilingual intent suite</h4>
+      <p>A held-out set of real utterances per intent, balanced across Bangla script, English, and Banglish, with the regional spelling variants people actually type.</p>
+      <ul>
+        <li>Minimum 50 utterances per intent per form</li>
+        <li>Run in CI; a drop in intent accuracy blocks the release</li>
+        <li>Grown continuously from the unanswered-question log in <a href="#observability">D2</a></li>
+        <li>Includes the adversarial cases: mixed script mid-sentence, Bangla numerals, misspelled city names</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Payment sandbox matrix</h4>
+      <p>Every rail crossed with every outcome, run against the gateways' sandboxes before a single real taka moves.</p>
+      <ul>
+        <li>Success, decline, user abandonment, timeout</li>
+        <li>Webhook late, webhook duplicated, webhook never arrives</li>
+        <li>Full refund, partial refund, refund of an already-refunded payment</li>
+        <li>Payment landing after the hold has already expired</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Failure-path drills</h4>
+      <p>Every branch in <a href="#booking">B2</a> is rehearsed against staging before launch, with the ops team in the room rather than only the engineers.</p>
+      <ul>
+        <li>Ticketing fails after successful payment — who does what, and how fast</li>
+        <li>Aggregator times out mid-search during peak</li>
+        <li>A payment rail goes down entirely for twenty minutes</li>
+        <li>Fare changes between selection and hold</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Peak load</h4>
+      <p>The sizing case is an Eid booking window, not a Tuesday afternoon. Test the shape of that traffic, not just its volume.</p>
+      <ul>
+        <li>5,000 concurrent sessions, sustained</li>
+        <li>Search-heavy mix — most people look and do not buy</li>
+        <li>Verify p95 latency under load, not just the mean</li>
+        <li>Confirm the reconciliation job keeps up at peak transaction rate</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Channel and inbox conformance</h4>
+      <p>A provider-contract suite runs against every channel adapter and the canonical message envelope.</p>
+      <ul>
+        <li>Signature failure, duplicate, late and out-of-order webhook</li>
+        <li>Text, file, image, reply, unsupported type and delivery failure</li>
+        <li>Messaging-window, opt-in and template enforcement</li>
+        <li>Agent/bot ownership collision and reconnect</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Routing simulation</h4>
+      <p>Seeded agents and queue items make weighted outcomes reproducible before routing reaches real staff.</p>
+      <ul>
+        <li>Tenant, queue, skill, language, state and capacity filters</li>
+        <li>Distribution under equal and unequal weight/load</li>
+        <li>Offer reject, timeout, disconnect and atomic double-accept</li>
+        <li>Priority aging, no-eligible-agent and disruption surge</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>KPI and event reconciliation</h4>
+      <p>Golden event timelines are recomputed independently and compared with every dashboard result.</p>
+      <ul>
+        <li>Business-hours clocks, pauses, transfer and reopen</li>
+        <li>Late events and explicit backfill/version behavior</li>
+        <li>Minimum-sample suppression and role-scoped drill-down</li>
+        <li>Invoice quantities reconciled with metering events</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Security, tenancy and accessibility</h4>
+      <p>Negative tests are release gates, not a post-launch audit exercise.</p>
+      <ul>
+        <li>Cross-tenant API, cache, search, object, analytics and export probes</li>
+        <li>RBAC, PII reveal, secret/log and break-glass checks</li>
+        <li>Prompt injection, tool-policy bypass and data exfiltration attempts</li>
+        <li>Automated and manual WCAG 2.2 AA testing of P0 workflows</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout" style="margin-top:22px">
+    <span class="ch">Release gate</span>
+    <p>
+      No release ships without the applicable <a href="#requirements">E10 acceptance criteria</a>,
+      bilingual and latest-production evaluation, channel contract suite, routing simulation, payment
+      matrix, tenant-isolation suite, KPI reconciliation, accessibility checks and automated prohibited-
+      data scan passing; critical alarms and rollback must be demonstrated by their named operators.
+    </p>
+  </div>
+</section>
+
+<!-- ============================== PART E ============================== -->
+<div class="part-rule">
+  <span class="pl" aria-hidden="true">E</span>
+  <div class="pb">
+    <span class="pw">Part E</span>
+    <h2>Customer-support operations</h2>
+    <p class="pd">The formal requirements for the unified inbox, governed AI agent, workload-aware
+      routing, human workspace, supervision, administration and release acceptance. This part closes
+      the operational gaps left by the original chatbot overview.</p>
+  </div>
+</div>
+
+<!-- ============================== UNIFIED INBOX ============================== -->
+<section id="inbox">
+  <div class="sec-head">
+    <span class="code">E1</span>
+    <h2>Unified inbox and conversation lifecycle</h2>
+    <span class="status">FR-INB · P0</span>
+  </div>
+
+  <p class="sec-intro">
+    The inbox is the system of engagement for digital support. Channel adapters may differ, but every
+    message, customer, assignment and SLA must be represented in the same tenant-scoped model. A
+    channel outage cannot erase the operational record, and a second channel cannot silently create
+    a second customer.
+  </p>
+
+  <h3 class="blk">Roles and permissions</h3>
+  <div class="tbl-wrap" style="margin-top:12px">
+    <table>
+      <thead><tr><th>Role</th><th>Primary need</th><th>Allowed scope</th></tr></thead>
+      <tbody>
+        <tr><td><b>Customer</b></td><td>Get an answer, complete a booking, or reach a person without repeating context</td><td>Only their verified conversation and booking actions</td></tr>
+        <tr><td><b>Support agent</b></td><td>Work assigned conversations safely and efficiently</td><td>Assigned queues and conversations; masked PII by default</td></tr>
+        <tr><td><b>Team lead</b></td><td>Watch queues, intervene, reassign and coach</td><td>Configured teams and their conversations</td></tr>
+        <tr><td><b>QA reviewer</b></td><td>Sample and score completed work</td><td>Selected redacted conversations; no live customer action</td></tr>
+        <tr><td><b>Tenant admin</b></td><td>Configure channels, queues, SLAs, policies and access</td><td>One tenant only; secrets write-only after entry</td></tr>
+        <tr><td><b>Content owner</b></td><td>Keep AI knowledge and templates accurate</td><td>Knowledge, translations and message templates; no payment authority</td></tr>
+        <tr><td><b>Duty operations / finance</b></td><td>Resolve money and disruption exceptions</td><td>Exception queues and approved refund/reconciliation actions</td></tr>
+        <tr><td><b>Platform operator</b></td><td>Keep the service healthy without reading customer content</td><td>Aggregated telemetry and break-glass access with reason and audit</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="blk" style="margin-top:30px">Functional requirements</h3>
+  <div class="tbl-wrap" style="margin-top:12px">
+    <table>
+      <thead><tr><th>ID</th><th>Requirement</th><th>Priority</th></tr></thead>
+      <tbody>
+        <tr><td class="m">INB-01</td><td>Accept signed inbound webhooks from each enabled channel, acknowledge within the channel limit, and process asynchronously.</td><td><span class="pill fail">Must</span></td></tr>
+        <tr><td class="m">INB-02</td><td>Normalise inbound and outbound content into one message envelope containing tenant, channel, external message ID, conversation ID, sender, timestamp, type, text/media, reply reference and delivery state.</td><td><span class="pill fail">Must</span></td></tr>
+        <tr><td class="m">INB-03</td><td>Deduplicate webhook retries and guarantee idempotent visible effects. The same external message ID may create at most one canonical message.</td><td><span class="pill fail">Must</span></td></tr>
+        <tr><td class="m">INB-04</td><td>Preserve per-channel message order where provided; flag late or out-of-order events rather than rewriting history.</td><td><span class="pill fail">Must</span></td></tr>
+        <tr><td class="m">INB-05</td><td>Render text, structured choices, files, images, ticket PDFs, locations and supported channel reactions with a documented fallback for unsupported types.</td><td><span class="pill hold">Should</span></td></tr>
+        <tr><td class="m">INB-06</td><td>Expose shared inbox views for unassigned, assigned to me, team queues, SLA risk, priority incidents, waiting customer, snoozed and recently resolved.</td><td><span class="pill fail">Must</span></td></tr>
+        <tr><td class="m">INB-07</td><td>Provide tenant-scoped search by customer handle, verified phone/email, PNR, ticket number, payment reference, conversation ID, tag, assignee and date range.</td><td><span class="pill fail">Must</span></td></tr>
+        <tr><td class="m">INB-08</td><td>Support tags, internal notes, @mentions, attachments, saved replies, resolution codes, snooze-until and follow-up tasks. Internal content must never be sent to the customer.</td><td><span class="pill hold">Should</span></td></tr>
+        <tr><td class="m">INB-09</td><td>Show channel send states — queued, sent, delivered, read and failed where the channel supplies them — with bounded retry and an operator-visible terminal failure.</td><td><span class="pill fail">Must</span></td></tr>
+        <tr><td class="m">INB-10</td><td>Maintain an immutable event history for message edits, assignment, status, priority, AI action, agent action, policy citation and administrative change.</td><td><span class="pill fail">Must</span></td></tr>
+        <tr><td class="m">INB-11</td><td>Prevent concurrent agent replies through an ownership lease and visible typing/presence. Supervisors may override with an audited reassignment.</td><td><span class="pill fail">Must</span></td></tr>
+        <tr><td class="m">INB-12</td><td>Apply the channel's messaging window, opt-in and template rules before send; offer an approved alternative channel when the current one cannot legally or technically deliver.</td><td><span class="pill fail">Must</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="blk" style="margin-top:30px">Conversation state machine</h3>
+  <div class="tbl-wrap" style="margin-top:12px">
+    <table>
+      <thead><tr><th>State</th><th>Owner</th><th>Entry</th><th>Permitted next states</th></tr></thead>
+      <tbody>
+        <tr><td class="m">NEW</td><td>System</td><td>First valid inbound message</td><td>BOT_ACTIVE, QUEUED, CLOSED_SPAM</td></tr>
+        <tr><td class="m">BOT_ACTIVE</td><td>AI agent</td><td>Conversation is eligible for automation</td><td>WAITING_CUSTOMER, QUEUED, RESOLVED</td></tr>
+        <tr><td class="m">QUEUED</td><td>Queue</td><td>Escalation package accepted by routing</td><td>OFFERED, ASSIGNED, RESOLVED</td></tr>
+        <tr><td class="m">OFFERED</td><td>Candidate agent</td><td>Assignment offered with an acceptance deadline</td><td>ASSIGNED, QUEUED</td></tr>
+        <tr><td class="m">ASSIGNED</td><td>Agent</td><td>Agent accepted or auto-accept policy completed</td><td>AGENT_ACTIVE, WAITING_CUSTOMER, SNOOZED, RESOLVED, QUEUED</td></tr>
+        <tr><td class="m">AGENT_ACTIVE</td><td>Agent</td><td>Human opened/took over the conversation</td><td>WAITING_CUSTOMER, SNOOZED, RESOLVED, QUEUED</td></tr>
+        <tr><td class="m">WAITING_CUSTOMER</td><td>Customer</td><td>AI or agent asked for information</td><td>BOT_ACTIVE, AGENT_ACTIVE, SNOOZED, RESOLVED</td></tr>
+        <tr><td class="m">SNOOZED</td><td>Named owner</td><td>Future event or follow-up time is known</td><td>ASSIGNED, QUEUED, RESOLVED</td></tr>
+        <tr><td class="m">RESOLVED</td><td>Resolver</td><td>Resolution code and outcome recorded</td><td>REOPENED, CLOSED</td></tr>
+        <tr><td class="m">REOPENED</td><td>Previous owner or queue</td><td>New customer message inside the reopen window</td><td>BOT_ACTIVE, QUEUED, ASSIGNED</td></tr>
+        <tr><td class="m">CLOSED</td><td>System</td><td>Reopen window expired or retention workflow closed it</td><td>NEW conversation only</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="grid g2" style="margin-top:22px">
+    <div class="callout">
+      <span class="ch">Identity resolution</span>
+      <p>A channel handle creates a provisional identity. Link channels only through an authenticated account, OTP-verified phone/email, or customer-confirmed booking attribute with rate-limited verification. Similar names, shared devices and guessed phone matches never merge automatically. Every merge and split is reversible and audited.</p>
+    </div>
+    <div class="callout">
+      <span class="ch">SLA clock</span>
+      <p>Queue wait, first human response, next response and resolution are separate clocks. Business-hours calendars, priority and pause conditions are configured per tenant and queue. Waiting for the customer may pause resolution SLA only where policy says so; payment-reconciliation clocks never pause.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== AI AGENT ============================== -->
+<section id="aiagent">
+  <div class="sec-head">
+    <span class="code">E2</span>
+    <h2>Governed AI agent</h2>
+    <span class="status">FR-AI · P0</span>
+  </div>
+
+  <p class="sec-intro">
+    AI is allowed to converse, retrieve approved knowledge and request validated domain tools. It is
+    not an authority for fare rules, identity, refunds or ticketing state. Every automatic action is
+    evaluated on intent certainty, evidence quality, tool state, customer risk and conversation history;
+    a single confidence number is not sufficient.
+  </p>
+
+  <div class="grid g3">
+    <div class="card">
+      <span class="uc">Understand</span>
+      <h4>Detect and structure</h4>
+      <ul>
+        <li>Language, script and transliteration style</li>
+        <li>One or more intents in the same message</li>
+        <li>Entities and booking slots with per-field confidence</li>
+        <li>Sentiment, urgency, abuse and explicit human request</li>
+        <li>Prompt injection and unsafe-data patterns</li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="uc">Decide</span>
+      <h4>Choose the safe next action</h4>
+      <ul>
+        <li>Deterministic flow for booking and money</li>
+        <li>Grounded answer from approved tenant knowledge</li>
+        <li>One focused clarification for recoverable ambiguity</li>
+        <li>Tool call through schema and policy validation</li>
+        <li>Handoff with reason and structured state</li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="uc">Verify</span>
+      <h4>Check before sending</h4>
+      <ul>
+        <li>Answer is supported by current citations</li>
+        <li>Amounts, dates, routes and names match tool output</li>
+        <li>No credential, internal note or hidden instruction leaks</li>
+        <li>Channel and language constraints are satisfied</li>
+        <li>Action and confidence trail are written to audit</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 class="blk" style="margin-top:30px">Default decision policy — tenant configurable inside approved bounds</h3>
+  <div class="tbl-wrap" style="margin-top:12px">
+    <table>
+      <thead><tr><th>Band</th><th>Conditions</th><th>Allowed behavior</th><th>Never allowed</th></tr></thead>
+      <tbody>
+        <tr><td><span class="pill ok">High</span> <span class="m">≥0.85</span></td><td>Low-risk intent; required slots present; current citation or successful tool result</td><td>Reply or execute an approved, reversible tool action</td><td>Invent unavailable data or bypass domain validation</td></tr>
+        <tr><td><span class="pill ai">Guarded</span> <span class="m">0.70–0.849</span></td><td>Intent likely; evidence and entity checks pass; no high-risk trigger</td><td>Reply for approved low-risk intents, or confirm a material value before action</td><td>Refund, cancel, change a booking, collect credentials or make a financial promise</td></tr>
+        <tr><td><span class="pill hold">Clarify</span> <span class="m">0.45–0.699</span></td><td>Ambiguity is recoverable in one turn</td><td>Ask one specific clarification using known context</td><td>Repeat the same question more than twice or silently choose an interpretation</td></tr>
+        <tr><td><span class="pill fail">Handoff</span> <span class="m">&lt;0.45</span></td><td>Intent unclear, evidence absent, tool failed, risk trigger present or clarification budget exhausted</td><td>Acknowledge, package context and route to the appropriate queue</td><td>Continue improvising to protect the automation rate</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout" style="margin-top:20px;border-color:var(--red-line);background:var(--red-bg)">
+    <span class="ch" style="color:var(--red)">Hard escalation overrides every confidence band</span>
+    <p>
+      Escalate immediately for an explicit human request; payment captured without a ticket; suspected
+      fraud or account takeover; safety, legal or media threat; involuntary disruption needing a
+      decision; refund or exception above automation authority; repeated tool failure; missing or
+      conflicting policy evidence; or a customer who has failed the same step three times. The AI may
+      still send a factual acknowledgement, but it may not close the case.
+    </p>
+  </div>
+
+  <h3 class="blk" style="margin-top:30px">AI requirements</h3>
+  <div class="tbl-wrap" style="margin-top:12px">
+    <table>
+      <thead><tr><th>ID</th><th>Requirement</th></tr></thead>
+      <tbody>
+        <tr><td class="m">AI-01</td><td>Detect multi-intent messages and preserve unresolved intents instead of forcing one label.</td></tr>
+        <tr><td class="m">AI-02</td><td>Reply in the customer's readable form while retaining canonical English values for airline APIs.</td></tr>
+        <tr><td class="m">AI-03</td><td>Retrieve only from tenant-approved, effective-dated knowledge and attach the source ID/version to each policy answer.</td></tr>
+        <tr><td class="m">AI-04</td><td>Use typed tool schemas, allowlists, authentication and server-side policy checks. Model output alone never authorises a side effect.</td></tr>
+        <tr><td class="m">AI-05</td><td>Maintain a structured state summary after every material turn and regenerate it before handoff.</td></tr>
+        <tr><td class="m">AI-06</td><td>Stop automated outbound messages while a human ownership lease is active; resume only after explicit release or configured resolution.</td></tr>
+        <tr><td class="m">AI-07</td><td>Calibrate confidence on human-reviewed production traffic per intent, language and channel; review thresholds after drift or material model change.</td></tr>
+        <tr><td class="m">AI-08</td><td>Log model/version, prompt-policy version, retrieved source IDs, tool calls, latency, decision band and escalation reason without logging prohibited PII.</td></tr>
+        <tr><td class="m">AI-09</td><td>Support a global and tenant-level kill switch that routes new AI-eligible work to deterministic notices or humans without losing messages.</td></tr>
+        <tr><td class="m">AI-10</td><td>Evaluate releases on human-written messages, unseen Banglish spellings, real channel messages, hard confusion pairs, multi-intent inputs, unseen tenants and latest production samples.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============================== ROUTING ============================== -->
+<section id="routing">
+  <div class="sec-head">
+    <span class="code">E3</span>
+    <h2>Escalation, queues and workload-aware routing</h2>
+    <span class="status">FR-RT · P0</span>
+  </div>
+
+  <p class="sec-intro">
+    Escalation creates a queue item; assignment gives it to a person. Those are separate, audited
+    events. Priority determines which eligible work is considered first. Workload-adjusted smooth
+    weighted round robin determines which eligible agent receives it, preserving fairness without
+    sending work to someone who lacks the required skill or capacity.
+  </p>
+
+  <h3 class="blk">The escalation package</h3>
+  <div class="grid g3" style="margin-top:12px">
+    <div class="card"><h4>Customer and conversation</h4><p>Verified identity references, channel, language, consent state, full permitted transcript, attachments, sentiment and previous contacts.</p></div>
+    <div class="card"><h4>Operational state</h4><p>PNR, route, departure time, fare hold, payment status/reference, ticketing state, tool failures and timers. Sensitive values remain masked by role.</p></div>
+    <div class="card"><h4>Reason and next action</h4><p>Escalation reason code, AI confidence trail, unresolved intents, attempted actions, cited policies, one-line summary and recommended queue/skill.</p></div>
+  </div>
+
+  <h3 class="blk" style="margin-top:30px">Queue priority</h3>
+  <div class="tbl-wrap" style="margin-top:12px">
+    <table>
+      <thead><tr><th>Priority</th><th>Examples</th><th>Ordering rule</th><th>Default target</th></tr></thead>
+      <tbody>
+        <tr><td><span class="pill fail">P0 Critical</span></td><td>Paid but not ticketed, suspected duplicate charge, active security incident</td><td>Financial/safety impact, then age; pages duty owner as well as queueing</td><td>Immediate assignment; customer acknowledgement within 1 min</td></tr>
+        <tr><td><span class="pill hold">P1 Urgent</span></td><td>Departure within 6h, customer at airport, live fare hold, same-day involuntary disruption</td><td>Departure/hold deadline, airport presence, then SLA age</td><td>Human pickup within approved urgent SLA</td></tr>
+        <tr><td><span class="pill ai">P2 Standard</span></td><td>Change, refund request, complaint, complex booking, low-confidence support</td><td>SLA deadline with aging; verified returning-owner affinity may break ties</td><td>Business-hours queue SLA</td></tr>
+        <tr><td><span class="pill ext">P3 Deferred</span></td><td>Document follow-up, non-urgent offline task, scheduled callback</td><td>Due time, then age</td><td>Complete before due time</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="grid g2" style="margin-top:22px">
+    <div class="card">
+      <span class="uc">Step 1 · hard eligibility</span>
+      <h4>Build the candidate set</h4>
+      <ul>
+        <li>Same tenant and permitted queue</li>
+        <li>Logged in, AVAILABLE, and not in wrap-up or break</li>
+        <li>Required skill certification and channel permission</li>
+        <li>Required language level, with explicit fallback policy</li>
+        <li>Active conversation count below configured concurrency</li>
+        <li>No conflict-of-interest or restricted-booking rule</li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="uc">Step 2 · fair selection</span>
+      <h4>Adjust weight by remaining capacity</h4>
+      <p class="m">load = (active_chats + 0.5 × pending_tasks) / max_concurrency</p>
+      <p class="m">effective_weight = base_weight × skill_fit × max(0.10, 1 − load)</p>
+      <p>Run smooth weighted round robin over the eligible set using the effective weight. Exact skill and language match use <span class="m">1.0</span>; an administrator-approved fallback may use a lower factor. At capacity, an agent is excluded rather than assigned the minimum weight.</p>
+    </div>
+  </div>
+
+  <div class="callout" style="margin-top:20px">
+    <span class="ch">What the weight may and may not mean</span>
+    <p>
+      Base weight represents planned capacity or certified handling scope — for example, a senior
+      disruption agent may take more of that queue. It must not be continuously increased from sales,
+      CSAT or speed in a way that starves other agents or makes metrics self-fulfilling. Performance
+      metrics support coaching and certification; they do not silently determine whether an employee
+      receives work.
+    </p>
+  </div>
+
+  <h3 class="blk" style="margin-top:30px">Routing requirements</h3>
+  <div class="tbl-wrap" style="margin-top:12px">
+    <table>
+      <thead><tr><th>ID</th><th>Requirement</th></tr></thead>
+      <tbody>
+        <tr><td class="m">RT-01</td><td>Route by tenant, queue, required skill, language, channel permission, availability and remaining concurrency before applying weighted selection.</td></tr>
+        <tr><td class="m">RT-02</td><td>Use an atomic assignment lock and idempotency key so one queue item cannot be owned by two agents.</td></tr>
+        <tr><td class="m">RT-03</td><td>Support configured base weight and maximum concurrent conversations per agent, with changes versioned and audited.</td></tr>
+        <tr><td class="m">RT-04</td><td>Offer an assignment for 30 seconds by default. Reject, timeout or disconnect returns it to the queue without resetting original SLA age.</td></tr>
+        <tr><td class="m">RT-05</td><td>Prefer the previous eligible agent for a reopened conversation or same active PNR when doing so will not breach a higher-priority SLA.</td></tr>
+        <tr><td class="m">RT-06</td><td>Age queued work continuously to prevent starvation. Priority upgrades create an audit event and retain original arrival time.</td></tr>
+        <tr><td class="m">RT-07</td><td>When no agent is eligible, tell the customer the queue state, preserve their place, alert the supervisor at the configured threshold and retry on agent-state change.</td></tr>
+        <tr><td class="m">RT-08</td><td>Supervisors may manually assign, reassign, change priority or pin a conversation, but must select a reason and cannot bypass tenant or restricted-data permissions.</td></tr>
+        <tr><td class="m">RT-09</td><td>Bulk disruptions create a disruption cohort and decision queues; informational questions remain AI-served from the approved incident record.</td></tr>
+        <tr><td class="m">RT-10</td><td>Expose assignment reason, eligible candidate count, effective weights, selected agent and reassignment history for audit and debugging.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============================== CONTENT OPS ============================== -->
+<section id="contentops">
+  <div class="sec-head">
+    <span class="code">E4</span>
+    <h2>Who keeps the answers true</h2>
+    <span class="status">PRD v2.0 requirement</span>
+  </div>
+
+  <p class="sec-intro">
+    The &gt;70% first-contact-resolution target rests entirely on one thing: a policy corpus that is
+    accurate today. The model is only as right as the documents behind it, and airline policy changes
+    without telling anyone. This is an ongoing job, not a launch task.
+  </p>
+
+  <div class="grid g2">
+    <div class="card">
+      <h4>What the corpus holds</h4>
+      <ul>
+        <li>Fare rules per family — Economy Saver, Economy Flexible, Business</li>
+        <li>Baggage allowance by route and fare, including the domestic and international split</li>
+        <li>Change and cancellation fee tables, with the effective dates</li>
+        <li>Sky Star tier benefits and accrual rules</li>
+        <li>Check-in windows, airport process, and document requirements</li>
+        <li>Refund timelines by payment rail — which differ, and which customers always ask about</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>How it stays true</h4>
+      <ul>
+        <li>One named owner. Half a role, but a person, not a team inbox</li>
+        <li>Scheduled review each month, plus an immediate update whenever the airline changes a rule</li>
+        <li>One canonical language with a reviewed translation — never two independently edited copies that drift apart</li>
+        <li>Every document versioned and dated; every bot answer cites the document ID it came from</li>
+        <li>No citation, no answer — an uncited question routes to an agent instead of being guessed at</li>
+        <li>The unanswered-question log from <a href="#observability">D2</a> is the standing backlog</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout" style="margin-top:20px">
+    <span class="ch">Message templates are content too</span>
+    <p>
+      The WhatsApp template library needs the same discipline: someone owns submission, tracks approval
+      lead times, and knows that editing an approved template means re-approval. A recovery campaign
+      planned for an Eid window and submitted the week before will not be approved in time.
+    </p>
+  </div>
+</section>
+
+<!-- ============================== AGENT WORKSPACE ============================== -->
+<section id="workspace">
+  <div class="sec-head">
+    <span class="code">E5</span>
+    <h2>Human agent workspace</h2>
+    <span class="status">FR-AG · P0</span>
+  </div>
+
+  <p class="sec-intro">
+    The agent must understand a handed-over case in seconds, act without changing tools for routine
+    work, and never collide with the bot or another agent. The native workspace is the reference
+    experience; a Freshchat, Zendesk or other console adapter may reproduce it only if every P0 field,
+    control and audit event remains available.
+  </p>
+
+  <div class="grid g3">
+    <div class="card">
+      <span class="uc">Left · work</span>
+      <h4>Queue and conversation list</h4>
+      <ul>
+        <li>Priority, SLA countdown and channel</li>
+        <li>Customer, route/PNR and last-message preview</li>
+        <li>AI/queue/agent ownership state</li>
+        <li>Unread, mention, tag and risk indicators</li>
+        <li>Keyboard navigation and saved views</li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="uc">Centre · conversation</span>
+      <h4>One chronological thread</h4>
+      <ul>
+        <li>Customer, bot and human messages clearly attributed</li>
+        <li>Channel delivery/read status and reply context</li>
+        <li>Internal notes visually and technically separated</li>
+        <li>Composer, attachments, templates and translation preview</li>
+        <li>Takeover, transfer, snooze, resolve and reopen actions</li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="uc">Right · context</span>
+      <h4>Operational customer panel</h4>
+      <ul>
+        <li>AI summary, unresolved intents and handoff reason</li>
+        <li>Verified identity and permitted contact history</li>
+        <li>PNR, payment, ticket, hold and disruption state</li>
+        <li>Cited fare/policy facts and tool history</li>
+        <li>Previous resolutions, tasks and audit timeline</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 class="blk" style="margin-top:30px">Agent state and capacity</h3>
+  <div class="tbl-wrap" style="margin-top:12px">
+    <table>
+      <thead><tr><th>State</th><th>Receives new work</th><th>Behavior</th></tr></thead>
+      <tbody>
+        <tr><td class="m">OFFLINE</td><td>No</td><td>No routing. Existing work must be transferred or returned under logout policy.</td></tr>
+        <tr><td class="m">AVAILABLE</td><td>Yes</td><td>Eligible up to queue and agent concurrency limit.</td></tr>
+        <tr><td class="m">BUSY</td><td>Conditional</td><td>Eligible only while remaining capacity is greater than zero; dynamic weight falls with load.</td></tr>
+        <tr><td class="m">WRAP_UP</td><td>No</td><td>Short, configurable post-resolution period for notes and outcome codes.</td></tr>
+        <tr><td class="m">AWAY / BREAK</td><td>No</td><td>No new work; assigned active cases remain visible and trigger supervisor policy if unattended.</td></tr>
+        <tr><td class="m">TRAINING</td><td>Limited</td><td>Receives only approved queues, optionally with supervisor review before send.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="blk" style="margin-top:30px">Workspace requirements</h3>
+  <div class="tbl-wrap" style="margin-top:12px">
+    <table>
+      <thead><tr><th>ID</th><th>Requirement</th></tr></thead>
+      <tbody>
+        <tr><td class="m">AG-01</td><td>Open an assigned conversation with transcript, summary, handoff reason, SLA, identity status, booking/payment state and unresolved work visible without another search.</td></tr>
+        <tr><td class="m">AG-02</td><td>Require acceptance or explicit auto-accept before the ownership lease begins; record offered, accepted, rejected and timed-out timestamps.</td></tr>
+        <tr><td class="m">AG-03</td><td>Silence AI outbound behavior for the duration of human ownership. AI may prepare a draft or retrieve data, but the agent controls send and side effects.</td></tr>
+        <tr><td class="m">AG-04</td><td>Offer AI-assisted summary, suggested reply, translation and knowledge search with sources. Agents may edit or reject; suggestions are never counted as human messages until sent.</td></tr>
+        <tr><td class="m">AG-05</td><td>Execute booking-domain actions through the same validated services, permissions, confirmation steps and idempotency controls used by the bot.</td></tr>
+        <tr><td class="m">AG-06</td><td>Mask passport/NID, phone, email and payment references by role and task. Every reveal of protected data creates an audit event.</td></tr>
+        <tr><td class="m">AG-07</td><td>Transfer to another queue or eligible agent with a reason and note; original SLA age and complete context follow the case.</td></tr>
+        <tr><td class="m">AG-08</td><td>Resolve only after selecting a resolution category and outcome. Refund, ticket, change and complaint outcomes require their domain reference where applicable.</td></tr>
+        <tr><td class="m">AG-09</td><td>Snooze only with a named owner and wake condition. Due-time expiry returns the case to the correct queue and alerts the owner.</td></tr>
+        <tr><td class="m">AG-10</td><td>Support a configurable reopen window. A reopened case prefers its previous eligible agent but cannot wait past a higher-priority SLA.</td></tr>
+        <tr><td class="m">AG-11</td><td>Warn before logout or break when active customer work remains; apply the tenant's unattended-conversation timeout and reassignment rule.</td></tr>
+        <tr><td class="m">AG-12</td><td>Meet keyboard, screen-reader, focus, contrast and responsive-layout requirements for the complete P0 workflow.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============================== SUPERVISOR ============================== -->
+<section id="supervisor">
+  <div class="sec-head">
+    <span class="code">E6</span>
+    <h2>Supervisor controls and agent KPI</h2>
+    <span class="status">FR-SUP · P0/P1</span>
+  </div>
+
+  <p class="sec-intro">
+    Supervisors need two products: a real-time control surface for today's queue and an analytical
+    scorecard for coaching over time. They must not be collapsed into one leaderboard. Every metric
+    is defined from immutable events, segmented by queue, language, channel and complexity, and hidden
+    at agent level until the configured minimum sample is reached.
+  </p>
+
+  <div class="grid g2">
+    <div class="card">
+      <span class="uc">Real-time operations</span>
+      <h4>Queue control</h4>
+      <ul>
+        <li>Waiting, offered, assigned and active counts by priority</li>
+        <li>Oldest wait, next SLA breach and breach forecast</li>
+        <li>Agent status, active load, capacity and last activity</li>
+        <li>No-eligible-agent and channel-delivery alerts</li>
+        <li>Manual assign, reassign, priority change and surge-mode controls</li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="uc">Historical performance</span>
+      <h4>Team and agent scorecards</h4>
+      <ul>
+        <li>Volume, responsiveness, resolution and customer outcome</li>
+        <li>SLA compliance, transfer, reopen and quality review</li>
+        <li>Distribution and trend, not average alone</li>
+        <li>Queue/language/channel and case-complexity cohorts</li>
+        <li>Export with tenant, role, date and audit restrictions</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 class="blk" style="margin-top:30px">Canonical KPI definitions</h3>
+  <div class="tbl-wrap" style="margin-top:12px">
+    <table>
+      <thead><tr><th>KPI</th><th>Definition</th><th>Use and guardrail</th></tr></thead>
+      <tbody>
+        <tr><td><b>Queue wait</b></td><td><span class="m">assigned_at − escalated_at</span>; report median, p90 and p95</td><td>Staffing and routing health; not attributed to the receiving agent</td></tr>
+        <tr><td><b>Human first response</b></td><td><span class="m">first_meaningful_human_reply_at − escalated_at</span></td><td>Customer experience, including queue wait; automation-only acknowledgements do not stop the clock</td></tr>
+        <tr><td><b>Agent reaction time</b></td><td><span class="m">first_meaningful_human_reply_at − assigned_at</span></td><td>Agent responsiveness after assignment; exclude system delivery delay but show it separately</td></tr>
+        <tr><td><b>Average response time</b></td><td>Mean and median of customer-message to next meaningful human reply while human-owned</td><td>Show p90 and sample count; exclude customer waiting and bot-only turns</td></tr>
+        <tr><td><b>Active handling time</b></td><td>Time the assigned agent actively views/works the case plus configured wrap-up, excluding waiting-customer and snooze periods</td><td>Capacity planning; never treated as a quality target by itself</td></tr>
+        <tr><td><b>Resolution time</b></td><td><span class="m">resolved_at − escalated_at</span> minus policy-approved paused intervals</td><td>Report both gross and SLA-clock time; money reconciliation never pauses</td></tr>
+        <tr><td><b>First-contact resolution</b></td><td>Eligible conversation resolved without transfer and without same-reason reopen/recontact inside 72 hours</td><td>Exclude spam, duplicates and mandated offline workflows; publish denominator</td></tr>
+        <tr><td><b>AI containment</b></td><td>AI-resolved eligible conversations with no human assignment and no same-reason reopen within 72 hours</td><td>Pair with grounded correctness, complaint and false-containment review</td></tr>
+        <tr><td><b>Transfer rate</b></td><td>Human-owned conversations transferred at least once ÷ human-owned conversations</td><td>Segment avoidable versus required specialist transfers</td></tr>
+        <tr><td><b>Reopen rate</b></td><td>Resolved conversations reopened within the configured window ÷ resolved conversations</td><td>Quality signal; split customer follow-up from premature resolution</td></tr>
+        <tr><td><b>SLA compliance</b></td><td>Eligible cases meeting every applicable queue/response/resolution target ÷ eligible cases</td><td>Show breach reason and clock pauses; no retroactive SLA edits</td></tr>
+        <tr><td><b>CSAT</b></td><td>Mean and distribution of verified post-resolution survey responses</td><td>Display response rate and minimum sample; do not impute missing responses</td></tr>
+        <tr><td><b>Occupancy</b></td><td>Active handling time ÷ logged-in time available for assigned work</td><td>Team planning only; sustained 100% signals understaffing, not excellence</td></tr>
+        <tr><td><b>QA score</b></td><td>Weighted review of accuracy, policy compliance, communication, ownership, security and resolution</td><td>Reviewer, rubric version and appeal outcome retained; calibrate reviewers monthly</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="blk" style="margin-top:30px">Supervisor requirements</h3>
+  <div class="tbl-wrap" style="margin-top:12px">
+    <table>
+      <thead><tr><th>ID</th><th>Requirement</th></tr></thead>
+      <tbody>
+        <tr><td class="m">SUP-01</td><td>Refresh real-time queue and agent state within 5 seconds of the source event under normal load.</td></tr>
+        <tr><td class="m">SUP-02</td><td>Filter every dashboard by tenant-authorised team, queue, agent, channel, language, priority, intent, resolution and date.</td></tr>
+        <tr><td class="m">SUP-03</td><td>Drill from an aggregate metric to permitted source conversations and the exact events used in the calculation.</td></tr>
+        <tr><td class="m">SUP-04</td><td>Alert before SLA breach and when no eligible agent, abnormal escalation spike, channel failure or queue surge crosses its configured threshold.</td></tr>
+        <tr><td class="m">SUP-05</td><td>Support QA sampling by random, risk-based and targeted rules; keep the rubric version and reviewer calibration history.</td></tr>
+        <tr><td class="m">SUP-06</td><td>Default individual scorecards to a minimum of 30 eligible conversations and 5 survey responses; show insufficient sample instead of a rank.</td></tr>
+        <tr><td class="m">SUP-07</td><td>Version KPI definitions and recompute historical data only through an explicit, labelled backfill.</td></tr>
+        <tr><td class="m">SUP-08</td><td>Export redacted CSV/PDF reports asynchronously with requester, filters, row count, expiry and audit record.</td></tr>
+        <tr><td class="m">SUP-09</td><td>Allow agents to view their own scorecard and submit a QA appeal without exposing another agent's restricted data.</td></tr>
+        <tr><td class="m">SUP-10</td><td>Never expose a single composite rank by default. Where an approved score exists, show its component weights and sample coverage.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============================== GOVERNANCE ============================== -->
+<section id="governance">
+  <div class="sec-head">
+    <span class="code">E7</span>
+    <h2>Tenant administration and governance</h2>
+    <span class="status">FR-ADM · P0</span>
+  </div>
+
+  <p class="sec-intro">
+    Administrators configure policy; they do not edit production behavior invisibly. Every material
+    change has a version, author, effective time and rollback path. High-risk changes use maker-checker
+    approval so one account cannot silently expand refund authority, AI autonomy or data access.
+  </p>
+
+  <div class="grid g3">
+    <div class="card"><h4>Brand and channels</h4><p>Brand name, tone, logos, supported languages, business hours, channel credentials, opt-in text, templates, delivery fallback and channel kill switches.</p></div>
+    <div class="card"><h4>Queues and people</h4><p>Teams, queues, skills, language levels, agent state, base routing weights, concurrency, escalation matrix, business calendars and surge roster.</p></div>
+    <div class="card"><h4>AI and knowledge</h4><p>Allowed intents, confidence bounds, action authority, knowledge collections, effective dates, translations, test set, model rollout and AI kill switch.</p></div>
+    <div class="card"><h4>SLA and priority</h4><p>Priority rules, first-response and resolution targets, pause rules, breach alerts, acknowledgement copy, reopen window and after-hours behavior.</p></div>
+    <div class="card"><h4>Security and retention</h4><p>RBAC, SSO/MFA policy, PII masking, reveal permission, retention by data class, export controls, legal hold, data residency and break-glass approvers.</p></div>
+    <div class="card"><h4>Commercial controls</h4><p>Supplier credentials, payment rails, merchant-of-record setting, refund ceilings, fee tables, currency, feature flags and per-tenant usage budgets.</p></div>
+  </div>
+
+  <h3 class="blk" style="margin-top:30px">Administration requirements</h3>
+  <div class="tbl-wrap" style="margin-top:12px">
+    <table>
+      <thead><tr><th>ID</th><th>Requirement</th></tr></thead>
+      <tbody>
+        <tr><td class="m">ADM-01</td><td>Enforce tenant isolation in application queries, caches, search indexes, object paths, analytics and background jobs, with automated negative tests.</td></tr>
+        <tr><td class="m">ADM-02</td><td>Provide least-privilege roles and custom role composition; privileged administration requires MFA or federated equivalent.</td></tr>
+        <tr><td class="m">ADM-03</td><td>Require a second authorised approver for refund authority, payment routing, AI side-effect scope, retention reduction, break-glass access and role escalation.</td></tr>
+        <tr><td class="m">ADM-04</td><td>Validate configuration before publish, show the affected queues/channels, support scheduled activation and retain one-click rollback to the previous valid version.</td></tr>
+        <tr><td class="m">ADM-05</td><td>Store integration secrets in a managed secret store, display them only at creation where required, rotate without downtime and never include them in exports or logs.</td></tr>
+        <tr><td class="m">ADM-06</td><td>Provide sandbox/test mode for channels, routing, templates, AI policy and booking tools so changes can be demonstrated without contacting real customers or moving money.</td></tr>
+        <tr><td class="m">ADM-07</td><td>Maintain an append-only administrative audit record containing actor, role, tenant, before/after values, reason, approver, IP/session and effective time.</td></tr>
+        <tr><td class="m">ADM-08</td><td>Support tenant-scoped data export and deletion workflows with legal-hold and financial-ledger exceptions applied before execution.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============================== DATA AND EVENTS ============================== -->
+<section id="dataevents">
+  <div class="sec-head">
+    <span class="code">E8</span>
+    <h2>Operational data, events and notifications</h2>
+    <span class="status">FR-DAT · P0</span>
+  </div>
+
+  <p class="sec-intro">
+    The mutable record serves the product; the append-only event stream explains what happened.
+    Analytics, routing, audit and recovery consume the same versioned events rather than each inventing
+    a different interpretation of a conversation.
+  </p>
+
+  <h3 class="blk">Core entities</h3>
+  <div class="tbl-wrap" style="margin-top:12px">
+    <table>
+      <thead><tr><th>Entity</th><th>Minimum fields and relationships</th><th>System of record</th></tr></thead>
+      <tbody>
+        <tr><td class="m">Tenant</td><td>Brand, locale, time zone, policy versions, isolation key, status</td><td>Platform database</td></tr>
+        <tr><td class="m">CustomerIdentity</td><td>Tenant-scoped verified/provisional handles, verification method, consent, merge lineage</td><td>Identity service</td></tr>
+        <tr><td class="m">Conversation</td><td>Tenant, customer, channel/thread, status, owner, queue, priority, SLA clocks, tags, latest summary</td><td>Conversation service</td></tr>
+        <tr><td class="m">Message</td><td>External/canonical IDs, sender, type, content reference, reply relation, sent/delivered/read states</td><td>Conversation service</td></tr>
+        <tr><td class="m">Escalation</td><td>Reason code, risk, required skills, AI trail, summary, operational references, created time</td><td>Handoff service</td></tr>
+        <tr><td class="m">QueueItem / Assignment</td><td>Priority, SLA, candidate policy, offer/accept/reject/timeout, owner lease and complete history</td><td>Routing service</td></tr>
+        <tr><td class="m">Agent / Skill</td><td>Tenant/team, roles, certification, language, state, weight, concurrency and schedule references</td><td>Workforce directory</td></tr>
+        <tr><td class="m">BookingContext</td><td>Supplier, offer, PNR, passenger references, hold, payment, ticket and disruption identifiers</td><td>Domain services; conversation stores references and safe snapshot</td></tr>
+        <tr><td class="m">KnowledgeSource</td><td>Tenant, document/version, language, effective dates, approval, supersession and citation ID</td><td>Content service</td></tr>
+        <tr><td class="m">MetricEvent</td><td>Schema/version, tenant, conversation/agent/queue references, occurrence time and trace ID</td><td>Append-only event/analytics store</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="blk" style="margin-top:30px">Required event families</h3>
+  <div class="grid g4" style="margin-top:12px">
+    <div class="card"><h4>Conversation</h4><p class="m">conversation.created<br>message.received<br>message.sent<br>message.delivery_changed<br>conversation.status_changed</p></div>
+    <div class="card"><h4>AI</h4><p class="m">ai.intent_detected<br>ai.answer_generated<br>ai.tool_requested<br>ai.tool_completed<br>ai.escalated</p></div>
+    <div class="card"><h4>Routing</h4><p class="m">queue.entered<br>assignment.offered<br>assignment.accepted<br>assignment.timed_out<br>conversation.transferred</p></div>
+    <div class="card"><h4>Outcome</h4><p class="m">conversation.resolved<br>conversation.reopened<br>csat.submitted<br>qa.completed<br>sla.breached</p></div>
+  </div>
+
+  <h3 class="blk" style="margin-top:30px">Customer and staff notifications</h3>
+  <div class="tbl-wrap" style="margin-top:12px">
+    <table>
+      <thead><tr><th>Trigger</th><th>Customer</th><th>Internal</th><th>Rule</th></tr></thead>
+      <tbody>
+        <tr><td>Queued for human</td><td>Acknowledge handoff and provide honest expected-wait wording</td><td>Queue item and supervisor forecast</td><td>Do not claim an agent is connected before acceptance</td></tr>
+        <tr><td>Assignment accepted</td><td>Optional named-agent introduction per tenant</td><td>Agent desktop/in-app notification</td><td>Respect channel window and customer language</td></tr>
+        <tr><td>SLA at risk</td><td>No repeated automated nag</td><td>Agent and supervisor warning</td><td>Threshold configured before breach</td></tr>
+        <tr><td>Paid, not ticketed</td><td>Proactive factual notice within 5 minutes under the proposed default</td><td>Page duty ops and on-call engineer</td><td>No promise of refund timing until policy is approved</td></tr>
+        <tr><td>Agent/customer inactivity</td><td>At most the approved reminder sequence</td><td>Unattended-work warning</td><td>Never close an active money/disruption case for inactivity</td></tr>
+        <tr><td>Resolved</td><td>Resolution summary and optional CSAT survey</td><td>Outcome event and QA eligibility</td><td>Survey suppression/consent rules apply</td></tr>
+        <tr><td>Disruption cohort opened</td><td>Proactive, approved route-specific update</td><td>Surge dashboard and roster alert</td><td>Deduplicate per affected PNR and event version</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============================== NFR ============================== -->
+<section id="nfr">
+  <div class="sec-head">
+    <span class="code">E9</span>
+    <h2>Non-functional requirements</h2>
+    <span class="status">NFR · Release gates</span>
+  </div>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>ID</th><th>Area</th><th>Requirement and measurement</th></tr></thead>
+      <tbody>
+        <tr><td class="m">NFR-01</td><td><b>Availability</b></td><td>99.9% monthly availability for inbound message acceptance, inbox read/send and booking path, excluding published third-party outages but not our adapter failure.</td></tr>
+        <tr><td class="m">NFR-02</td><td><b>Latency</b></td><td>Inbound webhook acknowledgement p95 &lt;500ms; deterministic/first streamed bot response p95 &lt;1.5s excluding supplier work; inbox update p95 &lt;2s; eligible-agent assignment p95 &lt;3s.</td></tr>
+        <tr><td class="m">NFR-03</td><td><b>Scale</b></td><td>Sustain 5,000 concurrent customer sessions at the approved session definition, the forecast concurrent-agent load, and a disruption burst of 10× normal inbound messages for 15 minutes without message loss.</td></tr>
+        <tr><td class="m">NFR-04</td><td><b>Consistency</b></td><td>At-least-once event delivery with idempotent consumers; exactly-once visible effect for external message, assignment, ticket issue and payment/refund commands.</td></tr>
+        <tr><td class="m">NFR-05</td><td><b>Resilience</b></td><td>Bounded retry, circuit breaker, dead-letter queue and replay for every external adapter. Channel or supplier failure degrades independently and remains visible to operators.</td></tr>
+        <tr><td class="m">NFR-06</td><td><b>Recovery</b></td><td>Proposed RPO ≤5 minutes and RTO ≤30 minutes for conversation/routing state; financial ledger RPO approaches zero through durable synchronous writes. Prove by recovery drill before launch.</td></tr>
+        <tr><td class="m">NFR-07</td><td><b>Security</b></td><td>TLS in transit, managed encryption at rest, secret vault, MFA for privileged roles, least privilege, dependency/secret scanning and independently reviewed penetration test before GA.</td></tr>
+        <tr><td class="m">NFR-08</td><td><b>Privacy</b></td><td>Data minimisation, field-level masking, purpose-limited access, configurable retention, deletion/export workflow and approved processing jurisdictions. PAN, PIN, CVV and OTP are never collected in chat.</td></tr>
+        <tr><td class="m">NFR-09</td><td><b>Tenant isolation</b></td><td>Zero cross-tenant reads/writes in automated negative tests covering API, search, cache, object store, analytics, export and background work; any breach is a launch blocker and critical incident.</td></tr>
+        <tr><td class="m">NFR-10</td><td><b>Audit</b></td><td>100% of privileged access, configuration, AI side effects, assignment and domain money actions correlated by immutable actor, tenant, trace and timestamp.</td></tr>
+        <tr><td class="m">NFR-11</td><td><b>Accessibility</b></td><td>Agent and supervisor P0 workflows conform to WCAG 2.2 AA, including keyboard-only use, screen-reader names, focus order, contrast, zoom and reduced motion.</td></tr>
+        <tr><td class="m">NFR-12</td><td><b>Compatibility</b></td><td>Latest two major versions of Chrome, Edge, Firefox and Safari for the agent web application; responsive support at 1280px and above, usable at 768px.</td></tr>
+        <tr><td class="m">NFR-13</td><td><b>Observability</b></td><td>Structured logs, metrics and traces correlate channel message → AI/tool → booking/payment → assignment → response. Alert thresholds have named owners and runbooks.</td></tr>
+        <tr><td class="m">NFR-14</td><td><b>Maintainability</b></td><td>Versioned APIs/events, backwards-compatible consumers during migration, provider adapters, feature flags, automated rollback and no hard-coded tenant or airline policy in shared services.</td></tr>
+        <tr><td class="m">NFR-15</td><td><b>Localisation</b></td><td>Unicode end to end; Bangla and English UI/content; tenant time zone and currency; canonical date/airport/amount confirmation before any consequential action.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============================== ACCEPTANCE ============================== -->
+<section id="requirements">
+  <div class="sec-head">
+    <span class="code">E10</span>
+    <h2>Acceptance criteria and requirement traceability</h2>
+    <span class="status">Definition of done</span>
+  </div>
+
+  <p class="sec-intro">
+    A feature is not accepted because its happy-path screen exists. The following scenarios are
+    demonstrable release criteria. Detailed test cases may expand them, but cannot weaken them without
+    an approved PRD change.
+  </p>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>ID</th><th>Given / when</th><th>Then</th><th>Maps to</th></tr></thead>
+      <tbody>
+        <tr><td class="m">AC-01</td><td>A channel sends the same webhook five times</td><td>One canonical message appears, one AI/routing action occurs, and duplicate receipts remain observable</td><td>INB-01–04, NFR-04</td></tr>
+        <tr><td class="m">AC-02</td><td>Two customers have similar names or share a device</td><td>Their conversations stay separate until an approved verification links them; merge and split are audited</td><td>INB-07, Identity rule</td></tr>
+        <tr><td class="m">AC-03</td><td>A customer asks two intents in Banglish in one message</td><td>Both intents and slots are retained; resolved work is answered and unresolved work remains visible</td><td>AI-01, AI-02, AI-10</td></tr>
+        <tr><td class="m">AC-04</td><td>An answer has no current approved source</td><td>The AI does not guess; it asks one useful clarification or escalates with missing-evidence reason</td><td>AI-03, AI-07</td></tr>
+        <tr><td class="m">AC-05</td><td>The customer explicitly requests a human at any confidence</td><td>Handoff starts immediately without a confirmation loop, and the customer receives a truthful queue acknowledgement</td><td>E2 hard override, RT-01</td></tr>
+        <tr><td class="m">AC-06</td><td>Payment is captured and ticketing fails repeatedly</td><td>The case becomes P0, duty owners are paged, customer is notified, reconciliation starts, and no duplicate ticket/refund can occur</td><td>B2, E3, NFR-04</td></tr>
+        <tr><td class="m">AC-07</td><td>Three agents differ by skill, language, configured weight and current load</td><td>Only eligible agents enter selection; repeated simulation matches smooth weighted distribution within documented tolerance and never exceeds capacity</td><td>RT-01–03</td></tr>
+        <tr><td class="m">AC-08</td><td>An offered agent rejects or does not accept within 30 seconds</td><td>The item returns to queue with original age/SLA, the event is audited, and the next eligible agent is considered</td><td>RT-04</td></tr>
+        <tr><td class="m">AC-09</td><td>An agent accepts a handed-over conversation</td><td>Transcript, AI summary, reason, PNR/payment state and cited sources load; bot outbound is locked before human send is enabled</td><td>AG-01–03</td></tr>
+        <tr><td class="m">AC-10</td><td>Two agents try to take or reply to the same conversation</td><td>One atomic ownership lease wins; the other sees current owner and cannot send without audited supervisor override</td><td>INB-11, RT-02</td></tr>
+        <tr><td class="m">AC-11</td><td>An agent transfers a case</td><td>Context, original SLA age, audit history and attachments follow; the customer is not asked to repeat known information</td><td>AG-07</td></tr>
+        <tr><td class="m">AC-12</td><td>A resolved customer replies inside and outside the reopen window</td><td>Inside reopens with owner affinity; outside starts a linked new conversation under current policy</td><td>AG-10, lifecycle</td></tr>
+        <tr><td class="m">AC-13</td><td>A supervisor filters a KPI and drills down</td><td>The aggregate equals recomputation from source events, cohort/sample rules are visible, and permitted conversations explain the number</td><td>SUP-02, SUP-03, SUP-07</td></tr>
+        <tr><td class="m">AC-14</td><td>An agent has fewer than the minimum KPI sample</td><td>The scorecard says insufficient sample and does not rank the agent</td><td>SUP-06, SUP-10</td></tr>
+        <tr><td class="m">AC-15</td><td>An administrator expands refund or AI side-effect authority</td><td>The change cannot activate without validation, second approval, versioned audit and rollback target</td><td>ADM-03, ADM-04, ADM-07</td></tr>
+        <tr><td class="m">AC-16</td><td>A user from tenant A queries/searches/exports tenant B identifiers</td><td>Every path denies access without revealing existence, records the security event and passes the isolation test suite</td><td>ADM-01, NFR-09</td></tr>
+        <tr><td class="m">AC-17</td><td>A channel is unavailable or rejects an outbound message</td><td>The message reaches a terminal visible state after bounded retry; customer history is preserved and approved fallback is offered</td><td>INB-09, INB-12, NFR-05</td></tr>
+        <tr><td class="m">AC-18</td><td>The AI kill switch is activated during load</td><td>No new generated reply or model side effect occurs; messages continue into deterministic or human paths without loss</td><td>AI-09, NFR-03</td></tr>
+        <tr><td class="m">AC-19</td><td>The Eid/disruption load profile is applied</td><td>Approved p95 targets hold, no canonical message or assignment is lost, and reconciliation remains within capacity</td><td>NFR-02–05</td></tr>
+        <tr><td class="m">AC-20</td><td>The primary state store is restored in the recovery drill</td><td>RPO/RTO are met, ownership leases are reconciled, events replay idempotently and financial state matches the ledger</td><td>NFR-06</td></tr>
+        <tr><td class="m">AC-21</td><td>A keyboard/screen-reader user completes the P0 agent workflow</td><td>They accept, read, reply, transfer and resolve without pointer-only interaction or missing accessible names</td><td>AG-12, NFR-11</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="blk" style="margin-top:30px">Production release gates</h3>
+  <div class="grid g2" style="margin-top:12px">
+    <div class="card">
+      <span class="uc">Technical and safety</span>
+      <ul>
+        <li>All P0 acceptance scenarios green in the production-like environment</li>
+        <li>No open critical/high security finding without signed risk acceptance</li>
+        <li>Tenant-isolation, payment matrix, AI evaluation and accessibility gates pass</li>
+        <li>Load, failover, replay and paid-not-ticketed drills completed with evidence</li>
+        <li>Dashboards, alerts, runbooks, kill switches and rollback tested by their owners</li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="uc">Business and operations</span>
+      <ul>
+        <li>Inventory, channel and payment contracts plus production credentials approved</li>
+        <li>Merchant of record, refund ceiling, PII retention and processing jurisdiction signed off</li>
+        <li>Normal staffing, language/skill matrix, after-hours owner and disruption roster loaded</li>
+        <li>Queue SLAs, routing weights/capacity and customer notification copy approved</li>
+        <li>Knowledge owner, initial corpus, templates, QA rubric and KPI review cadence active</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout" style="margin-top:22px;border-color:var(--amber-line);background:var(--amber-bg)">
+    <span class="ch" style="color:var(--amber)">Decisions still required before baseline approval</span>
+    <p>
+      Name the product owner and tenant administrator; approve the initial channel list; decide native
+      inbox versus an external console adapter for launch; define normal and urgent queue SLAs; approve
+      agent base weights, concurrency and staffing; define the session used by the 5,000-session target;
+      approve identity-verification methods, PII retention and model jurisdiction; select the inventory
+      source and merchant of record; and approve paid-not-ticketed ownership, refund authority and final
+      resolution SLA. Until these are signed, the corresponding values in this PRD remain proposed.
+    </p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p class="fnote">
+      Internal product requirements document. Takeoff Travels is the initial OTA tenant and US-Bangla
+      is the initial airline integration example; this document is not published by or on behalf of
+      US-Bangla Airlines. Flight times, fares, PNRs and chat transcripts are illustrative. Commercial
+      prices are deliberately excluded until procurement supplies contracted rates. Values labelled
+      proposed and all items in the decision register require named-owner approval before they become
+      a production commitment.
+    </p>
+    <p class="fmeta">Takeoff Travels · Omnichannel OTA Support Platform PRD v2.0 · 31 Aug 2026 · Draft for approval</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  // ---- theme toggle: overrides the OS preference in both directions
+  var root = document.documentElement;
+  var btn = document.getElementById('themeBtn');
+  function current(){
+    var set = root.getAttribute('data-theme');
+    if (set) return set;
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  }
+  btn.addEventListener('click', function(){
+    root.setAttribute('data-theme', current() === 'dark' ? 'light' : 'dark');
+  });
+
+  // ---- scrollspy on the nav strip
+  var links = Array.prototype.slice.call(document.querySelectorAll('.nav a'));
+  var map = {};
+  links.forEach(function(a){
+    var id = a.getAttribute('href').slice(1);
+    var el = document.getElementById(id);
+    if (el) map[id] = a;
+  });
+  var visible = {};
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      visible[e.target.id] = e.isIntersecting ? e.intersectionRatio : 0;
+    });
+    var best = null, bestVal = 0;
+    Object.keys(visible).forEach(function(id){
+      if (visible[id] > bestVal){ bestVal = visible[id]; best = id; }
+    });
+    links.forEach(function(a){ a.removeAttribute('aria-current'); });
+    if (best && map[best]) map[best].setAttribute('aria-current','true');
+  }, { rootMargin: '-70px 0px -55% 0px', threshold: [0, .12, .35, .7, 1] });
+
+  Object.keys(map).forEach(function(id){ obs.observe(document.getElementById(id)); });
+})();
+</script>

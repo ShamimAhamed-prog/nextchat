@@ -1,0 +1,81 @@
+# Lint, typecheck, build, and run the browser verification suites.
+#
+# The last step is the point of this workflow. `npm run verify` drives the
+# real app in a real browser, covering the PRD requirements traced in
+# TODO.md — masking that must not leak, a refund that must stay blocked
+# above the tenant ceiling, a routing decision that must yield to a tighter
+# SLA. Those only protect anything if they run without someone remembering
+# to type them.
+#
+# The suite and assertion totals are not repeated here. They were, in three
+# places, and all three had drifted apart (262 here, "350 across 28" in
+# README.md, 32 suite files on disk) — a number in prose is a number nobody
+# updates. `run.mjs` prints the real one on every run.
+#
+# No browser is installed here: the harness speaks CDP to whatever Chrome the
+# runner already has (`ubuntu-latest` ships Google Chrome stable), which is
+# why this job needs no Playwright download and no extra service container.
+
+name: CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+  workflow_dispatch:
+
+# A newer push to the same branch makes an in-flight run redundant.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npx tsc --noEmit
+
+      - name: Build
+        run: npm run build
+
+      # `node --test` over the engine's pure functions. Fast, and covers the
+      # input domains a browser run cannot practically enumerate — every
+      # `maskPii` field shape, the whole search grammar, each branch of the
+      # channel send gate. Runs TypeScript through Node's own type stripping,
+      # so it needs no test-runner dependency and no build step — but it does
+      # need `--experimental-strip-types`, which lands in Node 22.6.
+      - name: Unit tests
+        run: npm test
+
+      - name: Confirm Chrome is present
+        run: google-chrome --version
+
+      - name: Verify
+        run: npm run verify
+
+      # Screenshots are how a failure gets diagnosed without reproducing it
+      # locally, so they are only worth keeping when something failed.
+      - name: Upload screenshots on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: verify-screenshots
+          path: .verify-shots/
+          if-no-files-found: ignore
+          retention-days: 7
