@@ -1,10 +1,10 @@
-import { InboxProvider } from "@/components/dashboard/InboxContext";
-import WorkspaceEffects from "@/components/dashboard/WorkspaceEffects";
-import { TenantConfigProvider } from "@/components/admin/TenantConfigContext";
-import { UiLocaleProvider } from "@/components/UiLocale";
-import { ThemeProvider } from "@/components/ThemeContext";
-import TenantConfigEffects from "@/components/admin/TenantConfigEffects";
-import ErrorBoundary from "@/components/ErrorBoundary";
+import { InboxProvider } from "@/features/inbox/context/InboxContext";
+import WorkspaceEffects from "@/features/inbox/components/WorkspaceEffects";
+import { TenantConfigProvider } from "@/features/admin/context/TenantConfigContext";
+import { UiLocaleProvider } from "@/shared/providers/UiLocale";
+import { ThemeProvider } from "@/shared/providers/ThemeContext";
+import TenantConfigEffects from "@/features/admin/context/TenantConfigEffects";
+import ErrorBoundary from "@/shared/ErrorBoundary";
 
 /**
  * `/inbox`, `/dashboard` and `/admin` share state — a supervisor's "live

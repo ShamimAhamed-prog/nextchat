@@ -27,7 +27,7 @@ actually talks to doesn't exist yet.
 
 ## P0 — Customer-facing chat: search, book, pay, support
 
-**Built.** `src/components/widget/` — a floating launcher + panel (`Try It
+**Built.** `src/features/widget/` — a floating launcher + panel (`Try It
 Live` in the Hero opens it, or the launcher itself), backed by a typed
 `useReducer` state machine (`engine.ts`) that stays pure: every delayed
 "bot is typing, then replies" beat is expressed as `pending` and resolved
@@ -145,7 +145,7 @@ wasn't — `TicketList` was five hardcoded cards, `ChatPanel` showed the same
 fixed transcript regardless of which one was "selected," `DetailsPanel`
 never reflected the selection, and the filter tabs were cosmetic. All of
 that had to become real before any of the checklist below could mean
-anything, so this pass added `src/components/dashboard/inboxEngine.ts` (a
+anything, so this pass added `src/features/inbox/engine/inboxEngine.ts` (a
 `useReducer` state machine for a list of conversations, same discipline as
 `widget/engine.ts`) behind an `InboxProvider`/`useInbox()` context, and
 every existing component now reads and writes through it. Verified
@@ -807,7 +807,7 @@ rather than patched.
 tenant before this pass — `/onboarding` only ever captured the admin's own
 name/contact. §E7 describes six configuration domains plus a publish flow;
 all six now have a real screen at `/admin`, backed by
-`src/components/admin/tenantConfigEngine.ts` — the same `useReducer`
+`src/features/admin/engine/tenantConfigEngine.ts` — the same `useReducer`
 discipline as `widget/engine.ts` and `inboxEngine.ts`, extended with a
 draft/published/version/approval lifecycle those two didn't need. Generic
 dot-path `get`/`set` helpers (`FieldPath`) read and write the whole config
@@ -1042,7 +1042,7 @@ rewriting history — zero console or page errors across both.
 ## Cross-cutting, do alongside the above rather than as a separate pass
 
 - [x] **Shared mock-data layer.** The trigger condition had been reached, so
-      `src/lib/people.ts` now owns the identities: `YOU` was declared twice
+      `src/shared/lib/people.ts` now owns the identities: `YOU` was declared twice
       (`inboxEngine` *and* `tenantConfigEngine`), and "Nabila K." existed
       three times — second approver, roster row, and a hand-typed transfer
       destination. `RolesAndAccess` was already importing the same people

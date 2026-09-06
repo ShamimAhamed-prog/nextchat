@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import Modal from "./Modal";
-import { useInbox } from "./InboxContext";
-import { PII_LABEL, type Conversation, type PiiField } from "./inboxEngine";
+import { useInbox } from "../context/InboxContext";
+import { PII_LABEL, type Conversation, type PiiField } from "../engine/inboxEngine";
 
 /**
  * AG-06's reveal gate. Only shown when the tenant has

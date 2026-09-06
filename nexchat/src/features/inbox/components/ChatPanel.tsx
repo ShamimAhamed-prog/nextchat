@@ -17,15 +17,15 @@
  */
 
 import { useEffect, useRef, useState } from "react";
-import InitialsAvatar from "../InitialsAvatar";
-import { useInbox } from "./InboxContext";
-import { useNow } from "./useCountdown";
-import { useTenantConfig } from "../admin/TenantConfigContext";
-import { useUiLocale } from "../UiLocale";
-import { maskPii, reopenWindowOpen, type Conversation } from "./inboxEngine";
-import Transcript from "./chat/Transcript";
-import Composer from "./chat/Composer";
-import type { ComposerHandle } from "./chat/composerHandle";
+import InitialsAvatar from "@/shared/ui/InitialsAvatar";
+import { useInbox } from "../context/InboxContext";
+import { useNow } from "../engine/useCountdown";
+import { useTenantConfig } from "@/features/admin/context/TenantConfigContext";
+import { useUiLocale } from "@/shared/providers/UiLocale";
+import { maskPii, reopenWindowOpen, type Conversation } from "../engine/inboxEngine";
+import Transcript from "../chat/Transcript";
+import Composer from "../chat/Composer";
+import type { ComposerHandle } from "../chat/composerHandle";
 
 /* Shared with `DashboardHeader`'s channel filter by eye, not by import —
    see the note there. */

@@ -1,11 +1,11 @@
 "use client";
 
-import { useInbox } from "./InboxContext";
-import { useCountdown } from "./useCountdown";
-import { canAcceptWork } from "./inboxEngine";
-import { useTenantConfig } from "../admin/TenantConfigContext";
-import { totalMaxConcurrency } from "../admin/tenantConfigEngine";
-import InitialsAvatar from "../InitialsAvatar";
+import { useInbox } from "../context/InboxContext";
+import { useCountdown } from "../engine/useCountdown";
+import { canAcceptWork } from "../engine/inboxEngine";
+import { useTenantConfig } from "@/features/admin/context/TenantConfigContext";
+import { totalMaxConcurrency } from "@/features/admin/engine/tenantConfigEngine";
+import InitialsAvatar from "@/shared/ui/InitialsAvatar";
 
 const PRIORITY_COLOR: Record<string, string> = { P0: "var(--color-danger-strong)", P1: "var(--color-warn-strong)", P2: "var(--color-state-busy)", P3: "var(--color-ink-dim)" };
 

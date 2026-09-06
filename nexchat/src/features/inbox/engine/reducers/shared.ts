@@ -2,7 +2,7 @@
 // the old 637-line `inboxReducer`; splitting that function is what made
 // them need a home of their own.
 
-import { ALL_PEOPLE } from "@/lib/people";
+import { ALL_PEOPLE } from "@/shared/lib/people";
 import type { InboxState } from "../state";
 import type { Channel, Conversation, TranscriptMsg } from "../types";
 

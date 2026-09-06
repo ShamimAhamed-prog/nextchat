@@ -1,8 +1,8 @@
 "use client";
 
-import { useInbox } from "./InboxContext";
-import { useUiLocale } from "../UiLocale";
-import { HEADER_CONTROL } from "../workspaceChrome";
+import { useInbox } from "../context/InboxContext";
+import { useUiLocale } from "@/shared/providers/UiLocale";
+import { HEADER_CONTROL } from "@/shared/workspaceChrome";
 
 /**
  * The notifications bell, shared by the agent and supervisor headers.

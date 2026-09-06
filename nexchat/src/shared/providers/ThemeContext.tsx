@@ -8,7 +8,7 @@ import {
   useSyncExternalStore,
   type ReactNode,
 } from "react";
-import { HEADER_CONTROL } from "./workspaceChrome";
+import { HEADER_CONTROL } from "../workspaceChrome";
 
 /**
  * Light and dark for the agent workspace.

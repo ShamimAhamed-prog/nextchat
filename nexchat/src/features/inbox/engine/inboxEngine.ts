@@ -23,30 +23,30 @@
 // Every name is re-exported. The twenty-odd components importing from this
 // module did not change and should not have to know where a function went.
 
-import type { InboxAction, InboxState } from "./inbox/state";
-import { agentStateReducer } from "./inbox/reducers/agentState";
-import { offersReducer } from "./inbox/reducers/offers";
-import { disruptionReducer } from "./inbox/reducers/disruption";
-import { intentsReducer } from "./inbox/reducers/intents";
-import { conversationReducer } from "./inbox/reducers/conversation";
-import { notesReducer } from "./inbox/reducers/notes";
-import { messagingReducer } from "./inbox/reducers/messaging";
-import { lifecycleReducer } from "./inbox/reducers/lifecycle";
-import { piiReducer } from "./inbox/reducers/pii";
-import { bookingReducer } from "./inbox/reducers/booking";
-import { supervisorReducer } from "./inbox/reducers/supervisor";
+import type { InboxAction, InboxState } from "./state";
+import { agentStateReducer } from "./reducers/agentState";
+import { offersReducer } from "./reducers/offers";
+import { disruptionReducer } from "./reducers/disruption";
+import { intentsReducer } from "./reducers/intents";
+import { conversationReducer } from "./reducers/conversation";
+import { notesReducer } from "./reducers/notes";
+import { messagingReducer } from "./reducers/messaging";
+import { lifecycleReducer } from "./reducers/lifecycle";
+import { piiReducer } from "./reducers/pii";
+import { bookingReducer } from "./reducers/booking";
+import { supervisorReducer } from "./reducers/supervisor";
 
-export * from "./inbox/types";
-export * from "./inbox/queue";
-export * from "./inbox/pii";
-export * from "./inbox/channels";
-export * from "./inbox/reopen";
-export * from "./inbox/views";
-export * from "./inbox/search";
-export * from "./inbox/bookingActions";
-export * from "./inbox/state";
-export { draftFor, parseMentions } from "./inbox/reducers/shared";
-export { DISRUPTION_SCENARIO_COUNT } from "./inbox/reducers/disruption";
+export * from "./types";
+export * from "./queue";
+export * from "./pii";
+export * from "./channels";
+export * from "./reopen";
+export * from "./views";
+export * from "./search";
+export * from "./bookingActions";
+export * from "./state";
+export { draftFor, parseMentions } from "./reducers/shared";
+export { DISRUPTION_SCENARIO_COUNT } from "./reducers/disruption";
 
 export function inboxReducer(state: InboxState, action: InboxAction): InboxState {
   switch (action.type) {

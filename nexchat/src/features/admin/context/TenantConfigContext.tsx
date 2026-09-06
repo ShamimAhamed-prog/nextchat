@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useReducer } from "react";
-import { tenantConfigReducer, initialTenantConfigState, type ConfigAction, type TenantConfigState } from "./tenantConfigEngine";
+import { tenantConfigReducer, initialTenantConfigState, type ConfigAction, type TenantConfigState } from "../engine/tenantConfigEngine";
 
 type Ctx = { state: TenantConfigState; dispatch: React.Dispatch<ConfigAction> };
 const TenantConfigContext = createContext<Ctx | null>(null);

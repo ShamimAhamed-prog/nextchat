@@ -15,7 +15,7 @@ import type {
 import type { BookingActionId } from "./bookingActions";
 import type { PiiField } from "./pii";
 import type { InboxView } from "./views";
-import type { RoutingDecision } from "../routing";
+import type { RoutingDecision } from "./routing";
 
 export type DisruptionRecord = { id: string; route: string; reason: string; openedAt: number };
 

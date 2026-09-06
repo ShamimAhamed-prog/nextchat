@@ -1,10 +1,10 @@
 "use client";
 
-import AdminSidebar from "@/components/admin/AdminSidebar";
-import AdminHeader from "@/components/admin/AdminHeader";
-import SandboxBanner from "@/components/admin/SandboxBanner";
-import { ModalProvider } from "@/components/admin/mockup/ModalContext";
-import MockupModals from "@/components/admin/mockup/Modals";
+import AdminSidebar from "@/features/admin/components/AdminSidebar";
+import AdminHeader from "@/features/admin/components/AdminHeader";
+import SandboxBanner from "@/features/admin/components/SandboxBanner";
+import { ModalProvider } from "@/features/admin/mockup/ModalContext";
+import MockupModals from "@/features/admin/mockup/Modals";
 
 /**
  * Shared shell for every supervisor-facing page (`/dashboard`, `/performance`,

@@ -5,7 +5,7 @@
  */
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import { maskPii } from "@/components/dashboard/inboxEngine";
+import { maskPii } from "@/features/inbox/engine/inboxEngine";
 
 const D = "\u2022";
 

@@ -16,11 +16,11 @@ import SnoozeModal from "./SnoozeModal";
 import RevealPiiModal from "./RevealPiiModal";
 import BookingActionModal from "./BookingActionModal";
 import AgentStateGuardModal from "./AgentStateGuardModal";
-import SandboxBanner from "../admin/SandboxBanner";
+import SandboxBanner from "@/features/admin/components/SandboxBanner";
 import KeyboardShortcuts, { type ShortcutActions } from "./KeyboardShortcuts";
-import type { ComposerHandle } from "./chat/composerHandle";
-import { useInbox } from "./InboxContext";
-import type { InboxView } from "./inboxEngine";
+import type { ComposerHandle } from "../chat/composerHandle";
+import { useInbox } from "../context/InboxContext";
+import type { InboxView } from "../engine/inboxEngine";
 
 // No InboxProvider here — `/inbox` and `/dashboard` share one, mounted at
 // `src/app/(workspace)/layout.tsx`, so a supervisor's live queue view

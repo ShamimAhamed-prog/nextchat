@@ -1,12 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import InitialsAvatar from "../InitialsAvatar";
-import { useInbox } from "./InboxContext";
-import { useCountdown, useNow } from "./useCountdown";
-import { formatSlaBadge, useUiLocale } from "../UiLocale";
+import InitialsAvatar from "@/shared/ui/InitialsAvatar";
+import { useInbox } from "../context/InboxContext";
+import { useCountdown, useNow } from "../engine/useCountdown";
+import { formatSlaBadge, useUiLocale } from "@/shared/providers/UiLocale";
 import type { ChannelFilter } from "./TicketFilterBar";
-import { matchesQuery, matchesView, queueSort, SEARCH_HINT, slaBadge, type Conversation, type InboxView, type Priority } from "./inboxEngine";
+import { matchesQuery, matchesView, queueSort, SEARCH_HINT, slaBadge, type Conversation, type InboxView, type Priority } from "../engine/inboxEngine";
 
 const STATUS_LABEL: Record<Conversation["status"], string> = {
   queued: "Unassigned",

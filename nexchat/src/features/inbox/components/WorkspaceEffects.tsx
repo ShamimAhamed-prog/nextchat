@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { useInbox } from "./InboxContext";
-import { useTenantConfig } from "../admin/TenantConfigContext";
-import { canAcceptWork, canAutoRetry, heldByAgent, nextDeliveryState } from "./inboxEngine";
-import { routeConversation, routingRoster } from "./routing";
+import { useInbox } from "../context/InboxContext";
+import { useTenantConfig } from "@/features/admin/context/TenantConfigContext";
+import { canAcceptWork, canAutoRetry, heldByAgent, nextDeliveryState } from "../engine/inboxEngine";
+import { routeConversation, routingRoster } from "../engine/routing";
 
 /**
  * Time-based transitions that must fire regardless of which page is

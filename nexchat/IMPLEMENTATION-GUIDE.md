@@ -10,7 +10,7 @@ Read `AGENTS.md` and `README.md` first if you haven't. The split those establish
 
 ## 1. Design tokens — reuse nexchat's, never the mockup's
 
-nexchat is **dark by default, and themed** — `:root` fixes `color-scheme: dark`, and `:root[data-theme="light"]` in `globals.css` re-tints every token for a light palette. `data-theme` is set only inside the `(workspace)` layout (see `ThemeContext.tsx`), so the marketing pages, which are designed dark-only, never pick it up; anything under `components/dashboard/` or `components/admin/` renders in both and cannot assume either. That is why the rule below is *reuse the token, never the hex*: a literal is a colour that only works in one theme. The mockup ships its own light theme with a `[data-theme="dark"]` override — neither of its palettes should be copied literally. Every color below is one nexchat already has, already passes `nfr11-axe-audit.mjs`'s WCAG AA contrast check, and is already used somewhere in the codebase. If a mapping below says "no direct match," that's deliberate — don't invent a new hex value to fill it.
+nexchat is **dark by default, and themed** — `:root` fixes `color-scheme: dark`, and `:root[data-theme="light"]` in `globals.css` re-tints every token for a light palette. `data-theme` is set only inside the `(workspace)` layout (see `ThemeContext.tsx`), so the marketing pages, which are designed dark-only, never pick it up; anything under `features/inbox/` or `features/admin/` renders in both and cannot assume either. That is why the rule below is *reuse the token, never the hex*: a literal is a colour that only works in one theme. The mockup ships its own light theme with a `[data-theme="dark"]` override — neither of its palettes should be copied literally. Every color below is one nexchat already has, already passes `nfr11-axe-audit.mjs`'s WCAG AA contrast check, and is already used somewhere in the codebase. If a mapping below says "no direct match," that's deliberate — don't invent a new hex value to fill it.
 
 ### 1.1 Surface & text — `@theme` tokens in `src/app/globals.css`
 
@@ -69,7 +69,7 @@ The named seed agents' avatar background colors (in `ActiveWorkloadPage`'s capac
 
 ## 2. Where the replication lives
 
-The replicated views are one file per view, under `src/components/admin/`:
+The replicated views are one file per view, under `src/features/admin/supervisor/`:
 
 | Mockup view | Component | Route |
 |---|---|---|
@@ -83,7 +83,7 @@ The replicated views are one file per view, under `src/components/admin/`:
 | `#governanceView` | `GovernancePage.tsx` | `/governance` |
 | `#adminView` | `TenantAdminConsole.tsx` | `/admin` |
 
-Shared pieces are in `src/components/admin/mockup/`:
+Shared pieces are in `src/features/admin/mockup/`:
 
 - **`Primitives.tsx`** — the mockup's repeated building blocks, ported to the
   dark palette: `PageHead` (`.page-head`), `Filters` (`.filters`), `Kpi`
@@ -102,7 +102,7 @@ The mockup's `#customerView` has no row above: it was a booking site and a
 chat widget rather than an operations console, used none of these primitives,
 and has been dropped from the dashboard along with its `/customer-preview`
 route and nav entry. The app's real customer conversation is
-`src/components/widget/` on the marketing site.
+`src/features/widget/` on the marketing site.
 
 ### Wiring a button to a dialog
 

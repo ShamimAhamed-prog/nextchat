@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import Container from "./Container";
-import SectionHeading from "./SectionHeading";
+import Container from "@/shared/ui/Container";
+import SectionHeading from "@/shared/ui/SectionHeading";
 
 /**
  * The frame draws three carousel pips here but supplies copy for only the

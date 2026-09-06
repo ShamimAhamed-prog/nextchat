@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import Modal from "./Modal";
-import { useInbox } from "./InboxContext";
-import { useUiLocale } from "../UiLocale";
+import { useInbox } from "../context/InboxContext";
+import { useUiLocale } from "@/shared/providers/UiLocale";
 
 /**
  * Keyboard shortcuts for the loop an agent repeats all day: move down the

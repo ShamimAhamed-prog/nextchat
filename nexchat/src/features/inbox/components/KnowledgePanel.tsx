@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { FAQ } from "../widget/engine";
-import { useUiLocale } from "../UiLocale";
-import { useInbox } from "./InboxContext";
-import { hasTranslation, getTranslation } from "@/lib/translations";
+import { FAQ } from "@/features/widget/engine";
+import { useUiLocale } from "@/shared/providers/UiLocale";
+import { useInbox } from "../context/InboxContext";
+import { hasTranslation, getTranslation } from "@/shared/lib/translations";
 
 /**
  * AG-04's "knowledge search with sources", and the answer to a gap that was

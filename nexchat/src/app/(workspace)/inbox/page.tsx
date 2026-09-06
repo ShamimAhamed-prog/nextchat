@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import TicketDashboard from "@/components/dashboard/TicketDashboard";
+import TicketDashboard from "@/features/inbox/components/TicketDashboard";
 
 export const metadata: Metadata = {
   title: "Support Inbox — Takeoff Travels",

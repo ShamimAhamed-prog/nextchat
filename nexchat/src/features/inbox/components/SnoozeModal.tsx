@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import Modal from "./Modal";
-import { useInbox } from "./InboxContext";
-import type { Conversation } from "./inboxEngine";
-import { ALL_PEOPLE, YOU } from "@/lib/people";
+import { useInbox } from "../context/InboxContext";
+import type { Conversation } from "../engine/inboxEngine";
+import { ALL_PEOPLE, YOU } from "@/shared/lib/people";
 
 const WAKE_OPTIONS = [
   { label: "15 minutes", minutes: 15 },

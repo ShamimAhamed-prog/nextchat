@@ -1,6 +1,6 @@
 "use client";
 
-import { useTenantConfig } from "./TenantConfigContext";
+import { useTenantConfig } from "../context/TenantConfigContext";
 
 /**
  * ADM-06. A test mode nobody can see is worse than none: the failure it

@@ -1,8 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import Container from "./Container";
-import Logo from "./Logo";
+import Container from "@/shared/ui/Container";
+import Logo from "@/shared/ui/Logo";
 
 const SOCIALS = [
   {

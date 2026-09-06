@@ -1,6 +1,6 @@
 "use client";
 
-import { Bar, Btn, Code, EmptyState, Feed, PageHead, Panel, Pill, Table, Td, type PillTone } from "./mockup/Primitives";
+import { Bar, Btn, Code, EmptyState, Feed, PageHead, Panel, Pill, Table, Td, type PillTone } from "../mockup/Primitives";
 
 /** `/governance` — a direct replication of the mockup's `#governanceView`. */
 

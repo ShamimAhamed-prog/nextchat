@@ -1,6 +1,6 @@
 // Extracted from `inboxEngine.ts`. See `inbox/README.md` for the split.
 
-import { YOU } from "@/lib/people";
+import { YOU } from "@/shared/lib/people";
 import { BREACH_FORECAST_MINUTES, PRIORITY_RANK } from "./queue";
 import { canAcceptWork, type AgentState, type Conversation } from "./types";
 

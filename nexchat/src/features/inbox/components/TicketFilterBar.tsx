@@ -1,9 +1,9 @@
 "use client";
 
-import { useInbox } from "./InboxContext";
-import { useNow } from "./useCountdown";
-import { useUiLocale } from "../UiLocale";
-import { INBOX_VIEWS, matchesView, type Channel, type InboxView } from "./inboxEngine";
+import { useInbox } from "../context/InboxContext";
+import { useNow } from "../engine/useCountdown";
+import { useUiLocale } from "@/shared/providers/UiLocale";
+import { INBOX_VIEWS, matchesView, type Channel, type InboxView } from "../engine/inboxEngine";
 
 // The channel filter (All/Website/WhatsApp/Messenger) lives in
 // `DashboardHeader` now, as an icon nav — this type is the one thing from

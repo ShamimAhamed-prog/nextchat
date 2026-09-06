@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import ActiveWorkloadPage from "@/components/admin/ActiveWorkloadPage";
+import ActiveWorkloadPage from "@/features/admin/supervisor/ActiveWorkloadPage";
 
 export const metadata: Metadata = {
   title: "Active Workload — Takeoff Travels",

@@ -1,9 +1,9 @@
 "use client";
 
 import Modal from "./Modal";
-import { useInbox } from "./InboxContext";
-import { useTenantConfig } from "../admin/TenantConfigContext";
-import { availableBookingActions, type BookingActionId, type Conversation } from "./inboxEngine";
+import { useInbox } from "../context/InboxContext";
+import { useTenantConfig } from "@/features/admin/context/TenantConfigContext";
+import { availableBookingActions, type BookingActionId, type Conversation } from "../engine/inboxEngine";
 
 /**
  * AG-05's confirmation step. The offer is re-derived here rather than passed

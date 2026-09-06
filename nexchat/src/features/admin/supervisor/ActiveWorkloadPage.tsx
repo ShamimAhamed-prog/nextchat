@@ -1,7 +1,7 @@
 "use client";
 
-import { Avatar, Bar, Btn, Feed, Filters, Kpi, PageHead, Panel, Pill, Table, Td, type PillTone } from "./mockup/Primitives";
-import { useModal } from "./mockup/ModalContext";
+import { Avatar, Bar, Btn, Feed, Filters, Kpi, PageHead, Panel, Pill, Table, Td, type PillTone } from "../mockup/Primitives";
+import { useModal } from "../mockup/ModalContext";
 
 /**
  * `/dashboard` — a direct replication of the mockup's `#workloadView`:

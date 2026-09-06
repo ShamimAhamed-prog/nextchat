@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import QueueControlPage from "@/components/admin/QueueControlPage";
+import QueueControlPage from "@/features/admin/supervisor/QueueControlPage";
 
 export const metadata: Metadata = {
   title: "Queue Control — Takeoff Travels",

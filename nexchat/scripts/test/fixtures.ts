@@ -14,7 +14,7 @@
  * and lets a test name only what it is actually about, so an assertion about
  * queue order is not buried in twenty lines of irrelevant transcript.
  */
-import type { Channel, Conversation, ConvoStatus, Priority } from "@/components/dashboard/inboxEngine";
+import type { Channel, Conversation, ConvoStatus, Priority } from "@/features/inbox/engine/inboxEngine";
 
 export const NOW = Date.parse("2026-03-01T12:00:00Z");
 export const MIN = 60_000;

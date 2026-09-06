@@ -1,6 +1,6 @@
 "use client";
 
-import { Btn, Feed, Filters, PageHead, Panel, Pill, Table, Td, type PillTone } from "./mockup/Primitives";
+import { Btn, Feed, Filters, PageHead, Panel, Pill, Table, Td, type PillTone } from "../mockup/Primitives";
 
 /** `/queues` — a direct replication of the mockup's `#queuesView`. */
 

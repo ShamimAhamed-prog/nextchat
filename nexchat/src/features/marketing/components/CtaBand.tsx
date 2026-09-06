@@ -1,5 +1,5 @@
-import Container from "./Container";
-import GradientButton from "./GradientButton";
+import Container from "@/shared/ui/Container";
+import GradientButton from "@/shared/ui/GradientButton";
 
 export default function CtaBand() {
   return (

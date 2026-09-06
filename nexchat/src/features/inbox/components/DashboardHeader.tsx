@@ -2,13 +2,13 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { useInbox } from "./InboxContext";
-import { DISRUPTION_SCENARIO_COUNT, type AgentState } from "./inboxEngine";
-import { LocaleToggle, useUiLocale } from "../UiLocale";
-import { ThemeToggle } from "../ThemeContext";
+import { useInbox } from "../context/InboxContext";
+import { DISRUPTION_SCENARIO_COUNT, type AgentState } from "../engine/inboxEngine";
+import { LocaleToggle, useUiLocale } from "@/shared/providers/UiLocale";
+import { ThemeToggle } from "@/shared/providers/ThemeContext";
 import NotificationsBell from "./NotificationsBell";
-import { useTenantConfig } from "../admin/TenantConfigContext";
-import type { ChannelId } from "../admin/tenantConfigEngine";
+import { useTenantConfig } from "@/features/admin/context/TenantConfigContext";
+import type { ChannelId } from "@/features/admin/engine/tenantConfigEngine";
 import type { ChannelFilter } from "./TicketFilterBar";
 
 /**

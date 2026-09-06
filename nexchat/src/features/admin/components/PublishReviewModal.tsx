@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import Modal from "../dashboard/Modal";
-import { useTenantConfig } from "./TenantConfigContext";
-import { diffDraft, validateConfig } from "./tenantConfigEngine";
+import Modal from "@/features/inbox/components/Modal";
+import { useTenantConfig } from "../context/TenantConfigContext";
+import { diffDraft, validateConfig } from "../engine/tenantConfigEngine";
 
 function formatValue(v: unknown): string {
   if (typeof v === "boolean") return v ? "Yes" : "No";

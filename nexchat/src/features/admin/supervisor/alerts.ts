@@ -1,11 +1,11 @@
-import type { TenantConfig } from "./tenantConfigEngine";
+import type { TenantConfig } from "../engine/tenantConfigEngine";
 import {
   BREACH_FORECAST_MS,
   canAcceptWork,
   type AgentState,
   type Conversation,
   type InboxView,
-} from "../dashboard/inboxEngine";
+} from "@/features/inbox/engine/inboxEngine";
 
 /**
  * SUP-04: "Alert before SLA breach and when no eligible agent, abnormal

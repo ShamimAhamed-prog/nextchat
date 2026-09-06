@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import Glow from "./Glow";
-import { Check } from "./Check";
+import Glow from "@/shared/ui/Glow";
+import { Check } from "@/shared/ui/Check";
 
 /** Step 2 of the onboarding wizard is active; step 1 (Customer info) is complete. */
 const STEPS = [

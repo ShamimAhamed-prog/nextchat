@@ -1,7 +1,7 @@
 // Extracted from `inboxEngine.ts`. See `inbox/README.md` for the split.
 
-import type { RoutingDecision } from "../routing";
-import { AGENT_ROSTER, MIN_QA_SAMPLE, YOU } from "@/lib/people";
+import type { RoutingDecision } from "./routing";
+import { AGENT_ROSTER, MIN_QA_SAMPLE, YOU } from "@/shared/lib/people";
 
 export type ConvoStatus = "queued" | "offered" | "assigned" | "snoozed" | "resolved";
 export type Priority = "P0" | "P1" | "P2" | "P3";

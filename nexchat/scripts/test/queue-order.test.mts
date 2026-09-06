@@ -6,7 +6,7 @@
  */
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import { queueSort, type Conversation } from "@/components/dashboard/inboxEngine";
+import { queueSort, type Conversation } from "@/features/inbox/engine/inboxEngine";
 import { convo, HOUR, MIN, NOW } from "./fixtures";
 
 const order = (cs: Conversation[]) => [...cs].sort(queueSort).map((c) => c.id);

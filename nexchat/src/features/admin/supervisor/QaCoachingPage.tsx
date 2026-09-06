@@ -1,6 +1,6 @@
 "use client";
 
-import { Avatar, Btn, EmptyState, Kpi, PageHead, Panel, Pill, type PillTone } from "./mockup/Primitives";
+import { Avatar, Btn, EmptyState, Kpi, PageHead, Panel, Pill, type PillTone } from "../mockup/Primitives";
 
 /** `/qa` — a direct replication of the mockup's `#qaView`. */
 

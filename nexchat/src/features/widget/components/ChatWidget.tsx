@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
-import Logo from "../Logo";
+import Logo from "@/shared/ui/Logo";
 import WidgetConversation from "./WidgetConversation";
 
 type WidgetContextValue = { isOpen: boolean; open: () => void; close: () => void; toggle: () => void };

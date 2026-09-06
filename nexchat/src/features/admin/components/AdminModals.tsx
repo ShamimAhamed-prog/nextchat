@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import Modal from "../dashboard/Modal";
-import { useTenantConfig } from "./TenantConfigContext";
-import { AGENT_ROSTER } from "@/lib/people";
-import type { Priority, TenantConfig } from "./tenantConfigEngine";
+import Modal from "@/features/inbox/components/Modal";
+import { useTenantConfig } from "../context/TenantConfigContext";
+import { AGENT_ROSTER } from "@/shared/lib/people";
+import type { Priority, TenantConfig } from "../engine/tenantConfigEngine";
 
 /**
  * The mockup's admin dialogs — `routingPolicyModal`, `agentConfigModal`,

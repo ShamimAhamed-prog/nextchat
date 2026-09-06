@@ -1,4 +1,4 @@
-import { SECOND_APPROVER, YOU } from "@/lib/people";
+import { SECOND_APPROVER, YOU } from "@/shared/lib/people";
 // Tenant configuration engine — TODO.md "P2: Tenant administration."
 // Separate from `inboxEngine.ts` on purpose: this is policy/config state
 // (draft → review → publish, versioned, sometimes needing a second

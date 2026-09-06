@@ -7,7 +7,7 @@ import {
   type ChatMsg,
   type QuickOption,
   type WidgetAction,
-} from "./engine";
+} from "../engine";
 import {
   BotText,
   UserText,

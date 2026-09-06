@@ -1,10 +1,10 @@
 "use client";
 
-import { useInbox } from "./InboxContext";
-import { useNow } from "./useCountdown";
-import { canAcceptWork } from "./inboxEngine";
-import { useTenantConfig } from "../admin/TenantConfigContext";
-import { totalMaxConcurrency } from "../admin/tenantConfigEngine";
+import { useInbox } from "../context/InboxContext";
+import { useNow } from "../engine/useCountdown";
+import { canAcceptWork } from "../engine/inboxEngine";
+import { useTenantConfig } from "@/features/admin/context/TenantConfigContext";
+import { totalMaxConcurrency } from "@/features/admin/engine/tenantConfigEngine";
 
 /**
  * RT-07: "tell the customer the queue state, preserve their place, alert

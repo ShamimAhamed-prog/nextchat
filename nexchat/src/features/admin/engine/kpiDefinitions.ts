@@ -1,4 +1,4 @@
-import { YOU } from "@/lib/people";
+import { YOU } from "@/shared/lib/people";
 
 /**
  * SUP-07: "Version KPI definitions and recompute historical data only

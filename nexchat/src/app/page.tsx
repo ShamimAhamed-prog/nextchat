@@ -1,16 +1,16 @@
-import Hero from "@/components/Hero";
-import TrustBar from "@/components/TrustBar";
-import Problem from "@/components/Problem";
-import Solution from "@/components/Solution";
-import Features from "@/components/Features";
-import Steps from "@/components/Steps";
-import CaseStudies from "@/components/CaseStudies";
-import Ecommerce from "@/components/Ecommerce";
-import CtaBand from "@/components/CtaBand";
-import Pricing from "@/components/Pricing";
-import Faq from "@/components/Faq";
-import Footer from "@/components/Footer";
-import ChatWidget, { ChatWidgetProvider } from "@/components/widget/ChatWidget";
+import Hero from "@/features/marketing/components/Hero";
+import TrustBar from "@/features/marketing/components/TrustBar";
+import Problem from "@/features/marketing/components/Problem";
+import Solution from "@/features/marketing/components/Solution";
+import Features from "@/features/marketing/components/Features";
+import Steps from "@/features/marketing/components/Steps";
+import CaseStudies from "@/features/marketing/components/CaseStudies";
+import Ecommerce from "@/features/marketing/components/Ecommerce";
+import CtaBand from "@/features/marketing/components/CtaBand";
+import Pricing from "@/features/marketing/components/Pricing";
+import Faq from "@/features/marketing/components/Faq";
+import Footer from "@/features/marketing/components/Footer";
+import ChatWidget, { ChatWidgetProvider } from "@/features/widget/components/ChatWidget";
 
 export default function Home() {
   return (

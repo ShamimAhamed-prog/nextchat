@@ -1,7 +1,7 @@
 "use client";
 
-import { Btn, PageHead, Panel, Pill, type PillTone } from "./mockup/Primitives";
-import type { ModalId } from "./mockup/ModalContext";
+import { Btn, PageHead, Panel, Pill, type PillTone } from "../mockup/Primitives";
+import type { ModalId } from "../mockup/ModalContext";
 
 /** `/exceptions` — a direct replication of the mockup's `#exceptionsView`. */
 

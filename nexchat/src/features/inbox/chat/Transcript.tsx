@@ -17,18 +17,18 @@
  */
 
 import { useEffect, useRef, useState } from "react";
-import { useInbox } from "../InboxContext";
-import InitialsAvatar from "../../InitialsAvatar";
-import { useUiLocale } from "../../UiLocale";
-import { confidenceBand, CONFIDENCE_BAND_LABEL } from "../../admin/tenantConfigEngine";
-import { useTenantConfig } from "../../admin/TenantConfigContext";
+import { useInbox } from "../context/InboxContext";
+import InitialsAvatar from "@/shared/ui/InitialsAvatar";
+import { useUiLocale } from "@/shared/providers/UiLocale";
+import { confidenceBand, CONFIDENCE_BAND_LABEL } from "@/features/admin/engine/tenantConfigEngine";
+import { useTenantConfig } from "@/features/admin/context/TenantConfigContext";
 import {
   MAX_SEND_ATTEMPTS,
   type Attachment,
   type Delivery,
   type Conversation,
   type TranscriptMsg,
-} from "../inboxEngine";
+} from "../engine/inboxEngine";
 
 /**
  * INB-05: an image renders as an image and anything else as a file card with

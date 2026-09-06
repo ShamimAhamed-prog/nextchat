@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import AlertsPage from "@/components/admin/AlertsPage";
+import AlertsPage from "@/features/admin/supervisor/AlertsPage";
 
 export const metadata: Metadata = {
   title: "Alerts — Takeoff Travels",

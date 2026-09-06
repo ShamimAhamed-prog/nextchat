@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import Glow from "./Glow";
+import Glow from "@/shared/ui/Glow";
 import AuthField from "./AuthField";
 
 /** Step 1 of the onboarding wizard is active; "Package" (step 2) is pending. */

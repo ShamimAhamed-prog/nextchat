@@ -1,10 +1,10 @@
 "use client";
 
 import { createContext, useContext, useState } from "react";
-import { AGENT_ROSTER, ALL_PEOPLE, SECOND_APPROVER, YOU } from "@/lib/people";
+import { AGENT_ROSTER, ALL_PEOPLE, SECOND_APPROVER, YOU } from "@/shared/lib/people";
 import AdminSidebar from "./AdminSidebar";
 import AdminHeader from "./AdminHeader";
-import { useTenantConfig } from "./TenantConfigContext";
+import { useTenantConfig } from "../context/TenantConfigContext";
 import {
   SETUP_SESSION,
   canApproveSensitiveChanges,
@@ -12,12 +12,12 @@ import {
   totalMaxConcurrency,
   type AuditEntry,
   type Priority,
-} from "./tenantConfigEngine";
+} from "../engine/tenantConfigEngine";
 import PublishReviewModal from "./PublishReviewModal";
 import RolesAndAccess from "./RolesAndAccess";
 import ChannelConfigModal from "./ChannelConfigModal";
-import Modal from "../dashboard/Modal";
-import { useNow } from "../dashboard/useCountdown";
+import Modal from "@/features/inbox/components/Modal";
+import { useNow } from "@/features/inbox/engine/useCountdown";
 import {
   AgentConfigModal,
   CalendarModal,
@@ -54,10 +54,10 @@ import {
   TenantProfileModal,
 } from "./AdminDialogs";
 import SandboxBanner from "./SandboxBanner";
-import { useInbox } from "../dashboard/InboxContext";
-import { APPROVED_TEMPLATES } from "../dashboard/inboxEngine";
-import { FAQ } from "../widget/engine";
-import { Btn, PageHead, Panel, Pill, Table, Td } from "./mockup/Primitives";
+import { useInbox } from "@/features/inbox/context/InboxContext";
+import { APPROVED_TEMPLATES } from "@/features/inbox/engine/inboxEngine";
+import { FAQ } from "@/features/widget/engine";
+import { Btn, PageHead, Panel, Pill, Table, Td } from "../mockup/Primitives";
 import {
   AdminCard,
   AdminGrid,
@@ -67,7 +67,7 @@ import {
   PolicyCard,
   SettingList,
   SettingRow,
-} from "./mockup/AdminShapes";
+} from "../mockup/AdminShapes";
 import {
   AdminKpi,
   AdminKpis,
@@ -94,7 +94,7 @@ import {
   TagList,
   TenantSummary,
   Timeline,
-} from "./mockup/ConsoleShapes";
+} from "../mockup/ConsoleShapes";
 
 /**
  * `/admin` is `preview (3).html`'s `#adminView`: its page head, its tenant

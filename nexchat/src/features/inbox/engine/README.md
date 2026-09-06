@@ -1,4 +1,4 @@
-# `inbox/` — what came out of `inboxEngine.ts`
+# `features/inbox/engine/` — what came out of `inboxEngine.ts`
 
 The engine was 2,044 lines holding four unrelated kinds of thing: the
 `Conversation` shape, a dozen pure functions answering questions about a

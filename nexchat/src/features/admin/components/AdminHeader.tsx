@@ -3,10 +3,10 @@
 import { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useInbox } from "../dashboard/InboxContext";
-import { ThemeToggle } from "../ThemeContext";
-import NotificationsBell from "../dashboard/NotificationsBell";
-import { clearCsrfToken } from "@/lib/csrf";
+import { useInbox } from "@/features/inbox/context/InboxContext";
+import { ThemeToggle } from "@/shared/providers/ThemeContext";
+import NotificationsBell from "@/features/inbox/components/NotificationsBell";
+import { clearCsrfToken } from "@/shared/lib/csrf";
 
 /**
  * The search box used to be decoration. It now hands its query to the one

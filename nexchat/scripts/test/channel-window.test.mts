@@ -5,7 +5,7 @@
  */
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import { channelSendPolicy, type Channel } from "@/components/dashboard/inboxEngine";
+import { channelSendPolicy, type Channel } from "@/features/inbox/engine/inboxEngine";
 import { convo, DAY, HOUR, MIN, NOW } from "./fixtures";
 
 const ALL: Channel[] = ["WhatsApp", "Website", "Messenger", "Instagram", "Email"];

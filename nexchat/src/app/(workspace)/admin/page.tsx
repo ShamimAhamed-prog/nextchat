@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import TenantAdminConsole from "@/components/admin/TenantAdminConsole";
+import TenantAdminConsole from "@/features/admin/components/TenantAdminConsole";
 
 export const metadata: Metadata = {
   title: "Tenant Administration — Takeoff Travels",

@@ -1,6 +1,6 @@
 // Case bodies lifted verbatim from `inboxReducer`'s switch.
 
-import { YOU } from "@/lib/people";
+import { YOU } from "@/shared/lib/people";
 import { activity, nid } from "../helpers";
 import { MAX_SEND_ATTEMPTS, nextDeliveryState } from "../types";
 import { mapConvo, mapMessage, nowLabel } from "./shared";

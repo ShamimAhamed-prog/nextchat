@@ -1,13 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { YOU } from "@/lib/people";
-import { useTenantConfig } from "./TenantConfigContext";
-import { canApproveSensitiveChanges, SECOND_APPROVER, type AuditEntry } from "./tenantConfigEngine";
+import { YOU } from "@/shared/lib/people";
+import { useTenantConfig } from "../context/TenantConfigContext";
+import { canApproveSensitiveChanges, SECOND_APPROVER, type AuditEntry } from "../engine/tenantConfigEngine";
 import { F, Sel, Shell, Ta, Txt, noteOf } from "./AdminModals";
-import { Pill } from "./mockup/Primitives";
-import { Check, Checklist, SectionNote } from "./mockup/ConsoleShapes";
-import { useNow } from "../dashboard/useCountdown";
+import { Pill } from "../mockup/Primitives";
+import { Check, Checklist, SectionNote } from "../mockup/ConsoleShapes";
+import { useNow } from "@/features/inbox/engine/useCountdown";
 
 /**
  * The dialogs `preview (3).html` adds to `#adminView` on top of the eight in

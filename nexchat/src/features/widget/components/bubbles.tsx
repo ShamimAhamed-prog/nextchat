@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import type { FareOffer, Passenger, PassengerType, QuickOption } from "./engine";
-import { DEMO_HOLD_SECONDS } from "./engine";
-import { fmtBdt } from "@/lib/format";
+import type { FareOffer, Passenger, PassengerType, QuickOption } from "../engine";
+import { DEMO_HOLD_SECONDS } from "../engine";
+import { fmtBdt } from "@/shared/lib/format";
 
 const TYPE_LABEL: Record<PassengerType, string> = { adult: "Adult", child: "Child", infant: "Infant on lap" };
 const TYPE_COLOR: Record<PassengerType, string> = {

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import Logo from "../Logo";
+import Logo from "@/shared/ui/Logo";
 
 type NavItem = { label: string; href: string; icon: React.ReactNode };
 

@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import Modal from "../dashboard/Modal";
-import { useTenantConfig } from "./TenantConfigContext";
-import type { TenantConfig } from "./tenantConfigEngine";
+import Modal from "@/features/inbox/components/Modal";
+import { useTenantConfig } from "../context/TenantConfigContext";
+import type { TenantConfig } from "../engine/tenantConfigEngine";
 
 type Channel = TenantConfig["brand"]["channels"][number];
 

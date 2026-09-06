@@ -1,5 +1,5 @@
-import Container from "./Container";
-import SectionHeading from "./SectionHeading";
+import Container from "@/shared/ui/Container";
+import SectionHeading from "@/shared/ui/SectionHeading";
 
 const CARDS = [
   {

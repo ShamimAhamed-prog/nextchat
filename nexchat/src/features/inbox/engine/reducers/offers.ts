@@ -1,6 +1,6 @@
 // Case bodies lifted verbatim from `inboxReducer`'s switch.
 
-import { YOU } from "@/lib/people";
+import { YOU } from "@/shared/lib/people";
 import { activity, nid } from "../helpers";
 import { canAcceptWork, type Conversation } from "../types";
 import { slaDeadlineFor } from "../queue";

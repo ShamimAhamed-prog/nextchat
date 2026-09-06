@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import ExceptionsPage from "@/components/admin/ExceptionsPage";
+import ExceptionsPage from "@/features/admin/supervisor/ExceptionsPage";
 
 export const metadata: Metadata = {
   title: "Exceptions — Takeoff Travels",

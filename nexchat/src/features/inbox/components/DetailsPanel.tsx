@@ -2,13 +2,13 @@
 
 import { useState } from "react";
 import ConnectChannelsButton from "./ConnectChannelsButton";
-import { useInbox } from "./InboxContext";
-import { useTenantConfig } from "../admin/TenantConfigContext";
-import { confidenceBand, CONFIDENCE_BAND_LABEL, type ConfidenceBand } from "../admin/tenantConfigEngine";
-import { useUiLocale } from "../UiLocale";
-import { FAQ } from "../widget/engine";
-import { ALL_PEOPLE, YOU } from "@/lib/people";
-import { availableBookingActions, maskPii, PII_LABEL, type Conversation, type PiiField, type Priority } from "./inboxEngine";
+import { useInbox } from "../context/InboxContext";
+import { useTenantConfig } from "@/features/admin/context/TenantConfigContext";
+import { confidenceBand, CONFIDENCE_BAND_LABEL, type ConfidenceBand } from "@/features/admin/engine/tenantConfigEngine";
+import { useUiLocale } from "@/shared/providers/UiLocale";
+import { FAQ } from "@/features/widget/engine";
+import { ALL_PEOPLE, YOU } from "@/shared/lib/people";
+import { availableBookingActions, maskPii, PII_LABEL, type Conversation, type PiiField, type Priority } from "../engine/inboxEngine";
 
 /*
  * A hue per known tag. The border is always the gradient's own `from`, so

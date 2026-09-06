@@ -1,5 +1,5 @@
-import { AGENT_ROSTER, YOU, YOUR_ROUTING } from "@/lib/people";
-import type { TenantConfig } from "../admin/tenantConfigEngine";
+import { AGENT_ROSTER, YOU, YOUR_ROUTING } from "@/shared/lib/people";
+import type { TenantConfig } from "@/features/admin/engine/tenantConfigEngine";
 import type { AgentState, Conversation } from "./inboxEngine";
 
 /**

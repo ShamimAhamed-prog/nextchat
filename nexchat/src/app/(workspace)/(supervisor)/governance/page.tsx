@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import GovernancePage from "@/components/admin/GovernancePage";
+import GovernancePage from "@/features/admin/supervisor/GovernancePage";
 
 export const metadata: Metadata = {
   title: "KPI Governance — Takeoff Travels",

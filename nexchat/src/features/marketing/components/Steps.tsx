@@ -1,7 +1,7 @@
 import Image from "next/image";
-import Container from "./Container";
-import SectionHeading from "./SectionHeading";
-import Glow from "./Glow";
+import Container from "@/shared/ui/Container";
+import SectionHeading from "@/shared/ui/SectionHeading";
+import Glow from "@/shared/ui/Glow";
 
 const CARDS = [
   {

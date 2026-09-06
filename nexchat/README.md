@@ -73,7 +73,7 @@ substitute — they need real photography or a decision to drop them.
 
 ## Customer-facing chat widget
 
-`src/components/widget/` — TODO.md's P0. Unlike the rest of this app, this
+`src/features/widget/` — TODO.md's P0. Unlike the rest of this app, this
 isn't an implementation of a Figma frame; it's a net-new, real, interactive
 surface, because none of the seven original frames included one and the PRD
 is fundamentally about this conversation existing. Opened from the Hero's
@@ -204,7 +204,7 @@ pattern as Sign In/Sign Up — only the visible terms checkbox is built. No
 "Package" step (step 2) was provided, so it isn't built; the frame has no
 back/skip link, so none was added.
 
-`/inbox` (`TicketDashboard`, in `src/components/dashboard/`) is a three-pane
+`/inbox` (`TicketDashboard`, in `src/features/inbox/`) is a three-pane
 ticket inbox: `DashboardSidebar` (icon rail), `DashboardHeader`, then a row of
 `TicketList`, `ChatPanel`, and `DetailsPanel`. Colors, gradients, and the tag
 pills' ~20–25% fill opacity are read directly from the frame's fill data, not
@@ -342,10 +342,10 @@ The mockup's `#customerView` — its customer-facing booking journey and chat
 widget — is deliberately **not** replicated here. It was dropped from the
 dashboard along with its `/customer-preview` route and nav entry: it is not a
 supervisor screen, and the app's real customer conversation already lives in
-`src/components/widget/` on the marketing site as a working booking state
+`src/features/widget/` on the marketing site as a working booking state
 machine rather than a replication. `git log` has the removed replication.
 
-`src/components/admin/mockup/` holds the shared pieces: `Primitives.tsx`
+`src/features/admin/mockup/` holds the shared pieces: `Primitives.tsx`
 (the mockup's `.page-head`, `.filters`, `.kpi`, `.panel`, `.pill`, `.bar`,
 `.feed`, table shell and histogram/funnel/reason-bar charts) and
 `Modals.tsx` (all twelve dialogs, the agent drawer, and the commit toast).
@@ -370,7 +370,7 @@ body), `GradientButton`, `Glow` (the oversized blurred ellipses), `TestimonialPa
 
 ## Tenant administration
 
-`/admin` (`TenantAdminConsole`, in `src/components/admin/`) — TODO.md's
+`/admin` (`TenantAdminConsole`, in `src/features/admin/`) — TODO.md's
 final P2 item, and the one screen in this app with no Figma frame behind
 it at all: §E7 names six configuration domains and none of the seven
 original frames included one. Reuses `AdminSidebar`/`AdminHeader` (both now

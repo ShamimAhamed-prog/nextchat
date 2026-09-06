@@ -1,6 +1,6 @@
-import Container from "./Container";
-import SectionHeading from "./SectionHeading";
-import Logo from "./Logo";
+import Container from "@/shared/ui/Container";
+import SectionHeading from "@/shared/ui/SectionHeading";
+import Logo from "@/shared/ui/Logo";
 
 /**
  * These four cards used to be PNG exports inherited from the generic template

@@ -1,7 +1,7 @@
 "use client";
 
-import { Btn, PageHead, Panel, Pill, Switch, type PillTone } from "./mockup/Primitives";
-import type { ModalId } from "./mockup/ModalContext";
+import { Btn, PageHead, Panel, Pill, Switch, type PillTone } from "../mockup/Primitives";
+import type { ModalId } from "../mockup/ModalContext";
 
 /** `/alerts` — a direct replication of the mockup's `#alertsView`. */
 

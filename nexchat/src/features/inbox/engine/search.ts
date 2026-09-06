@@ -1,6 +1,6 @@
 // Extracted from `inboxEngine.ts`. See `inbox/README.md` for the split.
 
-import { YOU } from "@/lib/people";
+import { YOU } from "@/shared/lib/people";
 import type { Conversation } from "./types";
 
 /* --- Search (INB-07) -----------------------------------------------------

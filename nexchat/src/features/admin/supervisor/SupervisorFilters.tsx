@@ -1,11 +1,11 @@
 "use client";
 
 import { createContext, useContext, useMemo, useState, type ReactNode } from "react";
-import { useInbox } from "../dashboard/InboxContext";
-import { useTenantConfig } from "./TenantConfigContext";
-import { ALL_PEOPLE } from "@/lib/people";
-import { useNow } from "../dashboard/useCountdown";
-import type { Channel, Conversation, Priority } from "../dashboard/inboxEngine";
+import { useInbox } from "@/features/inbox/context/InboxContext";
+import { useTenantConfig } from "../context/TenantConfigContext";
+import { ALL_PEOPLE } from "@/shared/lib/people";
+import { useNow } from "@/features/inbox/engine/useCountdown";
+import type { Channel, Conversation, Priority } from "@/features/inbox/engine/inboxEngine";
 
 /**
  * SUP-02: "Filter every dashboard by tenant-authorised team, queue, agent,

@@ -1,6 +1,6 @@
 // Extracted from `inboxEngine.ts`. See `inbox/README.md` for the split.
 
-import { YOU } from "@/lib/people";
+import { YOU } from "@/shared/lib/people";
 import { activity, ago, nid } from "./helpers";
 import { slaDeadlineFor } from "./queue";
 import { MAX_SEND_ATTEMPTS, type Conversation } from "./types";

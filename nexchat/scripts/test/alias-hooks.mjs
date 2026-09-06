@@ -1,11 +1,11 @@
 /**
  * Module resolution for `node --test`, so the pure functions under
- * `src/components/dashboard/` can be imported without a bundler.
+ * `src/features/inbox/engine/` can be imported without a bundler.
  *
  * Two gaps between what TypeScript accepts and what Node resolves:
  *
- *  1. `@/lib/people` — a `tsconfig.json` path alias Node knows nothing
- *     about. Mapped here to `<repo>/src/...`.
+ *  1. `@/shared/lib/people` — a `tsconfig.json` path alias Node knows
+ *     nothing about. Mapped here to `<repo>/src/...`.
  *  2. No file extension. `moduleResolution: "bundler"` lets a source file
  *     write `./routing`; Node's ESM resolver requires `./routing.ts`. Most
  *     of those are `import type` and vanish under type stripping before

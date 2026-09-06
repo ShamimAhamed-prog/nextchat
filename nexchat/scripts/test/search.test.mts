@@ -6,7 +6,7 @@
  */
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import { matchesQuery } from "@/components/dashboard/inboxEngine";
+import { matchesQuery } from "@/features/inbox/engine/inboxEngine";
 import { convo, DAY, HOUR, MIN, NOW } from "./fixtures";
 
 const c = convo({

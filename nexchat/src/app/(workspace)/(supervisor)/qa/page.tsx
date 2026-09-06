@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import QaCoachingPage from "@/components/admin/QaCoachingPage";
+import QaCoachingPage from "@/features/admin/supervisor/QaCoachingPage";
 
 export const metadata: Metadata = {
   title: "QA & Coaching — Takeoff Travels",

@@ -1,6 +1,6 @@
 "use client";
 
-import { Btn, Filters, Funnel, Histogram, Kpi, PageHead, Panel, Pill, ReasonBars, Seg, Table, Td } from "./mockup/Primitives";
+import { Btn, Filters, Funnel, Histogram, Kpi, PageHead, Panel, Pill, ReasonBars, Seg, Table, Td } from "../mockup/Primitives";
 
 /** `/performance` — a direct replication of the mockup's `#performanceView`. */
 

@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { useTenantConfig } from "./TenantConfigContext";
-import { SECOND_APPROVER } from "./tenantConfigEngine";
-import { ALL_PEOPLE, YOU } from "@/lib/people";
-import { useNow } from "../dashboard/useCountdown";
+import { useTenantConfig } from "../context/TenantConfigContext";
+import { SECOND_APPROVER } from "../engine/tenantConfigEngine";
+import { ALL_PEOPLE, YOU } from "@/shared/lib/people";
+import { useNow } from "@/features/inbox/engine/useCountdown";
 
 // One list, from one place — this used to be assembled from two modules.
 const KNOWN_PEOPLE = ALL_PEOPLE;

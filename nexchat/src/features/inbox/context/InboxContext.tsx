@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useReducer } from "react";
-import { inboxReducer, initialInboxState, type InboxAction, type InboxState } from "./inboxEngine";
+import { inboxReducer, initialInboxState, type InboxAction, type InboxState } from "../engine/inboxEngine";
 
 type InboxContextValue = { state: InboxState; dispatch: React.Dispatch<InboxAction> };
 const InboxContext = createContext<InboxContextValue | null>(null);

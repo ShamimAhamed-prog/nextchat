@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 import Modal from "./Modal";
-import { useInbox } from "./InboxContext";
-import type { Conversation } from "./inboxEngine";
+import { useInbox } from "../context/InboxContext";
+import type { Conversation } from "../engine/inboxEngine";
 
-import { SECOND_APPROVER } from "@/lib/people";
+import { SECOND_APPROVER } from "@/shared/lib/people";
 
 const DESTINATIONS = [
   "Refunds & Disruption team",

@@ -15,7 +15,7 @@
 //       Future: parseIntents() returns array, first triggers direct answer,
 //       others go to clarify. Update FAQ/clarify chip logic for multi-intent residue.
 
-import { fmtBdt } from "@/lib/format";
+import { fmtBdt } from "@/shared/lib/format";
 
 export type City = { code: string; name: string };
 

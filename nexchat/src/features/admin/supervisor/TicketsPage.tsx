@@ -2,11 +2,11 @@
 
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Btn, PageHead, Panel, Pill, Table, Td, type HeadCell, type PillTone } from "./mockup/Primitives";
-import { useTenantConfig } from "./TenantConfigContext";
-import { confidenceBand, CONFIDENCE_BAND_LABEL } from "./tenantConfigEngine";
-import { useInbox } from "../dashboard/InboxContext";
-import { useNow } from "../dashboard/useCountdown";
+import { Btn, PageHead, Panel, Pill, Table, Td, type HeadCell, type PillTone } from "../mockup/Primitives";
+import { useTenantConfig } from "../context/TenantConfigContext";
+import { confidenceBand, CONFIDENCE_BAND_LABEL } from "../engine/tenantConfigEngine";
+import { useInbox } from "@/features/inbox/context/InboxContext";
+import { useNow } from "@/features/inbox/engine/useCountdown";
 import {
   BREACH_FORECAST_MS,
   INBOX_VIEWS,
@@ -19,7 +19,7 @@ import {
   type ConvoStatus,
   type InboxView,
   type Priority,
-} from "../dashboard/inboxEngine";
+} from "@/features/inbox/engine/inboxEngine";
 
 /**
  * `#ticketsView` from `Design/preview (2).html`, over live state.

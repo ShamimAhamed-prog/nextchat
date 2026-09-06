@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Container from "./Container";
-import GradientButton from "./GradientButton";
-import Logo from "./Logo";
+import Container from "@/shared/ui/Container";
+import GradientButton from "@/shared/ui/GradientButton";
+import Logo from "@/shared/ui/Logo";
 
 const NAV = [
   { label: "Platform", href: "#platform" },

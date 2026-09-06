@@ -1,6 +1,6 @@
 "use client";
 
-import { AuditNote, Btn, Filters, Funnel, Histogram, Kpi, PageHead, Panel, Pill, ReasonBars, Seg, Table, Td, type PillTone } from "./mockup/Primitives";
+import { AuditNote, Btn, Filters, Funnel, Histogram, Kpi, PageHead, Panel, Pill, ReasonBars, Seg, Table, Td, type PillTone } from "../mockup/Primitives";
 
 /** `/ai-performance` — a direct replication of the mockup's `#aiPerformanceView`. */
 

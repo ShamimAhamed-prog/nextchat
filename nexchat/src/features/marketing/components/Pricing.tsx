@@ -1,8 +1,8 @@
-import Container from "./Container";
-import SectionHeading from "./SectionHeading";
-import GradientButton from "./GradientButton";
-import Glow from "./Glow";
-import { Check } from "./Check";
+import Container from "@/shared/ui/Container";
+import SectionHeading from "@/shared/ui/SectionHeading";
+import GradientButton from "@/shared/ui/GradientButton";
+import Glow from "@/shared/ui/Glow";
+import { Check } from "@/shared/ui/Check";
 
 const FEATURES = [
   "Unified inbox — web widget + WhatsApp",

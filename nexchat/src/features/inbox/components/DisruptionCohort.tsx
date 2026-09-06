@@ -1,10 +1,10 @@
 "use client";
 
-import InitialsAvatar from "../InitialsAvatar";
-import { useInbox } from "./InboxContext";
-import { useNow } from "./useCountdown";
-import { slaBadge, type DisruptionRecord } from "./inboxEngine";
-import { formatSlaBadge, useUiLocale } from "../UiLocale";
+import InitialsAvatar from "@/shared/ui/InitialsAvatar";
+import { useInbox } from "../context/InboxContext";
+import { useNow } from "../engine/useCountdown";
+import { slaBadge, type DisruptionRecord } from "../engine/inboxEngine";
+import { formatSlaBadge, useUiLocale } from "@/shared/providers/UiLocale";
 
 /**
  * §B5 "Disruption is a surge, not a queue": affected passengers are grouped

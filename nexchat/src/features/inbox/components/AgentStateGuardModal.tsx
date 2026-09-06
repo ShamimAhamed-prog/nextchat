@@ -1,9 +1,9 @@
 "use client";
 
 import Modal from "./Modal";
-import { useInbox } from "./InboxContext";
-import { useTenantConfig } from "../admin/TenantConfigContext";
-import { heldByAgent, type AgentState } from "./inboxEngine";
+import { useInbox } from "../context/InboxContext";
+import { useTenantConfig } from "@/features/admin/context/TenantConfigContext";
+import { heldByAgent, type AgentState } from "../engine/inboxEngine";
 
 const STATE_LABEL: Record<AgentState, string> = {
   available: "Available",

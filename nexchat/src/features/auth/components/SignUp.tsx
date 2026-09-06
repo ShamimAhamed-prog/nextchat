@@ -5,8 +5,8 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import AuthField from "./AuthField";
 import TestimonialPanel from "./TestimonialPanel";
-import Logo from "./Logo";
-import { getCsrfToken } from "@/lib/csrf";
+import Logo from "@/shared/ui/Logo";
+import { getCsrfToken } from "@/shared/lib/csrf";
 
 const SOCIALS = [
   { name: "Google", src: "/figma/signin/google.webp" },

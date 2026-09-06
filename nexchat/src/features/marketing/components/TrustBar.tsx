@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Container from "./Container";
+import Container from "@/shared/ui/Container";
 
 /** Logo strip; the SVG already holds two copies of the six logos, so it loops seamlessly. */
 export default function TrustBar() {

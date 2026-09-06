@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import PackageSelection from "@/components/PackageSelection";
-import ChatWidget, { ChatWidgetProvider } from "@/components/widget/ChatWidget";
+import PackageSelection from "@/features/auth/components/PackageSelection";
+import ChatWidget, { ChatWidgetProvider } from "@/features/widget/components/ChatWidget";
 
 export const metadata: Metadata = {
   title: "Choose Package — Takeoff Travels",

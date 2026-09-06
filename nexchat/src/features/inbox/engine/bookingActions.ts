@@ -1,6 +1,6 @@
 // Extracted from `inboxEngine.ts`. See `inbox/README.md` for the split.
 
-import { fmtBdtCode } from "@/lib/format";
+import { fmtBdtCode } from "@/shared/lib/format";
 import type { BookingState, Conversation } from "./types";
 
 /* --- Booking actions (AG-05) --------------------------------------------

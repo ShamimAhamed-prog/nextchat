@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import HumanPerformancePage from "@/components/admin/HumanPerformancePage";
+import HumanPerformancePage from "@/features/admin/supervisor/HumanPerformancePage";
 
 export const metadata: Metadata = {
   title: "Human Performance — Takeoff Travels",

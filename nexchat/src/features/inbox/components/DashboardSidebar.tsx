@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useUiLocale } from "../UiLocale";
+import { useUiLocale } from "@/shared/providers/UiLocale";
 
 const NAV = [
   {

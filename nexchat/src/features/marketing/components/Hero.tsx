@@ -1,11 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import Container from "./Container";
-import GradientButton from "./GradientButton";
-import Glow from "./Glow";
+import Container from "@/shared/ui/Container";
+import GradientButton from "@/shared/ui/GradientButton";
+import Glow from "@/shared/ui/Glow";
 import Header from "./Header";
-import { useChatWidget } from "./widget/ChatWidget";
+import { useChatWidget } from "@/features/widget/components/ChatWidget";
 
 /**
  * The hero collage is a 1249x473 stage. Four photos sit behind a taller

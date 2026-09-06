@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import Modal from "./Modal";
-import { useInbox } from "./InboxContext";
-import type { Conversation } from "./inboxEngine";
+import { useInbox } from "../context/InboxContext";
+import type { Conversation } from "../engine/inboxEngine";
 
 const CATEGORIES = ["Booking & Payment", "Refund", "Baggage & Fare Policy", "Complaint", "General Inquiry"];
 const REQUIRES_REFERENCE = new Set(["Booking & Payment", "Refund", "Complaint"]);

@@ -17,13 +17,13 @@
  */
 
 import { useEffect, useRef, useState } from "react";
-import { useInbox } from "../InboxContext";
-import { useTenantConfig } from "../../admin/TenantConfigContext";
-import { useUiLocale } from "../../UiLocale";
-import { useCountdown, useNow } from "../useCountdown";
-import KnowledgePanel from "../KnowledgePanel";
-import { ALL_PEOPLE } from "@/lib/people";
-import { totalMaxConcurrency } from "../../admin/tenantConfigEngine";
+import { useInbox } from "../context/InboxContext";
+import { useTenantConfig } from "@/features/admin/context/TenantConfigContext";
+import { useUiLocale } from "@/shared/providers/UiLocale";
+import { useCountdown, useNow } from "../engine/useCountdown";
+import KnowledgePanel from "../components/KnowledgePanel";
+import { ALL_PEOPLE } from "@/shared/lib/people";
+import { totalMaxConcurrency } from "@/features/admin/engine/tenantConfigEngine";
 import {
   APPROVED_TEMPLATES,
   canAcceptWork,
@@ -32,7 +32,7 @@ import {
   SAVED_REPLIES,
   type Channel,
   type Conversation,
-} from "../inboxEngine";
+} from "../engine/inboxEngine";
 import type { ComposerHandle } from "./composerHandle";
 
 const CONFIG_TO_CHANNEL: Record<string, Channel | undefined> = {

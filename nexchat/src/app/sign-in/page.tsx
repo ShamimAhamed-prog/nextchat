@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import SignIn from "@/components/SignIn";
-import ChatWidget, { ChatWidgetProvider } from "@/components/widget/ChatWidget";
+import SignIn from "@/features/auth/components/SignIn";
+import ChatWidget, { ChatWidgetProvider } from "@/features/widget/components/ChatWidget";
 
 export const metadata: Metadata = {
   title: "Sign In — Takeoff Travels",
