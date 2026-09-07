@@ -21,6 +21,11 @@ export const YOU = "Rifat Karim";
 /** The second authorised approver ADM-03's maker-checker requires. */
 export const SECOND_APPROVER = "Nabila K.";
 
+/** Who attendance exceptions (Phase 1 #8) notify — a distinct name rather
+ *  than overloading `SECOND_APPROVER`, which this file's own history
+ *  already flagged once as a problem when one person wears too many hats. */
+export const MANAGER = "Kamrul Hasan";
+
 /** SUP-06's floor: below this many eligible conversations, no rank is shown. */
 export const MIN_QA_SAMPLE = 30;
 

@@ -5,7 +5,8 @@ import { activity, nid } from "../helpers";
 import { canAcceptWork, type Conversation } from "../types";
 import { slaDeadlineFor } from "../queue";
 import { OFFER_SECONDS } from "../state";
-import { mapConvo, nowLabel } from "./shared";
+import { makeNotification } from "../notifications";
+import { addNotification, mapConvo, nowLabel, resolveNotifications } from "./shared";
 import type { InboxAction, InboxState } from "../state";
 
 type OffersAction = Extract<InboxAction, { type: "ACCEPT" | "DECLINE" | "OFFER_TIMEOUT" | "SIMULATE_INCOMING_OFFER" | "RECORD_ROUTING" }>;
@@ -14,35 +15,64 @@ export function offersReducer(state: InboxState, action: OffersAction): InboxSta
   switch (action.type) {
     case "ACCEPT": {
       if (!canAcceptWork(state.agentState)) return state;
-      return mapConvo(
-        { ...state, selectedId: action.id },
-        action.id,
-        (c) => ({
-          ...c,
-          status: "assigned",
-          ownerLeaseActive: true,
-          assignee: YOU,
-          offerExpiresAt: undefined,
-          activity: [...c.activity, activity("Assignment accepted", "AI silenced on this thread", nowLabel())],
-        })
+      return resolveNotifications(
+        mapConvo(
+          { ...state, selectedId: action.id },
+          action.id,
+          (c) => ({
+            ...c,
+            status: "assigned",
+            ownerLeaseActive: true,
+            assignee: YOU,
+            offerExpiresAt: undefined,
+            activity: [...c.activity, activity("Assignment accepted", "AI silenced on this thread", nowLabel())],
+          })
+        ),
+        (n) => n.type === "assignment" && n.conversationId === action.id,
       );
     }
     case "DECLINE":
-      return mapConvo(state, action.id, (c) => ({
-        ...c,
-        status: "queued",
-        offerExpiresAt: undefined,
-        // Routed afresh next round rather than inheriting the decision that
-        // just picked an agent who said no.
-        routingDecision: undefined,
-        activity: [...c.activity, activity("Assignment declined", "Returned to queue — age preserved", nowLabel())],
-      }));
-    case "OFFER_TIMEOUT":
-      return mapConvo(state, action.id, (c) =>
-        c.status === "offered"
-          ? { ...c, status: "queued", offerExpiresAt: undefined, routingDecision: undefined, activity: [...c.activity, activity("Offer timed out", "Returned to queue — age preserved", nowLabel())] }
-          : c
+      return resolveNotifications(
+        mapConvo(state, action.id, (c) => ({
+          ...c,
+          status: "queued",
+          offerExpiresAt: undefined,
+          // Routed afresh next round rather than inheriting the decision that
+          // just picked an agent who said no.
+          routingDecision: undefined,
+          activity: [...c.activity, activity("Assignment declined", "Returned to queue — age preserved", nowLabel())],
+        })),
+        (n) => n.type === "assignment" && n.conversationId === action.id,
       );
+    case "OFFER_TIMEOUT": {
+      const convo = state.conversations.find((c) => c.id === action.id);
+      if (!convo || convo.status !== "offered") return state;
+      const resolved = resolveNotifications(
+        mapConvo(state, action.id, (c) => ({
+          ...c,
+          status: "queued",
+          offerExpiresAt: undefined,
+          routingDecision: undefined,
+          activity: [...c.activity, activity("Offer timed out", "Returned to queue — age preserved", nowLabel())],
+        })),
+        (n) => n.type === "assignment" && n.conversationId === action.id,
+      );
+      // RT-06 / the doc's #6: unanswered within the offer window escalates
+      // to whoever else is eligible, rather than silently waiting again.
+      return addNotification(
+        resolved,
+        makeNotification({
+          type: "overdue",
+          title: `Unanswered — ${convo.customerName}`,
+          detail: `${YOU} did not respond within the offer window — needs another agent.`,
+          conversationId: convo.id,
+          for: "Team",
+          team: convo.queueId,
+          priority: convo.priority,
+          actionLabel: "Pick up",
+        }),
+      );
+    }
     case "SIMULATE_INCOMING_OFFER": {
       // Matches the E5 "Agent state and capacity" table: only AVAILABLE (and
       // BUSY, while capacity remains — not modeled here) actually receives
@@ -88,7 +118,19 @@ export function offersReducer(state: InboxState, action: OffersAction): InboxSta
         ownerLeaseActive: false,
         aiThinking: false,
       };
-      return { ...state, conversations: [fresh, ...state.conversations] };
+      return addNotification(
+        { ...state, conversations: [fresh, ...state.conversations] },
+        makeNotification({
+          type: "assignment",
+          title: `New assignment — ${fresh.customerName}`,
+          detail: fresh.escalationReason,
+          conversationId: fresh.id,
+          for: YOU,
+          priority: fresh.priority,
+          deadline: fresh.offerExpiresAt,
+          actionLabel: "Accept",
+        }),
+      );
     }
 
     case "RECORD_ROUTING":

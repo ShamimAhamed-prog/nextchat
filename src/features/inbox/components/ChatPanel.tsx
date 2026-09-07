@@ -147,7 +147,12 @@ export default function ChatPanel({
     );
   }
 
-  const owned = convo.status === "assigned";
+  // `ownerLeaseActive` is what actually means "this agent holds it" — a
+  // transfer or shift handover can leave `status: "assigned"` on a
+  // conversation someone else now owns, and this agent must not get a live
+  // composer for it (see `matchesView`'s "mine" case in `views.ts`, fixed
+  // the same way).
+  const owned = convo.status === "assigned" && convo.ownerLeaseActive;
 
   return (
     <section className="flex min-w-0 flex-1 flex-col gap-3 rounded-lg bg-page p-2">

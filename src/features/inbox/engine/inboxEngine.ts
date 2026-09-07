@@ -35,6 +35,10 @@ import { lifecycleReducer } from "./reducers/lifecycle";
 import { piiReducer } from "./reducers/pii";
 import { bookingReducer } from "./reducers/booking";
 import { supervisorReducer } from "./reducers/supervisor";
+import { notificationsReducer } from "./reducers/notifications";
+import { callsReducer } from "./reducers/calls";
+import { shiftHandoverReducer } from "./reducers/shiftHandover";
+import { attendanceReducer } from "./reducers/attendance";
 
 export * from "./types";
 export * from "./queue";
@@ -44,6 +48,9 @@ export * from "./reopen";
 export * from "./views";
 export * from "./search";
 export * from "./bookingActions";
+export * from "./notifications";
+export * from "./calls";
+export * from "./attendance";
 export * from "./state";
 export { draftFor, parseMentions } from "./reducers/shared";
 export { DISRUPTION_SCENARIO_COUNT } from "./reducers/disruption";
@@ -134,6 +141,28 @@ export function inboxReducer(state: InboxState, action: InboxAction): InboxState
     case "FILE_APPEAL":
     case "RESOLVE_APPEAL":
       return supervisorReducer(state, action);
+
+    case "MARK_NOTIFICATION_READ":
+    case "MARK_ALL_NOTIFICATIONS_READ":
+    case "RAISE_SLA_NOTIFICATION":
+      return notificationsReducer(state, action);
+
+    case "SIMULATE_INCOMING_CALL":
+    case "ANSWER_CALL":
+    case "DECLINE_CALL":
+    case "END_CALL":
+      return callsReducer(state, action);
+
+    case "OPEN_SHIFT_HANDOVER":
+    case "CLOSE_SHIFT_HANDOVER":
+    case "CONFIRM_SHIFT_HANDOVER":
+    case "ACKNOWLEDGE_HANDOVER":
+      return shiftHandoverReducer(state, action);
+
+    case "CLOCK_IN":
+    case "CLOCK_OUT":
+    case "REPORT_ATTENDANCE_EXCEPTION":
+      return attendanceReducer(state, action);
 
     default: {
       // Every member of `InboxAction` is routed above, so this is

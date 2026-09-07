@@ -8,6 +8,7 @@ import TicketList from "./TicketList";
 import ChatPanel from "./ChatPanel";
 import DetailsPanel from "./DetailsPanel";
 import OfferBanner from "./OfferBanner";
+import IncomingCallBanner from "./IncomingCallBanner";
 import NoEligibleAgentNotice from "./NoEligibleAgentNotice";
 import DisruptionCohort from "./DisruptionCohort";
 import TransferModal from "./TransferModal";
@@ -16,6 +17,7 @@ import SnoozeModal from "./SnoozeModal";
 import RevealPiiModal from "./RevealPiiModal";
 import BookingActionModal from "./BookingActionModal";
 import AgentStateGuardModal from "./AgentStateGuardModal";
+import ShiftHandoverModal from "./ShiftHandoverModal";
 import SandboxBanner from "@/features/admin/components/SandboxBanner";
 import KeyboardShortcuts, { type ShortcutActions } from "./KeyboardShortcuts";
 import type { ComposerHandle } from "../chat/composerHandle";
@@ -105,6 +107,7 @@ export default function TicketDashboard() {
         <SandboxBanner />
         <DisruptionCohort />
         <OfferBanner />
+        <IncomingCallBanner />
         <NoEligibleAgentNotice />
 
         <div className="flex min-h-0 min-w-0 flex-1 flex-col gap-3 rounded-2xl bg-footer p-3 sm:p-4">
@@ -168,6 +171,7 @@ export default function TicketDashboard() {
       {bookingTarget && bookingConvo && (
         <BookingActionModal conversation={bookingConvo} action={bookingTarget.action} actionKey={bookingTarget.key} />
       )}
+      {state.shiftHandoverOpen && <ShiftHandoverModal />}
     </main>
   );
 }

@@ -28,6 +28,10 @@ export default function WorkspaceEffects() {
   // Use refs to hold latest values so the interval effect doesn't re-run
   const conversationsRef = useRef(state.conversations);
   const dispatchRef = useRef(dispatch);
+  // Which conversations have already raised an SLA-breach notification, so
+  // the tick below fires once per breach rather than once per 2 seconds for
+  // as long as a conversation sits past its deadline.
+  const notifiedBreachRef = useRef<Set<string>>(new Set());
 
   // Update refs via effect to avoid render-phase ref updates
   useEffect(() => {
@@ -51,6 +55,15 @@ export default function WorkspaceEffects() {
     return () => window.clearTimeout(t);
   }, [dispatch]);
 
+  // Phase 1 #3's simulated incoming call — same one-shot-timeout idiom as
+  // the offer above, at a different delay so the two demo events don't
+  // land on top of each other. `SIMULATE_INCOMING_CALL` itself no-ops if a
+  // call is already ringing/connected or there's nothing to call about.
+  useEffect(() => {
+    const t = window.setTimeout(() => dispatch({ type: "SIMULATE_INCOMING_CALL" }), 12000);
+    return () => window.clearTimeout(t);
+  }, [dispatch]);
+
   useEffect(() => {
     const t = window.setInterval(() => {
       const now = Date.now();
@@ -60,6 +73,19 @@ export default function WorkspaceEffects() {
         }
         if (c.status === "snoozed" && c.snoozeUntil && c.snoozeUntil <= now) {
           dispatchRef.current({ type: "SNOOZE_WOKE", id: c.id });
+        }
+        // Notification-center #4/#6: a waiting conversation crossing its SLA
+        // deadline raises an "overdue" notification once, not every tick —
+        // and the guard clears the moment it stops waiting, so a reopened
+        // or re-queued conversation can breach and notify again later.
+        const waiting = c.status === "queued" || c.status === "offered";
+        if (waiting && c.slaDeadline <= now) {
+          if (!notifiedBreachRef.current.has(c.id)) {
+            notifiedBreachRef.current.add(c.id);
+            dispatchRef.current({ type: "RAISE_SLA_NOTIFICATION", id: c.id });
+          }
+        } else {
+          notifiedBreachRef.current.delete(c.id);
         }
       }
     }, 2000);

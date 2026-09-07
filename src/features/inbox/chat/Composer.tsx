@@ -28,6 +28,7 @@ import {
   APPROVED_TEMPLATES,
   canAcceptWork,
   channelSendPolicy,
+  conversationStatusLabel,
   draftFor,
   SAVED_REPLIES,
   type Channel,
@@ -165,6 +166,17 @@ function StatusAction({ convo }: { convo: Conversation }) {
     return (
       <div className="rounded-lg bg-footer p-4 text-sm text-ink">
         Snoozed — {convo.snoozeReason}. Wakes back to you in <span className="font-[family-name:var(--font-inter)] tabular-nums text-amber">{mins}m</span>.
+      </div>
+    );
+  }
+  // A transfer or shift handover (Phase 1 #2/#7) can leave this `assigned`
+  // to someone else — distinct from resolved, and definitely not this
+  // agent's composer to type into. Checked before the `resolved` fallback
+  // below, which otherwise silently mislabeled this case as "Resolved."
+  if (convo.status === "assigned" && !convo.ownerLeaseActive) {
+    return (
+      <div className="rounded-lg bg-footer p-4 text-sm text-ink-dim">
+        {conversationStatusLabel(convo)} — nothing to do here.
       </div>
     );
   }

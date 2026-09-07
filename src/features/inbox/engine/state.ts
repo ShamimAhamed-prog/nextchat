@@ -16,6 +16,9 @@ import type { BookingActionId } from "./bookingActions";
 import type { PiiField } from "./pii";
 import type { InboxView } from "./views";
 import type { RoutingDecision } from "./routing";
+import type { NotificationRecord } from "./notifications";
+import type { IncomingCall } from "./calls";
+import type { AttendanceEntry, AttendanceExceptionType } from "./attendance";
 
 export type DisruptionRecord = { id: string; route: string; reason: string; openedAt: number };
 
@@ -68,6 +71,15 @@ export type InboxState = {
    * threw away whatever the agent had typed.
    */
   drafts: Record<string, string>;
+  /** Phase 1 #4: assignments, overdue responses, pending actions and
+   *  handovers, in one list — see `notifications.ts`. */
+  notifications: NotificationRecord[];
+  /** Phase 1 #3: the one call that can be ringing/connected at a time. */
+  incomingCall: IncomingCall | null;
+  /** Phase 1 #7: whether the "hand over shift" dialog is open. */
+  shiftHandoverOpen: boolean;
+  /** Phase 1 #8: clock-in/out history, oldest first — see `attendance.ts`. */
+  attendance: AttendanceEntry[];
 };
 
 export const OFFER_SECONDS = 30;
@@ -94,6 +106,10 @@ export function initialInboxState(): InboxState {
     bookingActionTarget: null,
     pendingAgentState: null,
     unavailableSince: null,
+    notifications: [],
+    incomingCall: null,
+    shiftHandoverOpen: false,
+    attendance: [],
   };
 }
 
@@ -160,7 +176,21 @@ export type InboxAction =
   | { type: "CLOSE_QA_REVIEW" }
   | { type: "SUBMIT_QA_REVIEW"; id: string; scores: QaScores; note: string }
   | { type: "FILE_APPEAL"; id: string; note: string }
-  | { type: "RESOLVE_APPEAL"; id: string; status: "upheld" | "overturned"; note: string };
+  | { type: "RESOLVE_APPEAL"; id: string; status: "upheld" | "overturned"; note: string }
+  | { type: "MARK_NOTIFICATION_READ"; id: string }
+  | { type: "MARK_ALL_NOTIFICATIONS_READ" }
+  | { type: "RAISE_SLA_NOTIFICATION"; id: string }
+  | { type: "SIMULATE_INCOMING_CALL" }
+  | { type: "ANSWER_CALL" }
+  | { type: "DECLINE_CALL" }
+  | { type: "END_CALL" }
+  | { type: "OPEN_SHIFT_HANDOVER" }
+  | { type: "CLOSE_SHIFT_HANDOVER" }
+  | { type: "CONFIRM_SHIFT_HANDOVER"; to: string; note: string }
+  | { type: "ACKNOWLEDGE_HANDOVER"; id: string }
+  | { type: "CLOCK_IN" }
+  | { type: "CLOCK_OUT" }
+  | { type: "REPORT_ATTENDANCE_EXCEPTION"; exceptionType: AttendanceExceptionType; reason: string };
 
 /**
  * `@Name` mentions, matched against the real roster rather than any word

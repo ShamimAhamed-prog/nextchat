@@ -61,7 +61,10 @@ export default function AdminHeader() {
         />
       </form>
 
-      <div className="flex shrink-0 items-center gap-2.5">
+      {/* `relative` anchors the notifications panel, which is a sibling of
+          its trigger button rather than a wrapping element — see
+          `NotificationsBell.tsx`. */}
+      <div className="relative flex shrink-0 items-center gap-2.5">
         <ThemeToggle />
 
         <NotificationsBell />

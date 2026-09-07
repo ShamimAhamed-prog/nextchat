@@ -7,6 +7,7 @@ import { DISRUPTION_SCENARIO_COUNT, type AgentState } from "../engine/inboxEngin
 import { LocaleToggle, useUiLocale } from "@/shared/providers/UiLocale";
 import { ThemeToggle } from "@/shared/providers/ThemeContext";
 import NotificationsBell from "./NotificationsBell";
+import AttendanceControl from "./AttendanceControl";
 import { useTenantConfig } from "@/features/admin/context/TenantConfigContext";
 import type { ChannelId } from "@/features/admin/engine/tenantConfigEngine";
 import type { ChannelFilter } from "./TicketFilterBar";
@@ -217,20 +218,46 @@ export default function DashboardHeader({
             </svg>
             <span className="hidden sm:inline">{state.disruptions.length > 0 ? "Simulate another disruption" : t("Simulate disruption")}</span>
           </button>
+          <button
+            type="button"
+            onClick={() => dispatch({ type: "SIMULATE_INCOMING_CALL" })}
+            disabled={state.incomingCall?.state === "ringing" || state.incomingCall?.state === "connected"}
+            title={t("Simulate an incoming call (demo)")}
+            aria-label={t("Simulate incoming call")}
+            className="flex h-8 items-center gap-1.5 rounded-full border border-line px-2 text-[11px] font-medium text-ink-dim transition-colors hover:border-info-text-alt hover:text-info-text-alt disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-line disabled:hover:text-ink-dim sm:px-2.5"
+          >
+            <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 shrink-0" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden>
+              <path d="M6 3h3l2 5-2.5 1.5a11 11 0 0 0 5 5L15 12l5 2v3a2 2 0 0 1-2 2A16 16 0 0 1 4 5a2 2 0 0 1 2-2Z" />
+            </svg>
+            <span className="hidden sm:inline">{t("Simulate incoming call")}</span>
+          </button>
         </div>
 
         <span aria-hidden className="hidden h-6 w-px bg-line md:block" />
 
-        {/* System cluster: theme and alerts. */}
-        <div className="flex items-center gap-1.5 sm:gap-2">
+        {/* System cluster: theme and alerts. `relative` anchors the
+            notifications panel, which is a sibling of its trigger button
+            rather than a wrapping element — see `NotificationsBell.tsx`. */}
+        <div className="relative flex items-center gap-1.5 sm:gap-2">
           <ThemeToggle />
           <NotificationsBell />
         </div>
 
         <span aria-hidden className="hidden h-6 w-px bg-line md:block" />
 
-        {/* "You" cluster: agent status and profile. */}
+        {/* "You" cluster: attendance, shift handover, agent status and profile. */}
         <div className="flex items-center gap-1.5 sm:gap-2">
+          <AttendanceControl />
+
+          <button
+            type="button"
+            onClick={() => dispatch({ type: "OPEN_SHIFT_HANDOVER" })}
+            title={t("Hand over everything you hold to a colleague")}
+            className="hidden h-8 items-center rounded-full border border-line px-2.5 text-xs font-medium text-ink-dim transition-colors hover:border-coral hover:text-coral sm:flex"
+          >
+            {t("Hand over shift")}
+          </button>
+
           <div ref={ref} className="relative shrink-0">
             <button
               type="button"

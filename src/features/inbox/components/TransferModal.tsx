@@ -5,18 +5,17 @@ import Modal from "./Modal";
 import { useInbox } from "../context/InboxContext";
 import type { Conversation } from "../engine/inboxEngine";
 
-import { SECOND_APPROVER } from "@/shared/lib/people";
+import { ALL_PEOPLE, YOU } from "@/shared/lib/people";
 
-const DESTINATIONS = [
-  "Refunds & Disruption team",
-  "Booking Specialist queue",
-  "Duty Operations Manager",
-  `${SECOND_APPROVER} (agent)`,
-];
+/** Queues/teams requeue the conversation, same as today. A name from
+ *  `ALL_PEOPLE` assigns it to that agent directly — see `CONFIRM_TRANSFER`
+ *  in `reducers/lifecycle.ts`, which tells the two apart the same way. */
+const TEAMS = ["Refunds & Disruption team", "Booking Specialist queue", "Duty Operations Manager"];
+const AGENTS = ALL_PEOPLE.filter((p) => p !== YOU);
 
 export default function TransferModal({ conversation }: { conversation: Conversation }) {
   const { dispatch } = useInbox();
-  const [destination, setDestination] = useState(DESTINATIONS[0]);
+  const [destination, setDestination] = useState(TEAMS[0]);
   const [reason, setReason] = useState("");
   const close = () => dispatch({ type: "CLOSE_TRANSFER" });
 
@@ -42,11 +41,20 @@ export default function TransferModal({ conversation }: { conversation: Conversa
             onChange={(e) => setDestination(e.target.value)}
             className="h-10 rounded-lg border border-line bg-card px-3 text-sm text-ink focus:border-coral focus:outline-none"
           >
-            {DESTINATIONS.map((d) => (
-              <option key={d} value={d} className="bg-footer">
-                {d}
-              </option>
-            ))}
+            <optgroup label="Team / queue" className="bg-footer">
+              {TEAMS.map((d) => (
+                <option key={d} value={d} className="bg-footer">
+                  {d}
+                </option>
+              ))}
+            </optgroup>
+            <optgroup label="Agent" className="bg-footer">
+              {AGENTS.map((d) => (
+                <option key={d} value={d} className="bg-footer">
+                  {d}
+                </option>
+              ))}
+            </optgroup>
           </select>
         </label>
 

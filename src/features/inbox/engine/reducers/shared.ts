@@ -5,6 +5,7 @@
 import { ALL_PEOPLE } from "@/shared/lib/people";
 import type { InboxState } from "../state";
 import type { Channel, Conversation, TranscriptMsg } from "../types";
+import type { NotificationRecord } from "../notifications";
 
 /**
  * `@Name` mentions, matched against the real roster rather than any word
@@ -41,13 +42,41 @@ function nowLabel(): string {
   return "just now";
 }
 
+/** Appends one notification — the same "just push a record" shape every
+ *  reducer case here already uses for `activity`. */
+function addNotification(state: InboxState, n: NotificationRecord): InboxState {
+  return { ...state, notifications: [...state.notifications, n] };
+}
+
+/** Marks every currently-`open` notification matching `match` as `done` —
+ *  used when the thing a notification was about (an offer, a follow-up)
+ *  resolves on its own, never by the panel's "mark read" control. */
+function resolveNotifications(state: InboxState, match: (n: NotificationRecord) => boolean): InboxState {
+  return {
+    ...state,
+    notifications: state.notifications.map((n) => (n.status === "open" && match(n) ? { ...n, status: "done" } : n)),
+  };
+}
+
+/**
+ * Assigns a conversation directly to a named agent — the transition a
+ * single transfer (`CONFIRM_TRANSFER`) and a bulk shift handover
+ * (`CONFIRM_SHIFT_HANDOVER`) both apply. Deliberately not a full case on
+ * its own: each caller still writes its own `activity` entry and
+ * notification, since the wording differs between "transferred" and
+ * "shift handover".
+ */
+function assignToPerson(state: InboxState, id: string, person: string): InboxState {
+  return mapConvo(state, id, (c) => ({ ...c, status: "assigned", assignee: person, ownerLeaseActive: false }));
+}
+
 const AI_DRAFTS: Record<string, string> = {
   "policy.baggage": "Economy Saver includes 20kg checked baggage and 7kg cabin on domestic routes — for a group of 5 travelling together I've also flagged this for a fare check, since group pricing can differ slightly.",
   "refund.status": "I can see the date-change fee refund was approved on our side but hasn't settled to your card yet — card refunds typically take 5–10 business days. I'll chase this with finance and update you within the hour.",
   default: "Thanks for your patience — I'm looking into this now and will have an update for you shortly.",
 };
 
-export { mapConvo, mapMessage, nowLabel };
+export { mapConvo, mapMessage, nowLabel, addNotification, resolveNotifications, assignToPerson };
 
 /** The AI's suggested reply for a conversation's top intent. */
 export function draftFor(c: Conversation): string {

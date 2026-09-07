@@ -46,7 +46,11 @@ export function matchesView(c: Conversation, view: InboxView, now: number): bool
     case "unassigned":
       return c.status === "queued" || c.status === "offered";
     case "mine":
-      return c.status === "assigned";
+      // A transfer or shift handover can now leave `status: "assigned"` on
+      // a conversation held by someone else — `ownerLeaseActive` is the
+      // field that actually means "this agent holds it" (see `heldByAgent`
+      // in `queue.ts`).
+      return c.status === "assigned" && c.ownerLeaseActive;
     case "team":
       // Everything open that this agent does not personally own — the
       // shared pool, which is what "team queues" means with one team.

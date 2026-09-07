@@ -6,15 +6,8 @@ import { useInbox } from "../context/InboxContext";
 import { useCountdown, useNow } from "../engine/useCountdown";
 import { formatSlaBadge, useUiLocale } from "@/shared/providers/UiLocale";
 import type { ChannelFilter } from "./TicketFilterBar";
-import { matchesQuery, matchesView, queueSort, SEARCH_HINT, slaBadge, type Conversation, type InboxView, type Priority } from "../engine/inboxEngine";
+import { conversationStatusLabel, matchesQuery, matchesView, queueSort, SEARCH_HINT, slaBadge, type Conversation, type InboxView, type Priority } from "../engine/inboxEngine";
 
-const STATUS_LABEL: Record<Conversation["status"], string> = {
-  queued: "Unassigned",
-  offered: "Offered",
-  assigned: "Assigned to you",
-  snoozed: "Snoozed",
-  resolved: "Resolved",
-};
 const STATUS_COLOR: Record<Conversation["status"], string> = {
   queued: "var(--color-ink-dim)",
   offered: "var(--color-warn-strong)",
@@ -152,15 +145,13 @@ function TicketRow({ convo, selected, onSelect }: { convo: Conversation; selecte
           selected ? "border-coral bg-coral/10" : "border-transparent hover:bg-panel/40"
         }`}
       >
-        <InitialsAvatar name={convo.customerName} size={44} className="self-start" />
-
         <div className="flex min-w-0 flex-1 flex-col gap-0.5">
           <span className="truncate text-sm font-bold leading-[21px] text-ink">{convo.customerName}</span>
 
           <span className="flex flex-wrap items-center gap-x-1.5 gap-y-0.5 text-xs leading-[18px]">
             <span className="inline-flex items-center gap-1.5" style={{ color: STATUS_COLOR[convo.status] }}>
               <span aria-hidden className="h-1.5 w-1.5 shrink-0 rounded-full" style={{ background: STATUS_COLOR[convo.status] }} />
-              {t(STATUS_LABEL[convo.status])}
+              {t(conversationStatusLabel(convo))}
             </span>
             {elevatedPriority && (
               <span className="font-semibold" style={{ color: PRIORITY_COLOR[convo.priority] }}>
@@ -207,6 +198,16 @@ function TicketRow({ convo, selected, onSelect }: { convo: Conversation; selecte
             <span className="flex h-5 w-5 items-center justify-center rounded-full bg-coral text-xs font-semibold text-ink-invert">{convo.unread}</span>
           )}
         </div>
+
+        {/*
+         * Last in the DOM, not first: `innerText` (which several
+         * verification suites read to get "the customer name") follows DOM
+         * order regardless of CSS `position` or `order` — confirmed
+         * empirically, not assumed — so the avatar has to come after the
+         * name for the name to stay the row's first line. `order-first`
+         * (order: -9999) is what puts it back on the left visually.
+         */}
+        <InitialsAvatar name={convo.customerName} size={44} className="order-first self-start" />
       </button>
     </li>
   );

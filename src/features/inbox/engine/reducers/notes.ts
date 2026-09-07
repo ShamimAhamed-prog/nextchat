@@ -1,7 +1,8 @@
 // Case bodies lifted verbatim from `inboxReducer`'s switch.
 
 import { activity, nid } from "../helpers";
-import { mapConvo, nowLabel, parseMentions } from "./shared";
+import { makeNotification } from "../notifications";
+import { addNotification, mapConvo, nowLabel, parseMentions } from "./shared";
 import type { InboxAction, InboxState } from "../state";
 
 type NotesAction = Extract<InboxAction, { type: "ADD_NOTE" | "ADD_TASK" | "TOGGLE_TASK" }>;
@@ -34,27 +35,40 @@ export function notesReducer(state: InboxState, action: NotesAction): InboxState
       }));
     }
 
-    case "ADD_TASK":
-      return mapConvo(state, action.id, (c) => ({
-        ...c,
-        tasks: [
-          ...(c.tasks ?? []),
-          {
-            id: nid("task"),
-            title: action.title,
-            owner: action.owner,
-            dueAt: Date.now() + action.dueMinutes * 60_000,
-            done: false,
-          },
-        ],
-        activity: [
-          ...c.activity,
-          activity("Follow-up raised", `${action.title} · ${action.owner}`, nowLabel()),
-        ],
-      }));
+    case "ADD_TASK": {
+      // Hoisted rather than inlined into the task literal below, so the
+      // notification raised alongside it can name the same task.
+      const taskId = nid("task");
+      const dueAt = Date.now() + action.dueMinutes * 60_000;
+      const convo = state.conversations.find((c) => c.id === action.id);
+      return addNotification(
+        mapConvo(state, action.id, (c) => ({
+          ...c,
+          tasks: [
+            ...(c.tasks ?? []),
+            { id: taskId, title: action.title, owner: action.owner, dueAt, done: false },
+          ],
+          activity: [
+            ...c.activity,
+            activity("Follow-up raised", `${action.title} · ${action.owner}`, nowLabel()),
+          ],
+        })),
+        makeNotification({
+          type: "pending_action",
+          title: `Follow-up — ${action.title}`,
+          detail: convo?.customerName ?? "",
+          conversationId: action.id,
+          taskId,
+          for: action.owner,
+          priority: convo?.priority ?? "P3",
+          deadline: dueAt,
+          actionLabel: "View",
+        }),
+      );
+    }
 
-    case "TOGGLE_TASK":
-      return mapConvo(state, action.id, (c) => {
+    case "TOGGLE_TASK": {
+      const mapped = mapConvo(state, action.id, (c) => {
         const task = (c.tasks ?? []).find((t) => t.id === action.taskId);
         if (!task) return c;
         return {
@@ -66,6 +80,18 @@ export function notesReducer(state: InboxState, action: NotesAction): InboxState
           ],
         };
       });
+      // Mirrors the task's own done/not-done — completing or reopening the
+      // task is what moves its notification, never "mark read" in the panel.
+      const task = state.conversations.find((c) => c.id === action.id)?.tasks?.find((t) => t.id === action.taskId);
+      if (!task) return mapped;
+      const nowDone = !task.done;
+      return {
+        ...mapped,
+        notifications: mapped.notifications.map((n) =>
+          n.taskId === action.taskId ? { ...n, status: nowDone ? "done" : "open" } : n,
+        ),
+      };
+    }
 
     default: {
       // Exhaustive over this domain's slice of the union: an action added to

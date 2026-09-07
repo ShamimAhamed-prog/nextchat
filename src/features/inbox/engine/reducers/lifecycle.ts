@@ -1,11 +1,12 @@
 // Case bodies lifted verbatim from `inboxReducer`'s switch.
 
-import { YOU } from "@/shared/lib/people";
+import { ALL_PEOPLE, YOU } from "@/shared/lib/people";
 import { activity } from "../helpers";
 import { slaDeadlineFor } from "../queue";
 import { routeReopen } from "../reopen";
 import { OFFER_SECONDS } from "../state";
-import { mapConvo, nowLabel } from "./shared";
+import { makeNotification } from "../notifications";
+import { addNotification, assignToPerson, mapConvo, nowLabel } from "./shared";
 import type { InboxAction, InboxState } from "../state";
 
 type LifecycleAction = Extract<InboxAction, { type: "RELEASE" | "OPEN_TRANSFER" | "CLOSE_TRANSFER" | "CONFIRM_TRANSFER" | "OPEN_RESOLVE" | "CLOSE_RESOLVE" | "CONFIRM_RESOLVE" | "REOPEN" | "OPEN_SNOOZE" | "CLOSE_SNOOZE" | "CONFIRM_SNOOZE" | "SNOOZE_WOKE" }>;
@@ -25,17 +26,40 @@ export function lifecycleReducer(state: InboxState, action: LifecycleAction): In
       return { ...state, transferTargetId: action.id };
     case "CLOSE_TRANSFER":
       return { ...state, transferTargetId: null };
-    case "CONFIRM_TRANSFER":
-      return mapConvo(
-        { ...state, transferTargetId: null, selectedId: state.conversations.length > 1 ? state.conversations.find((c) => c.id !== action.id)?.id ?? state.selectedId : state.selectedId },
-        action.id,
-        (c) => ({
-          ...c,
-          status: "queued",
-          ownerLeaseActive: false,
-          activity: [...c.activity, activity(`Transferred to ${action.destination}`, action.reason, nowLabel())],
-        })
+    case "CONFIRM_TRANSFER": {
+      const convo = state.conversations.find((c) => c.id === action.id);
+      const toPerson = ALL_PEOPLE.includes(action.destination);
+      const base: InboxState = {
+        ...state,
+        transferTargetId: null,
+        selectedId: state.conversations.length > 1 ? state.conversations.find((c) => c.id !== action.id)?.id ?? state.selectedId : state.selectedId,
+      };
+      // A person is assigned directly (RT-05/§5's "who is handling it" is
+      // then just `conversationStatusLabel`, no separate tracking needed);
+      // a team/queue string goes back to the shared pool, same as before.
+      const reassigned = toPerson
+        ? assignToPerson(base, action.id, action.destination)
+        : mapConvo(base, action.id, (c) => ({ ...c, status: "queued", ownerLeaseActive: false }));
+      const mapped = mapConvo(reassigned, action.id, (c) => ({
+        ...c,
+        activity: [...c.activity, activity(`Transferred to ${action.destination}`, action.reason, nowLabel())],
+      }));
+      // Nobody specific to notify when it's a team/queue string rather than
+      // a named agent — the pool discovers it the way it always has.
+      if (!toPerson) return mapped;
+      return addNotification(
+        mapped,
+        makeNotification({
+          type: "handover",
+          title: `Conversation transferred to you — ${convo?.customerName ?? ""}`,
+          detail: action.reason,
+          conversationId: action.id,
+          for: action.destination,
+          priority: convo?.priority ?? "P3",
+          actionLabel: "View",
+        }),
       );
+    }
     case "OPEN_RESOLVE":
       return { ...state, resolveTargetId: action.id };
     case "CLOSE_RESOLVE":
@@ -93,25 +117,36 @@ export function lifecycleReducer(state: InboxState, action: LifecycleAction): In
           activity("Snoozed", `${action.reason} · ${action.owner} · wakes in ${action.minutes}m`, nowLabel()),
         ],
       }));
-    case "SNOOZE_WOKE":
-      return mapConvo(state, action.id, (c) =>
-        c.status === "snoozed"
-          ? {
-              ...c,
-              status: "assigned",
-              ownerLeaseActive: true,
-              snoozeUntil: undefined,
-              activity: [
-                ...c.activity,
-                activity(
-                  `Snooze woke — ${c.snoozeOwner ?? YOU} alerted`,
-                  c.snoozeReason ?? "",
-                  nowLabel(),
-                ),
-              ],
-            }
-          : c
+    case "SNOOZE_WOKE": {
+      const convo = state.conversations.find((c) => c.id === action.id);
+      if (!convo || convo.status !== "snoozed") return state;
+      const mapped = mapConvo(state, action.id, (c) => ({
+        ...c,
+        status: "assigned",
+        ownerLeaseActive: true,
+        snoozeUntil: undefined,
+        activity: [
+          ...c.activity,
+          activity(
+            `Snooze woke — ${c.snoozeOwner ?? YOU} alerted`,
+            c.snoozeReason ?? "",
+            nowLabel(),
+          ),
+        ],
+      }));
+      return addNotification(
+        mapped,
+        makeNotification({
+          type: "pending_action",
+          title: `Snooze woke — ${convo.customerName}`,
+          detail: convo.snoozeReason ?? "",
+          conversationId: convo.id,
+          for: convo.snoozeOwner ?? YOU,
+          priority: convo.priority,
+          actionLabel: "View",
+        }),
       );
+    }
 
     default: {
       // Exhaustive over this domain's slice of the union: an action added to

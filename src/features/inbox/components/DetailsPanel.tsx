@@ -8,7 +8,7 @@ import { confidenceBand, CONFIDENCE_BAND_LABEL, type ConfidenceBand } from "@/fe
 import { useUiLocale } from "@/shared/providers/UiLocale";
 import { FAQ } from "@/features/widget/engine";
 import { ALL_PEOPLE, YOU } from "@/shared/lib/people";
-import { availableBookingActions, maskPii, PII_LABEL, type Conversation, type PiiField, type Priority } from "../engine/inboxEngine";
+import { availableBookingActions, conversationStatusLabel, maskPii, PII_LABEL, type Conversation, type PiiField, type Priority } from "../engine/inboxEngine";
 
 /*
  * A hue per known tag. The border is always the gradient's own `from`, so
@@ -111,7 +111,7 @@ export default function DetailsPanel({ onClose }: { onClose?: () => void } = {})
         </summary>
 
         <div className="flex flex-col gap-4">
-          <ReadField label={t("Status")} value={STATUS_LABEL[convo.status]} />
+          <ReadField label={t("Status")} value={conversationStatusLabel(convo)} />
           <ReadField label={t("Priority")} value={convo.priority} dotColor={PRIORITY_COLOR[convo.priority]} />
           <ReadField label={t("Escalation reason")} value={convo.escalationReason} />
         </div>
@@ -189,14 +189,6 @@ export default function DetailsPanel({ onClose }: { onClose?: () => void } = {})
     </aside>
   );
 }
-
-const STATUS_LABEL: Record<Conversation["status"], string> = {
-  queued: "Unassigned",
-  offered: "Offered",
-  assigned: "Assigned to you",
-  snoozed: "Snoozed",
-  resolved: "Resolved",
-};
 
 function HandoffSummary({ convo }: { convo: Conversation }) {
   const { t } = useUiLocale();

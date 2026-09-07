@@ -115,3 +115,27 @@ export function slaBadge(convo: Conversation, now: number): SlaBadge | null {
 export function heldByAgent(conversations: Conversation[]): Conversation[] {
   return conversations.filter((c) => c.status === "assigned" && c.ownerLeaseActive);
 }
+
+/**
+ * The one status-label selector `TicketList` and `DetailsPanel` both read
+ * from (they used to each carry their own identical `STATUS_LABEL` map).
+ * `assigned` now needs a live decision rather than a fixed string — a
+ * transfer or shift handover (Phase 1 #2/#7) can leave a conversation
+ * `assigned` to someone other than the agent viewing this workspace, and
+ * §5's "show who is handling it" is this function saying so, in one place,
+ * rather than two components each guessing.
+ */
+export function conversationStatusLabel(c: Conversation): string {
+  switch (c.status) {
+    case "queued":
+      return "Unassigned";
+    case "offered":
+      return "Offered";
+    case "assigned":
+      return c.ownerLeaseActive ? "Assigned to you" : `Assigned to ${c.assignee ?? "another agent"}`;
+    case "snoozed":
+      return "Snoozed";
+    case "resolved":
+      return "Resolved";
+  }
+}
