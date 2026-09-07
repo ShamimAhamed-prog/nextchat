@@ -106,9 +106,9 @@ export default function TicketList({
         </p>
       </div>
 
-      <ul className="flex flex-col gap-4 overflow-y-auto">
+      <ul className="flex flex-col divide-y divide-line overflow-y-auto rounded-lg bg-footer">
         {visible.length === 0 && (
-          <li className="px-2 py-6 text-center text-sm text-ink-dim">
+          <li className="px-3 py-8 text-center text-sm text-ink-dim">
             {searching ? `${t("Nothing matches")} “${query.trim()}”.` : t("No conversations match this filter.")}
           </li>
         )}
@@ -137,6 +137,10 @@ function TicketRow({ convo, selected, onSelect }: { convo: Conversation; selecte
   const mm = String(Math.floor(remaining / 60)).padStart(2, "0");
   const ss = String(remaining % 60).padStart(2, "0");
   const sla = slaBadge(convo, now);
+  // Every row carries status; priority only earns a place here when it is
+  // urgent enough to change what an agent does next — P2/P3 is the common
+  // case and a pill on every single row for it is noise, not signal.
+  const elevatedPriority = convo.priority === "P0" || convo.priority === "P1";
 
   return (
     <li>
@@ -144,67 +148,64 @@ function TicketRow({ convo, selected, onSelect }: { convo: Conversation; selecte
         type="button"
         onClick={onSelect}
         aria-current={selected || undefined}
-        className={`flex w-full flex-col gap-4 rounded-lg bg-footer p-4 text-left transition-colors ${
-          selected ? "border border-coral" : "border border-transparent hover:border-line"
+        className={`flex w-full items-center gap-3 border-l-2 px-3 py-3 text-left transition-colors ${
+          selected ? "border-coral bg-coral/10" : "border-transparent hover:bg-panel/40"
         }`}
       >
-        <div className="flex items-start justify-between gap-3">
-          <div className="flex min-w-0 flex-col gap-3">
-            <div className="flex flex-col gap-0.5">
-              <span className="truncate text-sm font-bold leading-[21px] text-ink">{convo.customerName}</span>
-              <span className="flex items-center gap-1.5 truncate text-xs leading-[18px] text-ink-dim">
-              {hasDraft && (
-                <span className="shrink-0 rounded-sm bg-amber/20 px-1 text-[10px] font-medium text-amber">
-                  Draft
-                </span>
-              )}
-              {convo.pinned && (
-                <svg viewBox="0 0 24 24" className="h-3 w-3 shrink-0 text-coral" fill="currentColor" aria-label="Pinned by a supervisor" role="img">
-                  <path d="M14 2 9 7H5l4 4-5 9 9-5 4 4V15l5-5-8-3Z" />
-                </svg>
-              )}
-              {convo.pnr ? `PNR ${convo.pnr}` : convo.channel}
-            </span>
-            </div>
+        <InitialsAvatar name={convo.customerName} size={44} className="self-start" />
 
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-panel px-2 py-1 text-xs" style={{ color: STATUS_COLOR[convo.status] }}>
-                <span aria-hidden className="h-2 w-2 rounded-full" style={{ background: STATUS_COLOR[convo.status] }} />
-                {t(STATUS_LABEL[convo.status])}
+        <div className="flex min-w-0 flex-1 flex-col gap-0.5">
+          <span className="truncate text-sm font-bold leading-[21px] text-ink">{convo.customerName}</span>
+
+          <span className="flex flex-wrap items-center gap-x-1.5 gap-y-0.5 text-xs leading-[18px]">
+            <span className="inline-flex items-center gap-1.5" style={{ color: STATUS_COLOR[convo.status] }}>
+              <span aria-hidden className="h-1.5 w-1.5 shrink-0 rounded-full" style={{ background: STATUS_COLOR[convo.status] }} />
+              {t(STATUS_LABEL[convo.status])}
+            </span>
+            {elevatedPriority && (
+              <span className="font-semibold" style={{ color: PRIORITY_COLOR[convo.priority] }}>
+                · {convo.priority}
               </span>
-              <span
-                className="inline-flex items-center gap-1.5 rounded-full border px-2 py-1 text-xs"
-                style={{ borderColor: PRIORITY_COLOR[convo.priority], color: PRIORITY_COLOR[convo.priority] }}
-              >
-                <span aria-hidden className="h-2 w-2 rounded-full" style={{ background: PRIORITY_COLOR[convo.priority] }} />
-                {convo.priority}
+            )}
+            {hasDraft && (
+              <span className="shrink-0 rounded-sm bg-amber/20 px-1 text-[10px] font-medium text-amber">
+                Draft
               </span>
+            )}
+            {convo.pinned && (
+              <svg viewBox="0 0 24 24" className="h-3 w-3 shrink-0 text-coral" fill="currentColor" aria-label="Pinned by a supervisor" role="img">
+                <path d="M14 2 9 7H5l4 4-5 9 9-5 4 4V15l5-5-8-3Z" />
+              </svg>
+            )}
+          </span>
+
+          <span className="truncate text-xs leading-[18px] text-ink-dim">
+            {convo.pnr ? `PNR ${convo.pnr} · ` : `${convo.channel} · `}
+            {convo.summary}
+          </span>
+
+          {(convo.status === "offered" || sla) && (
+            <span className="flex items-center gap-2 text-[11px] font-medium">
               {convo.status === "offered" && (
-                <span className="font-[family-name:var(--font-inter)] text-xs font-semibold tabular-nums text-coral">
+                <span className="font-[family-name:var(--font-inter)] font-semibold tabular-nums text-coral">
                   {mm}:{ss}
                 </span>
               )}
-            </div>
+              {sla && (
+                <span className="font-[family-name:var(--font-inter)] tabular-nums" style={{ color: sla.color }}>
+                  {formatSlaBadge(sla, t)}
+                </span>
+              )}
+            </span>
+          )}
+        </div>
 
-            {sla && (
-              <span className="font-[family-name:var(--font-inter)] text-[11px] font-medium tabular-nums" style={{ color: sla.color }}>
-                {formatSlaBadge(sla, t)}
-              </span>
-            )}
-
-            <div className="flex items-center gap-1.5">
-              <InitialsAvatar name={convo.customerName} size={14} />
-              <span className="truncate text-xs leading-[18px] text-ink-dim">{convo.summary}</span>
-            </div>
-          </div>
-
-          <div className="flex shrink-0 flex-col items-end gap-2">
-            <span className="text-sm leading-[21px] text-ink-dim">{convo.updatedLabel}</span>
-            {/* Dark on coral: white measured 2.99:1 on this badge (NFR-11). */}
-            {convo.unread > 0 && (
-              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-coral text-sm font-semibold text-ink-invert">{convo.unread}</span>
-            )}
-          </div>
+        <div className="flex shrink-0 flex-col items-end gap-1.5 self-start">
+          <span className="text-xs text-ink-dim">{convo.updatedLabel}</span>
+          {/* Dark on coral: white measured 2.99:1 on this badge (NFR-11). */}
+          {convo.unread > 0 && (
+            <span className="flex h-5 w-5 items-center justify-center rounded-full bg-coral text-xs font-semibold text-ink-invert">{convo.unread}</span>
+          )}
         </div>
       </button>
     </li>

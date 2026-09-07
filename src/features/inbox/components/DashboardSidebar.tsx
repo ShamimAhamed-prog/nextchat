@@ -60,6 +60,7 @@ export default function DashboardSidebar() {
       <Link
         href="/"
         aria-label="Takeoff Travels home"
+        title="Takeoff Travels home"
         className="flex h-9 w-9 items-center justify-center rounded-[10px]"
         style={{ background: "linear-gradient(160deg,#ffd464 0%,#ff5e5e 100%)" }}
       >
@@ -76,6 +77,7 @@ export default function DashboardSidebar() {
               key={item.label}
               href={item.href}
               aria-label={t(item.label)}
+              title={t(item.label)}
               aria-current={active || undefined}
               className={`flex h-9 w-9 items-center justify-center rounded-full transition-colors ${
                 active ? "bg-panel text-coral-text" : "text-ink hover:bg-panel/60"

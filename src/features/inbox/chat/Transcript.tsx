@@ -205,22 +205,32 @@ function TranscriptRow({
   msg,
   customerName,
   convoId,
+  showAvatar,
+  spacingClassName,
 }: {
   msg: TranscriptMsg;
   customerName: string;
   convoId: string;
+  /** Only the last message of a run of consecutive same-sender messages
+   *  carries an avatar — repeating it on every bubble in a burst is what a
+   *  chat app looks like before it has grouping. */
+  showAvatar: boolean;
+  /** `mt-3` between two different senders, a tight `mt-0.5` within one
+   *  sender's own run, `mt-0` for the very first message — computed once by
+   *  `Transcript` rather than re-derived per row. */
+  spacingClassName: string;
 }) {
   const { dispatch } = useInbox();
   if (msg.from === "system") {
     return (
-      <div className="flex justify-center">
+      <div className={`flex justify-center ${spacingClassName}`}>
         <span className="rounded-full bg-panel px-3 py-1 text-xs text-ink-dim">{msg.text}</span>
       </div>
     );
   }
   if (msg.from === "note") {
     return (
-      <div className="flex justify-center">
+      <div className={`flex justify-center ${spacingClassName}`}>
         <div className="w-full max-w-[560px] rounded-xl border border-dashed border-amber/50 bg-amber/5 px-4 py-3">
           <p className="mb-1 flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wide text-amber">
             <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden>
@@ -240,8 +250,8 @@ function TranscriptRow({
   }
   if (msg.from === "customer") {
     return (
-      <div className="flex items-end gap-2">
-        <InitialsAvatar name={customerName} size={28} />
+      <div className={`flex items-end gap-2 ${spacingClassName}`}>
+        {showAvatar ? <InitialsAvatar name={customerName} size={28} /> : <span className="w-7 shrink-0" aria-hidden />}
         <div className="flex max-w-[420px] flex-col gap-1">
           {msg.attachment && <AttachmentBubble attachment={msg.attachment} />}
           {msg.text ? (
@@ -256,12 +266,16 @@ function TranscriptRow({
   }
   if (msg.from === "bot") {
     return (
-      <div className="flex items-end gap-2">
-        <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-violet-bg-deep text-violet-strong" aria-hidden>
-          <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="currentColor" aria-hidden>
-            <path d="M12 2 3 6v5c0 5 4 8.5 9 10 5-1.5 9-5 9-10V6l-9-4Z" />
-          </svg>
-        </span>
+      <div className={`flex items-end gap-2 ${spacingClassName}`}>
+        {showAvatar ? (
+          <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-violet-bg-deep text-violet-strong" aria-hidden>
+            <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="currentColor" aria-hidden>
+              <path d="M12 2 3 6v5c0 5 4 8.5 9 10 5-1.5 9-5 9-10V6l-9-4Z" />
+            </svg>
+          </span>
+        ) : (
+          <span className="w-7 shrink-0" aria-hidden />
+        )}
         <div className="flex max-w-[420px] flex-col gap-1">
           {msg.text ? (
             <p className="rounded-tl-xl rounded-tr-xl rounded-br-xl border border-violet-border bg-violet-bg px-4 py-3 text-base font-medium text-violet-text-bright">{msg.text}</p>
@@ -277,7 +291,7 @@ function TranscriptRow({
     // selecting on `div.flex.justify-end`, which quietly started matching a
     // right-aligned button row elsewhere in the workspace and made six
     // delivery assertions fail for a reason unrelated to delivery.
-    <div className="flex justify-end" data-outbound>
+    <div className={`flex justify-end ${spacingClassName}`} data-outbound>
       <div className="flex max-w-[460px] flex-col items-end gap-1">
         {msg.attachment && <AttachmentBubble attachment={msg.attachment} />}
         {msg.text ? (
@@ -304,7 +318,7 @@ function DraftCard({ convo, onEdit }: { convo: Conversation; onEdit: (text: stri
   const { state: tenantState } = useTenantConfig();
   if (convo.aiThinking) {
     return (
-      <div className="flex items-center gap-2 rounded-lg border border-violet-border bg-violet-bg px-4 py-3 text-sm text-violet-text-bright">
+      <div className="mt-3 flex items-center gap-2 rounded-lg border border-violet-border bg-violet-bg px-4 py-3 text-sm text-violet-text-bright">
         <span className="flex gap-1" aria-hidden>
           {[0, 1, 2].map((i) => (
             <span key={i} className="h-1.5 w-1.5 animate-bounce rounded-full bg-violet-strong" style={{ animationDelay: `${i * 120}ms` }} />
@@ -325,7 +339,7 @@ function DraftCard({ convo, onEdit }: { convo: Conversation; onEdit: (text: stri
   const band = confidenceBand(topConfidence, bands);
   const directSendAllowed = band === "high";
   return (
-    <div className="flex flex-col gap-2 rounded-lg border border-dashed border-violet-strong/60 bg-violet-bg px-4 py-3">
+    <div className="mt-3 flex flex-col gap-2 rounded-lg border border-dashed border-violet-strong/60 bg-violet-bg px-4 py-3">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <span className="text-[11px] font-semibold uppercase tracking-wide text-violet-strong">AI suggested reply — not sent yet</span>
         <span className="text-[11px] text-ink-dim">
@@ -381,10 +395,23 @@ export default function Transcript({
   }, [convo.transcript.length, convo.aiDraft, convo.aiThinking]);
 
   return (
-    <div ref={historyRef} className="flex flex-1 flex-col gap-6 overflow-y-auto rounded-lg bg-footer px-4 py-6">
-      {convo.transcript.map((m) => (
-        <TranscriptRow key={m.id} msg={m} customerName={convo.customerName} convoId={convo.id} />
-      ))}
+    <div ref={historyRef} className="flex flex-1 flex-col overflow-y-auto rounded-lg bg-footer px-4 py-6">
+      {convo.transcript.map((m, i) => {
+        const prev = convo.transcript[i - 1];
+        const next = convo.transcript[i + 1];
+        const groupStart = !prev || prev.from !== m.from;
+        const showAvatar = !next || next.from !== m.from;
+        return (
+          <TranscriptRow
+            key={m.id}
+            msg={m}
+            customerName={convo.customerName}
+            convoId={convo.id}
+            showAvatar={showAvatar}
+            spacingClassName={i === 0 ? "" : groupStart ? "mt-3" : "mt-0.5"}
+          />
+        );
+      })}
       <DraftCard convo={convo} onEdit={onEditDraft} />
     </div>
   );
