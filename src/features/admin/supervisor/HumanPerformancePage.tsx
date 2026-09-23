@@ -31,7 +31,7 @@ export default function HumanPerformancePage() {
       <Filters
         fields={[
           { label: "Date range", options: ["Last 30 days", "Last 7 days", "Quarter to date"] },
-          { label: "Tenant", options: ["Takeoff Travels", "Authorized tenants"] },
+          { label: "Tenant", options: ["Nexchatgen", "Authorized tenants"] },
           { label: "Team", options: ["Bangladesh support", "All teams"] },
           { label: "Queue", options: ["All queues", "Ticketing", "Payment recovery"] },
           { label: "Agent", options: ["All permitted agents", "Ayesha Rahman", "Nusrat Jahan"] },

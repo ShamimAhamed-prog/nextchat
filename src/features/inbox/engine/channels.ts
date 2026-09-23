@@ -31,7 +31,7 @@ const CHANNEL_WINDOW_MS: Record<Channel, number> = {
 export const APPROVED_TEMPLATES = [
   { id: "booking_update", label: "Booking update", body: "We have an update on your booking. Reply to this message and we can continue here." },
   { id: "ticket_issued", label: "Ticket issued", body: "Your e-ticket has been issued and sent to your email. Reply here if it has not arrived." },
-  { id: "agent_followup", label: "Agent follow-up", body: "Following up on your recent request with Takeoff Travels. Reply to reopen the conversation." },
+  { id: "agent_followup", label: "Agent follow-up", body: "Following up on your recent request with Nexchatgen. Reply to reopen the conversation." },
 ];
 
 export type SendPolicy = {

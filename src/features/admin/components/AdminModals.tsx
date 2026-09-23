@@ -513,7 +513,7 @@ export function CalendarModal({ onClose }: { onClose: () => void }) {
 export function KillSwitchModal({ onClose }: { onClose: () => void }) {
   const { state, dispatch } = useTenantConfig();
   const on = state.draft.ai.killSwitch;
-  const [scope, setScope] = useState("Takeoff Travels tenant");
+  const [scope, setScope] = useState("Nexchatgen tenant");
   const [duration, setDuration] = useState("Until manually restored");
   const [reason, setReason] = useState("");
 
@@ -539,7 +539,7 @@ export function KillSwitchModal({ onClose }: { onClose: () => void }) {
       note="Activating is real and reaches /inbox: AI Reply is disabled and every conversation carries a banner. New AI-eligible work routes to deterministic notices or humans without message loss; existing human-owned conversations are unchanged. Re-enabling is the direction that needs a second approver, because it expands what runs unattended."
     >
       <F label="Scope">
-        <Sel value={scope} onChange={setScope} options={["Takeoff Travels tenant", "Global platform"]} />
+        <Sel value={scope} onChange={setScope} options={["Nexchatgen tenant", "Global platform"]} />
       </F>
       <F label="Duration">
         <Sel value={duration} onChange={setDuration} options={["Until manually restored", "60 minutes"]} />
@@ -657,7 +657,7 @@ export function RoleModal({ onClose }: { onClose: () => void }) {
   const [roleId, setRoleId] = useState(roles[0]?.id ?? "");
   const role = roles.find((r) => r.id === roleId) ?? roles[0];
 
-  const [tenantScope, setTenantScope] = useState("Takeoff Travels only");
+  const [tenantScope, setTenantScope] = useState("Nexchatgen only");
   const [convScope, setConvScope] = useState("Assigned conversations only");
   // BOUND — `piiRevealRequiresReason` is what `RevealPiiModal` actually checks.
   const [pii, setPii] = useState(
@@ -685,7 +685,7 @@ export function RoleModal({ onClose }: { onClose: () => void }) {
       type: "RECORD_AUDIT",
       actor: "You",
       action: `Role permissions changed — ${role?.name ?? ""}`,
-      detail: [reason.trim(), noteOf([["tenant scope", tenantScope], ["conversation scope", convScope]], { "tenant scope": "Takeoff Travels only", "conversation scope": "Assigned conversations only" })]
+      detail: [reason.trim(), noteOf([["tenant scope", tenantScope], ["conversation scope", convScope]], { "tenant scope": "Nexchatgen only", "conversation scope": "Assigned conversations only" })]
         .filter(Boolean)
         .join(" — "),
     });
@@ -706,7 +706,7 @@ export function RoleModal({ onClose }: { onClose: () => void }) {
         <Sel value={role?.name ?? ""} onChange={pick} options={roles.map((r) => r.name)} />
       </F>
       <F label="Tenant scope">
-        <Sel value={tenantScope} onChange={setTenantScope} options={["Takeoff Travels only"]} />
+        <Sel value={tenantScope} onChange={setTenantScope} options={["Nexchatgen only"]} />
       </F>
       <F label="Conversation scope">
         <Sel value={convScope} onChange={setConvScope} options={["Assigned queues", "Assigned conversations only"]} />

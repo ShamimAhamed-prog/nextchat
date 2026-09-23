@@ -344,7 +344,7 @@ export function PaymentPanel({
           <rect x="5" y="10" width="14" height="9" rx="2" />
           <path d="M8 10V7a4 4 0 0 1 8 0v3" />
         </svg>
-        Secure hosted checkout — Takeoff Travels never sees your PIN or card number.
+        Secure hosted checkout — Nexchatgen never sees your PIN or card number.
       </div>
       <div className="flex gap-1.5" role="group" aria-label="Payment method">
         {rails.map((r) => (

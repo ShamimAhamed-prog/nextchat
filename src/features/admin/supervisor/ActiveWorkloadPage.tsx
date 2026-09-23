@@ -92,7 +92,7 @@ export default function ActiveWorkloadPage() {
 
       <Filters
         fields={[
-          { label: "Tenant", options: ["Takeoff Travels", "All tenants"] },
+          { label: "Tenant", options: ["Nexchatgen", "All tenants"] },
           { label: "Team", options: ["Bangladesh support", "Payments", "Disruption response"] },
           { label: "Queue", options: ["All queues", "Ticketing", "Payment recovery", "Disruption"] },
           { label: "Channel", options: ["All channels", "Web chat", "WhatsApp", "Messenger"] },

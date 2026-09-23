@@ -3,7 +3,7 @@ import PackageSelection from "@/features/auth/components/PackageSelection";
 import ChatWidget, { ChatWidgetProvider } from "@/features/widget/components/ChatWidget";
 
 export const metadata: Metadata = {
-  title: "Choose Package — Takeoff Travels",
+  title: "Choose Package — Nexchatgen",
   description: "Select the plan that best fits your support needs.",
 };
 

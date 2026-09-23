@@ -121,7 +121,7 @@ export default function GovernancePage() {
       </div>
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-[1.55fr_1fr]">
-        <Panel title="Permission and audit posture" hint="Current session · Operations admin · Takeoff Travels tenant">
+        <Panel title="Permission and audit posture" hint="Current session · Operations admin · Nexchatgen tenant">
           <div className="flex flex-col">
             {POSTURE.map((p) => (
               <div key={p.title} className="border-b border-line py-3 first:pt-0 last:border-0 last:pb-0">

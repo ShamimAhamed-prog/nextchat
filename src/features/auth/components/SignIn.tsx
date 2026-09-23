@@ -7,6 +7,7 @@ import AuthField from "./AuthField";
 import TestimonialPanel from "./TestimonialPanel";
 import Logo from "@/shared/ui/Logo";
 import { getCsrfToken } from "@/shared/lib/csrf";
+import { signIn, SignInError } from "../api/signIn";
 
 const SOCIALS = [
   { name: "Google", src: "/figma/signin/google.webp" },
@@ -17,10 +18,10 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export default function SignIn() {
   const router = useRouter();
-  const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
+  const [errors, setErrors] = useState<{ email?: string; password?: string; form?: string }>({});
   const [loading, setLoading] = useState(false);
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
     const email = String(fd.get("email") ?? "").trim();
@@ -37,11 +38,15 @@ export default function SignIn() {
     if (Object.keys(next).length) return;
 
     setLoading(true);
-    // TODO: wire to real auth API
-    setTimeout(() => {
-      setLoading(false);
+    try {
+      await signIn({ email, password });
       router.push("/inbox");
-    }, 1500);
+    } catch (err) {
+      setLoading(false);
+      setErrors({
+        form: err instanceof SignInError ? err.message : "Something went wrong. Please try again.",
+      });
+    }
   }
 
   return (
@@ -72,7 +77,7 @@ export default function SignIn() {
                     label="Email"
                     type="email"
                     autoComplete="email"
-                    defaultValue="rifat.karim@takeofftravels.example"
+                    defaultValue="rifat.karim@nexchatgen.example"
                     aria-invalid={!!errors.email}
                   />
                   {errors.email && (
@@ -101,6 +106,10 @@ export default function SignIn() {
                     Forgot Password?
                   </a>
                 </div>
+
+                {errors.form && (
+                  <p className="text-center text-sm text-[#f53a1d]" role="alert">{errors.form}</p>
+                )}
 
                 <button
                   type="submit"

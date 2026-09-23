@@ -59,8 +59,8 @@ export default function DashboardSidebar() {
     <aside className="flex w-14 shrink-0 flex-col items-center gap-4 rounded-2xl bg-footer px-1.5 py-3">
       <Link
         href="/"
-        aria-label="Takeoff Travels home"
-        title="Takeoff Travels home"
+        aria-label="Nexchatgen home"
+        title="Nexchatgen home"
         className="flex h-9 w-9 items-center justify-center rounded-[10px]"
         style={{ background: "linear-gradient(160deg,#ffd464 0%,#ff5e5e 100%)" }}
       >

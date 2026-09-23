@@ -6,7 +6,7 @@ import SectionHeading from "@/shared/ui/SectionHeading";
 
 const ITEMS = [
   {
-    q: "What is Takeoff Travels' AI assistant?",
+    q: "What is Nexchatgen' AI assistant?",
     a: "A governed AI agent that answers, searches, books and supports across web, WhatsApp, Messenger and Instagram — grounded in your approved fare and policy documents, not the model's memory.",
   },
   {

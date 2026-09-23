@@ -4,23 +4,17 @@ import Link from "next/link";
  * Code-drawn brand mark: the same paper-plane glyph used for "Send reply" in
  * the agent workspace, so the identity and the product share one icon
  * instead of needing a new logo asset exported from Figma. `markOnly` drops
- * the wordmark for the compact sidebars; `mono` drops the coral accent for
- * placement on a coloured card.
+ * the wordmark for the compact sidebars.
  */
 export default function Logo({
   className = "",
   markOnly = false,
-  mono = false,
   compact = false,
   href = "/",
 }: {
   className?: string;
   markOnly?: boolean;
-  /** Drops the coral on "Travels" for placement on a coloured field, where
-   *  the two-tone wordmark loses contrast against warm backgrounds. */
-  mono?: boolean;
-  /** Smaller mark and wordmark for the navigation rail, where the full-size
-   *  one truncated to "Takeoff Trav" — worse than not showing it. */
+  /** Smaller mark and wordmark for the navigation rail. */
   compact?: boolean;
   href?: string | null;
 }) {
@@ -37,8 +31,7 @@ export default function Logo({
       </span>
       {!markOnly && (
         <span className={`whitespace-nowrap font-bold leading-none text-ink ${compact ? "text-base" : "text-xl"}`}>
-          Takeoff{" "}
-          <span className={mono ? undefined : "text-coral"}>Travels</span>
+          Nexchatgen
         </span>
       )}
     </span>
@@ -47,7 +40,7 @@ export default function Logo({
   if (href === null) return content;
 
   return (
-    <Link href={href} aria-label="Takeoff Travels home">
+    <Link href={href} aria-label="Nexchatgen home">
       {content}
     </Link>
   );

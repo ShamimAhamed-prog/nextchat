@@ -45,7 +45,7 @@ export function TenantProfileModal({ onClose }: { onClose: () => void }) {
   // BOUND — `brand.brandName` is read by the widget header, the greeting and
   // every automated reply, so this is the one field here that moves the app.
   const [supportName, setSupportName] = useState(d.brand.brandName);
-  const [email, setEmail] = useState("support@takeofftravels.com");
+  const [email, setEmail] = useState("support@nexchatgen.com");
   const [phone, setPhone] = useState("+880 9606-••••••");
   const [locale, setLocale] = useState("English (Bangladesh)");
   // BOUND — `brand.supportedLanguages`.
@@ -104,10 +104,10 @@ export function TenantProfileModal({ onClose }: { onClose: () => void }) {
         <Txt value={supportName} onChange={setSupportName} />
       </F>
       <F label="Tenant ID">
-        <Txt value="TT-BD-PROD-01" readOnly />
+        <Txt value="NG-BD-PROD-01" readOnly />
       </F>
       <F label="Tenant slug">
-        <Txt value="takeoff-travels" readOnly />
+        <Txt value="nexchatgen" readOnly />
       </F>
       <F label="Primary support email">
         <Txt value={email} onChange={setEmail} />
@@ -1649,7 +1649,7 @@ export function BreakGlassModal({ onClose }: { onClose: () => void }) {
       saveLabel="Request approval"
     >
       <F label="Tenant">
-        <Txt value="Takeoff Travels" readOnly />
+        <Txt value="Nexchatgen" readOnly />
       </F>
       <F label="Grant to">
         <Sel value={person} onChange={setPerson} options={[SECOND_APPROVER, YOU]} />
@@ -1870,7 +1870,7 @@ export function ConfigTestModal({ onClose }: { onClose: () => void }) {
       }
     >
       <F label="Tenant">
-        <Txt value={`${state.draft.brand.brandName} · TT-BD-PROD-01`} readOnly />
+        <Txt value={`${state.draft.brand.brandName} · NG-BD-PROD-01`} readOnly />
       </F>
       <F label="Test environment">
         <Sel value={environment} onChange={setEnvironment} options={["Sandbox · isolated synthetic data"]} />

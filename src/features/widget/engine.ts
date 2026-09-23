@@ -280,7 +280,7 @@ export function initialState(): WidgetState {
   return {
     messages: [
       bot(
-        "Hi, I'm the Takeoff Travels assistant. I can search flights, take a booking, check a PNR, or connect you with a person — in Bangla, English or Banglish."
+        "Hi, I'm the Nexchatgen assistant. I can search flights, take a booking, check a PNR, or connect you with a person — in Bangla, English or Banglish."
       ),
       quick(MENU_OPTIONS),
     ],

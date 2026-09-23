@@ -42,8 +42,8 @@ export default function Footer() {
 
             <div className="flex min-w-0 flex-col gap-2">
               <span className="text-base font-medium leading-[22px]">Message us at</span>
-              <a href="mailto:support@takeofftravels.example" className="break-words text-2xl font-bold leading-[1.2] sm:text-[32px] sm:leading-[38px]">
-                Support@TakeoffTravels
+              <a href="mailto:support@nexchatgen.example" className="break-words text-2xl font-bold leading-[1.2] sm:text-[32px] sm:leading-[38px]">
+                Support@Nexchatgen
               </a>
             </div>
 
@@ -109,7 +109,7 @@ export default function Footer() {
 
       <div className="bg-panel py-6 text-center">
         <p className="font-[family-name:var(--font-inter)] text-[18px] leading-6">
-          © 2026 Takeoff Travels
+          © 2026 Nexchatgen
         </p>
       </div>
     </footer>

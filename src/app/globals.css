@@ -241,7 +241,7 @@
  * only in the one that shipped first.
  *
  * What is deliberately *not* NextAdmin: the warm brand pair. Coral and the
- * button gradient are Takeoff's identity and are shared with the marketing
+ * button gradient are Nexchatgen's identity and are shared with the marketing
  * site, so they stay, deepened enough to carry small text. NextAdmin's
  * indigo is available as `--color-accent`, for chart series — where it does
  * most of its work and carries no status meaning.
@@ -277,7 +277,7 @@
   --color-ink-invert: #ffffff;
   --color-ink-invert-muted: #e5e7eb;
 
-  /* Accents. The warm brand pair stays — it is Takeoff's identity, and what
+  /* Accents. The warm brand pair stays — it is Nexchatgen's identity, and what
      the logo and the button gradient are built from — deepened enough to
      carry small text. `accent` is NextAdmin's chart indigo. */
   --color-coral: #af3e06;

@@ -86,7 +86,7 @@ export type TenantConfig = {
 export function defaultTenantConfig(): TenantConfig {
   return {
     brand: {
-      brandName: "Takeoff Travels",
+      brandName: "Nexchatgen",
       supportedLanguages: ["Bangla", "English", "Banglish"],
       businessHours: "24/7",
       sandboxMode: false,
@@ -512,7 +512,7 @@ function audit(
 }
 
 /** Single tenant in this prototype, but the field is not optional. */
-export const TENANT_ID = "takeoff-travels";
+export const TENANT_ID = "nexchatgen";
 
 export function roleOf(config: TenantConfig, person: string): string {
   const assignment = config.security.roleAssignments.find((a) => a.person === person);

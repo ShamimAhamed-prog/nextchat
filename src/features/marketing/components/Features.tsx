@@ -18,7 +18,7 @@ const CARDS = [
   {
     img: "/figma/feature-2.webp",
     title: "Multi Lingual",
-    body: "Takeoff Travels replies naturally in the language your customers use. That can be Bangla, English, or Banglish.",
+    body: "Nexchatgen replies naturally in the language your customers use. That can be Bangla, English, or Banglish.",
   },
   {
     img: "/figma/feature-4.webp",
@@ -135,7 +135,7 @@ export default function Features() {
       <Container className="relative z-10 flex flex-col gap-8">
         <SectionHeading
           eyebrow="Feature"
-          title="What Takeoff Travels "
+          title="What Nexchatgen "
           accent="Does"
         >
           Every capability below traces back to an approved requirement — not

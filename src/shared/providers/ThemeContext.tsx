@@ -26,7 +26,7 @@ import { HEADER_CONTROL } from "../workspaceChrome";
  */
 export type Theme = "dark" | "light";
 
-const STORAGE_KEY = "takeoff.theme";
+const STORAGE_KEY = "nexchatgen.theme";
 
 type Ctx = { theme: Theme; setTheme: (t: Theme) => void; toggle: () => void };
 

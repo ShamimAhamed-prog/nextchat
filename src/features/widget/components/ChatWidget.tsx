@@ -69,7 +69,7 @@ export default function ChatWidget() {
         ref={panelRef}
         role="dialog"
         aria-modal="true"
-        aria-label="Takeoff Travels assistant"
+        aria-label="Nexchatgen assistant"
         aria-hidden={!isOpen}
         id="chat-widget-panel"
         inert={!isOpen}
@@ -81,7 +81,7 @@ export default function ChatWidget() {
           <div className="flex items-center gap-2.5">
             <Logo markOnly href={null} />
             <div className="flex flex-col">
-              <span className="text-[13.5px] font-semibold leading-tight text-white">Takeoff Travels</span>
+              <span className="text-[13.5px] font-semibold leading-tight text-white">Nexchatgen</span>
               <span className="flex items-center gap-1.5 text-[11px] leading-tight text-ink-dim">
                 <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-[#11c340]" />
                 Usually replies in seconds
@@ -109,7 +109,7 @@ export default function ChatWidget() {
         onClick={toggle}
         aria-expanded={isOpen}
         aria-controls="chat-widget-panel"
-        aria-label={isOpen ? "Close chat" : "Chat with Takeoff Travels"}
+        aria-label={isOpen ? "Close chat" : "Chat with Nexchatgen"}
         className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-[linear-gradient(135deg,var(--color-grad-from),var(--color-grad-to))] text-white shadow-[0_10px_30px_rgba(0,0,0,0.45)] transition-transform hover:scale-105 motion-reduce:transition-none"
       >
         {!isOpen && (

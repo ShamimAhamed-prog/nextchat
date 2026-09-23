@@ -51,7 +51,7 @@ export default function Hero() {
         </h1>
 
         <p className="mt-8 max-w-[760px] text-center text-base leading-6 text-ink-muted">
-          Takeoff Travels unifies web, WhatsApp, Messenger and Instagram into
+          Nexchatgen unifies web, WhatsApp, Messenger and Instagram into
           one conversation. A governed AI agent searches, books and supports
           in Bangla, English and Banglish — and hands off to a human the
           moment it matters.
@@ -83,7 +83,7 @@ export default function Hero() {
 
           <Image
             src="/figma/hero-dashboard.webp"
-            alt="Illustrative unified inbox mockup — the shipped Takeoff Travels dashboard is shown at /inbox"
+            alt="Illustrative unified inbox mockup — the shipped Nexchatgen dashboard is shown at /inbox"
             width={832}
             height={473}
             sizes={stageSizes("66.61%")}

@@ -65,7 +65,7 @@ export default function ChannelConfigModal({ channel, title, onClose }: { channe
   const name = title ?? channel.label;
   const { dispatch } = useTenantConfig();
   const [enabled, setEnabled] = useState(channel.enabled);
-  const [webhook, setWebhook] = useState(`https://api.takeoff.example/channels/${channel.id}/webhook`);
+  const [webhook, setWebhook] = useState(`https://api.nexchatgen.example/channels/${channel.id}/webhook`);
   const [window, setWindow] = useState(MESSAGING_WINDOW[channel.id] ?? "Platform default");
   const [retry, setRetry] = useState("3 attempts · exponential backoff");
   const dirty = enabled !== channel.enabled;

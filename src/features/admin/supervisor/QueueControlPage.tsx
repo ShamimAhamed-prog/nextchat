@@ -63,7 +63,7 @@ export default function QueueControlPage() {
 
       <Filters
         fields={[
-          { label: "Tenant", options: ["Takeoff Travels"] },
+          { label: "Tenant", options: ["Nexchatgen"] },
           { label: "Queue", options: ["All queues", "Payment recovery", "Ticketing"] },
           { label: "Priority", options: ["All priorities", "P0", "P1"] },
           { label: "Language", options: ["All languages", "Bangla", "English"] },

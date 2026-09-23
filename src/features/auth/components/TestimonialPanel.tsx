@@ -46,9 +46,9 @@ export default function TestimonialPanel() {
 
           {/* The frame sets Title Case on this text */}
           <blockquote className="text-2xl font-medium capitalize leading-9 text-white">
-            The Handover Package Told Me Everything In Five Seconds — What
-            The Customer Wanted, What The Bot Already Did, And Whether Money
-            Had Moved. That&rsquo;s The Whole Job Made Possible.
+            Next Chat Made Our Transactions Seamless And Secure. The
+            Platform Is Fast, Reliable, And Incredibly User-Friendly.
+            Highly Recommend!
           </blockquote>
 
           <figcaption className="flex items-center justify-between">
@@ -62,20 +62,20 @@ export default function TestimonialPanel() {
               />
               <div className="flex flex-col gap-[7px]">
                 <span className="text-[18px] font-medium leading-[25px] text-white">
-                  Shirin Akter
+                  Alex Banks
                 </span>
                 <span className="text-base leading-6 text-white">
-                  Support Agent, Takeoff Travels
+                  Web3 Entrepreneur
                 </span>
               </div>
             </div>
 
             <div className="flex items-center gap-2">
               <span className="inline-flex h-[30px] w-[29px] items-center justify-center rounded-[9px] bg-white/20 text-sm font-bold text-coral">
-                T
+                N
               </span>
               <span className="text-[18px] font-medium leading-[25px] text-white/20">
-                Takeoff Travels
+                Nexchatgen
               </span>
             </div>
           </figcaption>

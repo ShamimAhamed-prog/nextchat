@@ -403,7 +403,7 @@ function definitions(): Record<Exclude<ModalId, "agentDrawer">, Def> {
           </div>
           <div className="mt-3.5 grid grid-cols-1 gap-3 sm:grid-cols-2">
             <Field label="Scope">
-              <Select options={["Takeoff Travels tenant", "Global platform"]} />
+              <Select options={["Nexchatgen tenant", "Global platform"]} />
             </Field>
             <Field label="Duration">
               <Select options={["Until manually restored", "60 minutes"]} />

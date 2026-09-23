@@ -250,7 +250,7 @@ const CHANNEL_COPY: Record<string, { title: string; blurb: string; metrics: { va
   },
   web: {
     title: "Web chat",
-    blurb: "support.takeofftravels.com · widget v4.8",
+    blurb: "support.nexchatgen.com · widget v4.8",
     metrics: [
       { value: "3 domains", label: "Allowlisted" },
       { value: "20 MB", label: "Attachment limit" },
@@ -260,7 +260,7 @@ const CHANNEL_COPY: Record<string, { title: string; blurb: string; metrics: { va
   },
   messenger: {
     title: "Messenger",
-    blurb: "Takeoff Travels · Page 3094••11",
+    blurb: "Nexchatgen · Page 3094••11",
     metrics: [
       { value: "Standard", label: "Messaging tier" },
       { value: "3 attempts", label: "Bounded retry" },
@@ -270,7 +270,7 @@ const CHANNEL_COPY: Record<string, { title: string; blurb: string; metrics: { va
   },
   instagram: {
     title: "Instagram Direct",
-    blurb: "@takeofftravels · Business 778••41",
+    blurb: "@nexchatgen · Business 778••41",
     metrics: [
       { value: "06 Sep", label: "Token expires" },
       { value: "Image + text", label: "Supported types" },
@@ -280,7 +280,7 @@ const CHANNEL_COPY: Record<string, { title: string; blurb: string; metrics: { va
   },
   email: {
     title: "Support email",
-    blurb: "support@takeofftravels.com · Google Workspace",
+    blurb: "support@nexchatgen.com · Google Workspace",
     metrics: [
       { value: "Verified", label: "SPF · DKIM · DMARC" },
       { value: "25 MB", label: "Message limit" },
@@ -440,7 +440,7 @@ function TenantAdminConsoleBody() {
           <ScopeBar
             initials={initials}
             name={`${draft.brand.brandName} Ltd.`}
-            sub="Tenant TT-BD-PROD-01 · Active"
+            sub="Tenant NG-BD-PROD-01 · Active"
             stats={[
               { label: "Environment", value: draft.brand.sandboxMode ? "Sandbox · simulated" : "Production · live customers" },
               { label: "Data region", value: `${draft.security.dataResidency} · approved` },
@@ -745,13 +745,13 @@ function TenantPane({ draft }: { draft: Draft }) {
               <SettingRow
                 title="Tenant identity"
                 description="Stable identifiers used by APIs, events, objects, and reporting."
-                value={<ConfigValue value="TT-BD-PROD-01 · takeoff-travels" note="Isolation key tk_01HZZ7•••• · created 12 Jan 2026" />}
+                value={<ConfigValue value="NG-BD-PROD-01 · nexchatgen" note="Isolation key tk_01HZZ7•••• · created 12 Jan 2026" />}
                 action={<Btn onClick={() => setProfile(true)}>Inspect</Btn>}
               />
               <SettingRow
                 title="Brand and support identity"
                 description="Customer-facing name, logo, sender name, and verified support contacts."
-                value={<ConfigValue value={`${draft.brand.brandName} Support`} note="support@takeofftravels.com · +880 9606-••••••" />}
+                value={<ConfigValue value={`${draft.brand.brandName} Support`} note="support@nexchatgen.com · +880 9606-••••••" />}
                 action={<Btn onClick={() => setProfile(true)}>Edit</Btn>}
               />
               <SettingRow
@@ -813,7 +813,7 @@ function TenantPane({ draft }: { draft: Draft }) {
                   { label: "Tenant owner", value: YOU },
                   { label: "Support operations", value: SECOND_APPROVER },
                   { label: "Content owner", value: "Rumana Sultana" },
-                  { label: "Security contact", value: "security@takeofftravels.com" },
+                  { label: "Security contact", value: "security@nexchatgen.com" },
                   { label: "Duty contact", value: "24 × 7 on-call roster" },
                 ]}
               />
@@ -843,7 +843,7 @@ function TenantPane({ draft }: { draft: Draft }) {
         <SettingRow
           title="Brand assets"
           description="Logo, support mark, light/dark header, and email footer."
-          value={<ConfigValue value="Asset pack BRAND-TT-04" note="SVG logo · accessible contrast verified" />}
+          value={<ConfigValue value="Asset pack BRAND-NG-04" note="SVG logo · accessible contrast verified" />}
           action={<Btn onClick={() => setProfile(true)}>Manage</Btn>}
         />
       </Panel>
@@ -1264,7 +1264,7 @@ function PeoplePane({ draft }: { draft: Draft }) {
           {AGENT_ROSTER.map((a) => (
             <tr key={a.name}>
               <Td>
-                <ConfigTitle title={a.name} sub={`${a.name.split(" ")[0]?.toLowerCase()}@takeofftravels.com`} />
+                <ConfigTitle title={a.name} sub={`${a.name.split(" ")[0]?.toLowerCase()}@nexchatgen.com`} />
               </Td>
               <Td>
                 <Pill tone={STATE_TONE[a.state] ?? "gray"}>{a.state.replace("_", " ")}</Pill>

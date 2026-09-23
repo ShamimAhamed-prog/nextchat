@@ -90,7 +90,7 @@ export default function SignUp() {
                     label="Email"
                     type="email"
                     autoComplete="email"
-                    defaultValue="rifat.karim@takeofftravels.example"
+                    defaultValue="rifat.karim@nexchatgen.example"
                     aria-invalid={!!errors.email}
                   />
                   {errors.email && (

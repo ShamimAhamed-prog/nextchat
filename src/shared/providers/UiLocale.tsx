@@ -32,7 +32,7 @@ import {
  */
 export type UiLocale = "en" | "bn";
 
-const STORAGE_KEY = "takeoff.uiLocale";
+const STORAGE_KEY = "nexchatgen.uiLocale";
 
 /**
  * English is the key. That keeps the call sites readable (`t("Resolve…")`

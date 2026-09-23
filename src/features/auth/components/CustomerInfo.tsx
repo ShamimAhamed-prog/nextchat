@@ -59,7 +59,7 @@ export default function CustomerInfo() {
                 Tenant administrator information
               </h1>
               <p className="text-base leading-6 text-white">
-                Please provide your details to set up Takeoff Travels&rsquo;
+                Please provide your details to set up Nexchatgen&rsquo;
                 workspace.
               </p>
             </div>
@@ -85,7 +85,7 @@ export default function CustomerInfo() {
                   label="Email"
                   type="email"
                   autoComplete="email"
-                  defaultValue="rifat.karim@takeofftravels.example"
+                  defaultValue="rifat.karim@nexchatgen.example"
                 />
                 <AuthField
                   id="phone"

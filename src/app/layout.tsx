@@ -51,7 +51,7 @@ const outfit = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Takeoff Travels — Omnichannel OTA Support Platform",
+  title: "Nexchatgen — Omnichannel OTA Support Platform",
   description:
     "One inbox for web, WhatsApp, Messenger and Instagram. A governed AI agent searches, books and supports in Bangla, English and Banglish, and hands off to a human the moment it matters.",
 };

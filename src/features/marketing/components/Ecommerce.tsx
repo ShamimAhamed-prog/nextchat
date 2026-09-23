@@ -51,7 +51,7 @@ export default function Ecommerce() {
         <div className="flex flex-col gap-8 rounded-panel bg-panel px-8 py-12">
           <SectionHeading
             eyebrow="In The Wild"
-            title="Where Takeoff Travels shows up "
+            title="Where Nexchatgen shows up "
             accent="for travellers"
           >
             The same conversation, wherever the traveller already is — the
@@ -73,7 +73,7 @@ export default function Ecommerce() {
                 />
 
                 <div className="relative flex flex-col items-center gap-6">
-                  <Logo href={null} mono />
+                  <Logo href={null} />
                   {/* Three lines reserved: the shortest line would otherwise
                       centre its card higher and break the row of wordmarks. */}
                   <p className="min-h-[84px] text-lg font-semibold leading-7 text-white">

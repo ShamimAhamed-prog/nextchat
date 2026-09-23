@@ -63,7 +63,7 @@ export default function AiPerformancePage() {
       <Filters
         fields={[
           { label: "Date range", options: ["Last 30 days", "Last 7 days", "Quarter to date"] },
-          { label: "Tenant", options: ["Takeoff Travels", "Authorized tenants"] },
+          { label: "Tenant", options: ["Nexchatgen", "Authorized tenants"] },
           { label: "Model release", options: ["ota-support-v3.8", "Compare with v3.7"] },
           { label: "Channel", options: ["All channels", "Web chat", "WhatsApp", "Messenger", "Email"] },
           { label: "Language", options: ["All languages", "Bangla", "English", "Banglish"] },
