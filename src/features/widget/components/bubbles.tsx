@@ -4,6 +4,26 @@ import { useEffect, useRef, useState } from "react";
 import type { FareOffer, Passenger, PassengerType, QuickOption } from "../engine";
 import { DEMO_HOLD_SECONDS } from "../engine";
 import { fmtBdt } from "@/shared/lib/format";
+import InitialsAvatar from "@/shared/ui/InitialsAvatar";
+
+function fmtClock(ts: number): string {
+  return new Date(ts).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
+}
+
+/** Small mark echoing the header's brand icon, sized for a per-message row. */
+function BotAvatar() {
+  return (
+    <span
+      aria-hidden
+      className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full"
+      style={{ background: "linear-gradient(160deg,#ffd464 0%,#ff5e5e 100%)" }}
+    >
+      <svg viewBox="0 0 24 24" className="h-3 w-3" fill="#1a1a1a" aria-hidden>
+        <path d="M3 11.5 21 3l-6 18-4-7-8-2.5Z" />
+      </svg>
+    </span>
+  );
+}
 
 const TYPE_LABEL: Record<PassengerType, string> = { adult: "Adult", child: "Child", infant: "Infant on lap" };
 const TYPE_COLOR: Record<PassengerType, string> = {
@@ -12,22 +32,35 @@ const TYPE_COLOR: Record<PassengerType, string> = {
   infant: "text-coral border-coral/40",
 };
 
-export function BotText({ text }: { text: string }) {
+export function BotText({ text, ts }: { text: string; ts: number }) {
   return (
     <div className="flex max-w-[85%] flex-col gap-1">
       <p className="whitespace-pre-line rounded-tr-xl rounded-br-xl rounded-tl-sm border border-panel bg-footer px-3.5 py-2.5 text-[13.5px] leading-[1.45] text-ink">
         {text}
       </p>
+      <div className="flex items-center gap-1.5 pl-0.5">
+        <BotAvatar />
+        <span className="text-[11px] text-ink-dim">{fmtClock(ts)}</span>
+      </div>
     </div>
   );
 }
 
-export function UserText({ text }: { text: string }) {
+export function UserText({ text, ts }: { text: string; ts: number }) {
   return (
-    <div className="flex justify-end">
+    <div className="flex flex-col items-end gap-1 self-end">
       <p className="max-w-[85%] whitespace-pre-line rounded-tl-xl rounded-bl-xl rounded-tr-sm bg-[linear-gradient(135deg,var(--color-grad-from),var(--color-grad-to))] px-3.5 py-2.5 text-[13.5px] leading-[1.45] text-white">
         {text}
       </p>
+      <div className="flex items-center gap-1.5 pr-0.5">
+        <span className="flex items-center gap-1 text-[11px] text-ink-dim">
+          {fmtClock(ts)}
+          <svg viewBox="0 0 24 24" className="h-3 w-3" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+            <path d="m4 12 5 5 11-11" />
+          </svg>
+        </span>
+        <InitialsAvatar name="You" size={20} />
+      </div>
     </div>
   );
 }
@@ -50,17 +83,15 @@ export function TypingIndicator() {
 
 export function QuickReplies({ options, active, onPick }: { options: QuickOption[]; active: boolean; onPick: (o: QuickOption) => void }) {
   return (
-    <div className="flex flex-wrap gap-1.5" role="group" aria-label="Quick replies">
+    <div className="grid grid-cols-2 gap-2" role="group" aria-label="Quick replies">
       {options.map((o) => (
         <button
           key={o.id}
           type="button"
           disabled={!active}
           onClick={() => onPick(o)}
-          className={`rounded-full border px-3 py-1.5 text-[12.5px] font-medium transition-colors ${
-            active
-              ? "border-coral/50 text-coral hover:bg-coral/10 focus-visible:bg-coral/10"
-              : "cursor-default border-panel text-ink-dim opacity-60"
+          className={`rounded-lg bg-raised px-3 py-2 text-[12.5px] font-medium transition-colors ${
+            active ? "text-ink hover:bg-raised-hover" : "cursor-default text-ink-dim opacity-60"
           }`}
         >
           {o.label}

@@ -84,7 +84,7 @@ export default function ChatWidget() {
               <span className="text-[13.5px] font-semibold leading-tight text-white">Nexchatgen</span>
               <span className="flex items-center gap-1.5 text-[11px] leading-tight text-ink-dim">
                 <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-[#11c340]" />
-                Usually replies in seconds
+                Online
               </span>
             </div>
           </div>
@@ -120,7 +120,16 @@ export default function ChatWidget() {
           />
         )}
         <svg viewBox="0 0 24 24" className="relative h-6 w-6" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-          {isOpen ? <path d="m6 6 12 12M18 6 6 18" /> : <path d="M4 4h16v12H8l-4 4V4Z" />}
+          {isOpen ? (
+            <path d="m6 6 12 12M18 6 6 18" />
+          ) : (
+            <>
+              <path d="M4 4h16v12H8l-4 4V4Z" />
+              <circle cx="8" cy="10" r="1" fill="currentColor" stroke="none" />
+              <circle cx="12" cy="10" r="1" fill="currentColor" stroke="none" />
+              <circle cx="16" cy="10" r="1" fill="currentColor" stroke="none" />
+            </>
+          )}
         </svg>
       </button>
     </>

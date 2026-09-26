@@ -88,19 +88,50 @@ export default function WidgetConversation() {
         {state.locale !== "en" && (
           <span className="self-start rounded-full bg-panel px-2.5 py-0.5 text-[10.5px] text-amber">{LOCALE_LABEL[state.locale]}</span>
         )}
-        <div className="flex items-center gap-2">
-          <label className="sr-only" htmlFor="widget-composer">
-            Message
-          </label>
-          <input
-            id="widget-composer"
-            type="text"
-            value={draft}
-            disabled={busy}
-            onChange={(e) => setDraft(e.target.value)}
-            placeholder={placeholderFor(state.phase, state.passengerField)}
-            className="h-9 min-w-0 flex-1 rounded-full border border-panel bg-page px-3.5 text-[13px] text-ink placeholder:text-ink-dim focus:border-coral focus:outline-none disabled:opacity-60"
-          />
+        <div className="flex items-end gap-2">
+          <div className="min-w-0 flex-1 rounded-xl border border-panel bg-page px-3.5 py-2">
+            <label className="sr-only" htmlFor="widget-composer">
+              Message
+            </label>
+            <input
+              id="widget-composer"
+              type="text"
+              value={draft}
+              disabled={busy}
+              maxLength={5000}
+              onChange={(e) => setDraft(e.target.value)}
+              placeholder={placeholderFor(state.phase, state.passengerField)}
+              className="h-6 w-full bg-transparent text-[13px] text-ink placeholder:text-ink-dim focus:outline-none disabled:opacity-60"
+            />
+            <div className="mt-1.5 flex items-center gap-2">
+              <button
+                type="button"
+                aria-label="Attach a file"
+                aria-disabled="true"
+                onClick={(e) => e.preventDefault()}
+                className="flex h-6 w-6 items-center justify-center text-ink-dim opacity-60 transition-opacity hover:opacity-80"
+              >
+                <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                  <path d="M8 12.5V17a4 4 0 0 0 8 0V7a2.5 2.5 0 0 0-5 0v9a1 1 0 0 0 2 0V8" />
+                </svg>
+              </button>
+              <button
+                type="button"
+                aria-label="Insert an emoji"
+                aria-disabled="true"
+                onClick={(e) => e.preventDefault()}
+                className="flex h-6 w-6 items-center justify-center text-ink-dim opacity-60 transition-opacity hover:opacity-80"
+              >
+                <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                  <circle cx="12" cy="12" r="9" />
+                  <circle cx="9" cy="10" r="1" fill="currentColor" stroke="none" />
+                  <circle cx="15" cy="10" r="1" fill="currentColor" stroke="none" />
+                  <path d="M8.5 14.5c1 1.2 2.2 1.8 3.5 1.8s2.5-.6 3.5-1.8" />
+                </svg>
+              </button>
+              <span className="ml-auto text-[11px] tabular-nums text-ink-dim">{draft.length}/5000</span>
+            </div>
+          </div>
           <button
             type="submit"
             disabled={busy || !draft.trim()}
@@ -120,9 +151,9 @@ export default function WidgetConversation() {
 function MessageRow({ msg, active, dispatch }: { msg: ChatMsg; active: boolean; dispatch: React.Dispatch<WidgetAction> }) {
   switch (msg.kind) {
     case "bot-text":
-      return <BotText text={msg.text} />;
+      return <BotText text={msg.text} ts={msg.ts} />;
     case "user-text":
-      return <UserText text={msg.text} />;
+      return <UserText text={msg.text} ts={msg.ts} />;
     case "typing":
       return <TypingIndicator />;
     case "quick-replies":

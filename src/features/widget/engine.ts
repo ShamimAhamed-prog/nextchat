@@ -152,8 +152,8 @@ export const FAQ = [
 export type QuickOption = { id: string; label: string; action: WidgetAction };
 
 export type ChatMsg =
-  | { id: string; kind: "bot-text"; text: string }
-  | { id: string; kind: "user-text"; text: string }
+  | { id: string; kind: "bot-text"; text: string; ts: number }
+  | { id: string; kind: "user-text"; text: string; ts: number }
   | { id: string; kind: "typing" }
   | { id: string; kind: "quick-replies"; options: QuickOption[] }
   | { id: string; kind: "fare-results"; offers: FareOffer[] }
@@ -250,10 +250,10 @@ function id(): string {
 }
 
 function bot(text: string): ChatMsg {
-  return { id: id(), kind: "bot-text", text };
+  return { id: id(), kind: "bot-text", text, ts: Date.now() };
 }
 function user(text: string): ChatMsg {
-  return { id: id(), kind: "user-text", text };
+  return { id: id(), kind: "user-text", text, ts: Date.now() };
 }
 function typing(): ChatMsg {
   return { id: id(), kind: "typing" };
